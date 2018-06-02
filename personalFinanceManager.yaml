@@ -1,0 +1,838 @@
+swagger: "2.0"
+info:
+  description: Personal Finance Manager application to track financial details
+  version: "1.0.0"
+  title: Personal Finance Manager
+host: localhost:8080
+basePath: /v1
+tags:
+  - name: login
+    description: User Information for login.
+  - name: register
+    description: User information for Registration.
+  - name: expense
+    description: expense Information.
+  - name: income
+    description: All about your incomes
+  - name: savings
+    description: All about your savings
+  - name: bankAccount
+    description: All your bank accounts
+  - name: editprofile
+    description: Edit profile details
+  - name: viewprofile
+    description: View profile details
+  - name: settings
+    description: To View/Edit your settings
+schemes:
+  - http
+  - https
+paths:
+  /login:
+    post:
+      tags:
+        - login
+      summary: find a valid user.
+      description: find a valid user
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: User needs to be authenticated.
+          required: true
+          schema:
+            items:
+              $ref: '#/definitions/pfm_user_dtl'
+      responses:
+        '200':
+          description: User Authenticated successfully.
+        '404':
+          description: User Authentication Denied.
+      security:
+        []
+  /register:
+    post:
+      tags:
+        - register
+      summary: Register user.
+      description: Register user to the database. All fields are required fields.
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: User registration.
+          required: true
+          schema:
+            $ref: '#/definitions/registeruser'		  
+      responses:
+        '200':
+          description: User information successfully added to database.
+          schema:
+            $ref: '#/definitions/registeruser'
+      security:
+        []
+  /sendEmail:
+    post:
+      tags:
+        - sendEmail
+      summary: Send OTP to user via eMail.
+      description: Send OTP to user via eMail. eMail is manadatory.
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: Send OTP mail.
+          required: true
+          schema:
+            $ref: '#/definitions/sendEmail'		  
+      responses:
+        '200':
+          description: Send OTP mail.
+          schema:
+            $ref: '#/definitions/sendEmail'
+  /activateUser:
+    post:
+      tags:
+        - activateUser
+      summary: Activating the User.
+      description: Activating the user by validating with OTP.
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: Activating user.
+          required: true
+          schema:
+            $ref: '#/definitions/activateUser'		  
+      responses:
+        '200':
+          description: Activating user.
+          schema:
+            $ref: '#/definitions/activateUser'
+  /expense/search:
+    get:
+      tags:
+        - expense
+      summary: find search expense details.
+      description: >-
+        retrieve all expense. this will include personal expense information.
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: from_date,to_date
+          description: expense information is to be retrieved.
+          required: true
+          schema:
+            $ref: '#/definitions/expense_search'
+      responses:
+        '200':
+          description: expense information successfully retrieved.
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/expense'
+  /expense/all:
+    get:
+      tags:
+        - expense
+      summary: find all expense.
+      description: >-
+        retrieve all expense. this will include personal expense information.
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: expense information successfully retrieved.
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/expense'
+  /expense/create:
+    post:
+      tags:
+        - expense
+      summary: add a new expense.
+      description: >-
+        add a new expense to the database. expense_name,expense_amount, expense_spent_from and expense_date  are the
+        only required fields.
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: expense object to add to database.
+          required: true
+          schema:
+            $ref: '#/definitions/expense'
+      responses:
+        '200':
+          description: expense information successfully added to database.
+          schema:
+            $ref: '#/definitions/expense'
+  /expense/update:
+    post:
+      tags:
+        - expense
+      summary: update a expense data.
+      description: >-
+        add a new expense to the database.expense_id, expense_name,expense_amount, expense_spent_from and expense_date  are the
+        only required fields.
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: expense object to add to database.
+          required: true
+          schema:
+            $ref: '#/definitions/expense'
+      responses:
+        '200':
+          description: expense information successfully added to database.
+          schema:
+            $ref: '#/definitions/expense'
+  /expense/delete:
+    delete:
+      tags:
+        - expense
+      summary: delete expense.
+      description: delete an existing expense by specifying an expense_id.
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: investor to delete from database.
+          required: true
+          schema:
+            $ref: '#/definitions/expense_id'
+      responses:
+        '200':
+          description: investor successfully delelted from database.
+  /income:
+    get:
+      tags:
+      - income
+      summary: incomes list
+      description: Returns the list of all incomes
+      operationId: getIncomeList
+      produces:
+      - application/json
+      parameters: []
+      responses:
+        "200":
+          description: successful operation
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/Income"
+    put:
+      tags:
+      - income
+      summary: Create new income
+      description: Creates new income
+      operationId: addIncome
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: body
+        description: Income object that needs to be added to the store
+        required: true
+        schema:
+          $ref: "#/definitions/Income"
+      responses:
+        "405":
+          description: Invalid input
+    post:
+      tags:
+      - income
+      summary: Update income
+      description: Updates the income
+      operationId: updateIncome
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: body
+        description: Income object that needs to be updated to the store
+        required: true
+        schema:
+          $ref: "#/definitions/Income"
+      responses:
+        "400":
+          description: Invalid ID supplied
+        "404":
+          description: Income not found
+        "405":
+          description: Invalid input
+  /income/{incomeId}:
+    get:
+      tags:
+      - income
+      summary: Find income by ID
+      description: Returns a single income
+      operationId: getIncomeById
+      produces:
+      - application/json
+      parameters:
+      - name: incomeId
+        in: path
+        description: ID of income to return
+        required: true
+        type: string
+      responses:
+        "200":
+          description: successful operation
+          schema:
+            $ref: "#/definitions/Income"
+        "400":
+          description: Invalid ID supplied
+        "404":
+          description: Income not found
+    delete:
+      tags:
+      - income
+      summary: Deletes a income
+      description: Deltes the income
+      operationId: deleteIncome
+      produces:
+      - application/json
+      parameters:
+      - name: incomeId
+        in: path
+        description: Income id to delete
+        required: true
+        type: string
+      responses:
+        "400":
+          description: Invalid ID supplied
+        "404":
+          description: Income not found
+  /savings:
+    get:
+      tags:
+      - savings
+      summary: savings list
+      description: Returns the list of savings
+      operationId: getSavingsList
+      produces:
+      - application/json
+      parameters: []
+      responses:
+        "200":
+          description: successful operation
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/Savings"
+    put:
+      tags:
+      - savings
+      summary: Create new savings
+      description: Creates new savings
+      operationId: addSavings
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: body
+        description: Savings object that needs to be added to the store
+        required: true
+        schema:
+          $ref: "#/definitions/Savings"
+      responses:
+        "405":
+          description: Invalid input
+    post:
+      tags:
+      - savings
+      summary: Update savings
+      description: Updates the savings
+      operationId: updateSavings
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: body
+        description: Savings object that needs to be updated to the store
+        required: true
+        schema:
+          $ref: "#/definitions/Savings"
+      responses:
+        "400":
+          description: Invalid ID supplied
+        "404":
+          description: Savings not found
+        "405":
+          description: Invalid input
+  /savings/{savingsId}:
+    get:
+      tags:
+      - savings
+      summary: Find Savings by ID
+      description: Returns a single savings
+      operationId: getSavingsById
+      produces:
+      - application/json
+      parameters:
+      - name: savingsId
+        in: path
+        description: ID of savings to return
+        required: true
+        type: string
+      responses:
+        "200":
+          description: successful operation
+          schema:
+            $ref: "#/definitions/Savings"
+        "400":
+          description: Invalid ID supplied
+        "404":
+          description: Savings not found
+    delete:
+      tags:
+      - savings
+      summary: Deletes a savings
+      description: Deletes the savings
+      operationId: deleteSavings
+      produces:
+      - application/json
+      parameters:
+      - name: savingsId
+        in: path
+        description: Savings id to delete
+        required: true
+        type: string
+      responses:
+        "400":
+          description: Invalid ID supplied
+        "404":
+          description: Savings not found
+  /bankAccount:
+    get:
+      tags:
+      - bankAccount
+      summary: bank accounts list
+      description: Returns the list of bank accounts
+      operationId: getBankAccountsList
+      produces:
+      - application/json
+      parameters: []
+      responses:
+        "200":
+          description: successful operation
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/BankAccount"
+    put:
+      tags:
+      - bankAccount
+      summary: Create new bank account
+      description: Creates new bank account
+      operationId: addBankAccount
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: body
+        description: Bank Account object that needs to be added to the store
+        required: true
+        schema:
+          $ref: "#/definitions/BankAccount"
+      responses:
+        "405":
+          description: Invalid input
+  /bankAccount/{bankAccountId}:
+    get:
+      tags:
+      - bankAccount
+      summary: Find Bank Account by ID
+      description: Returns a single bank account
+      operationId: getBankAccountById
+      produces:
+      - application/json
+      parameters:
+      - name: bankAccountId
+        in: path
+        description: ID of bank account to return
+        required: true
+        type: string
+      responses:
+        "200":
+          description: successful operation
+          schema:
+            $ref: "#/definitions/BankAccount"
+        "400":
+          description: Invalid ID supplied
+        "404":
+          description: Bank Account not found
+    delete:
+      tags:
+      - bankAccount
+      summary: Deletes a bank account
+      description: Deletes the bank account
+      operationId: deleteBankAccount
+      produces:
+      - application/json
+      parameters:
+      - name: bankAccountId
+        in: path
+        description: Bank Account id to delete
+        required: true
+        type: string
+      responses:
+        "400":
+          description: Invalid ID supplied
+        "404":
+          description: Bank Account not found
+  /editprofile:
+    get:
+      tags:
+        - editprofile
+      summary: Edit profile details of user
+      description: fetch profile information by specifying an email_id.
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: emailid of user for whom information is to be retrieved.
+          required: true
+          schema:
+            $ref: '#/definitions/editprofile_id'
+      responses:
+        '200':
+          description: user profile information successfully retrieved.
+          schema:
+            $ref: '#/definitions/editprofile'
+  /editprofile/all:
+    get:
+      tags:
+        - editprofile
+      summary: all users profile.
+      description: retrieve all users profile.
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: user profile information successfully retrieved.
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/editprofile'
+  /editprofile/new:
+    post:
+      tags:
+        - editprofile
+      summary: add new profile details.
+      description: >-
+        add new details to the database. emailId, firstName, lastName, phone#,
+        companyName, changePassword, profilePic are the required fields.
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: editprofile object to add to database.
+          required: true
+          schema:
+            $ref: '#/definitions/profile_emailid'
+      responses:
+        '200':
+          description: user profile information successfully added to database.
+          schema:
+            $ref: ''
+  /viewprofile:
+    get:
+      tags:
+        - viewprofile
+      summary: viewprofile
+      description: view profile by specifying an email_id.
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: email_id for viewprofile to be retrieved.
+          required: true
+          schema:
+            $ref: '#/definitions/viewprofile'
+      responses:
+        '200':
+          description: viewprofile successfully retrieved.
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/viewprofile'
+  /usersettings:
+    post:
+      tags:
+        - settings
+      summary: modify your settings
+      description: change your profile settings (Password and Currency).
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: User Profile Settings.
+          required: true
+          schema:
+            $ref: '#/definitions/usersettings'
+      responses:
+        '200':
+          description: User information successfully updated to database.
+          schema:
+            $ref: '#/definitions/userSettingsByEmailId'
+  /settingByEmailId:
+    get:
+      tags:
+        - settings
+      summary: find a unique user settings.
+      description: retrieve the user settings by specifying an investment_id.
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: investment_id for investment to be retrieved.
+          required: true
+          schema:
+            $ref: '#/definitions/emailId'
+      responses:
+        '200':
+          description: investment successfully retrieved.
+          schema:
+            $ref: '#/definitions/userSettingsByEmailId'
+definitions:
+  pfm_user_dtl:
+    required:
+      - pfm_user_id
+      - pfm_user_pwd
+    properties:
+      pfm_user_id:
+        type: string
+      pfm_user_pwd:
+        type: string
+  registeruser:
+    type: object
+    required:
+      - firstName
+      - lastName 
+      - eMail
+      - mobileNumber
+    properties:
+      firstName:
+        type: string
+      lastName:
+        type: string      
+      eMail:
+        type: string      
+      mobileNumber:
+        type: number      
+  sendEmail:
+    type: string
+    required:
+      - eMail
+    properties:
+      eMail:
+        type: string
+  activateUser:
+    type: number
+    required:
+      - otp
+      - userId 
+    properties:
+      otp:
+        type: number
+      userId:
+        type: number
+  expense_id:
+    type: string
+    required:
+      - expense_id
+    properties:
+      expense_id:
+        type: string
+  expense_search:
+    type: string
+    required:
+       - searchkey
+    properties:
+      expense_search:
+        type: string
+  expense:
+    type: object
+    required:
+      - expense_name
+      - expense_amount
+      - expense_spent_from
+      - expense_date
+    properties:
+      expense_id:
+        type: string
+      expense_name:
+        type: string
+      expense_amount:
+        type: integer
+      expense_spent_from:
+        type: string
+      expense_date:
+          type: string
+          format: dateTime
+      created_date:
+          type: string
+          format: dateTime
+      updated_date:    
+          type: string
+          format: dateTime
+      is_delete:
+          type: boolean
+  Income:
+    type: object
+    properties:
+      incomeId:
+        type: string
+      incomeAmount:
+        type: number
+        format: double
+      incomeType:
+        type: string
+      incomeDate:
+        type: string
+        format: date-time
+  Savings:
+    type: object
+    properties:
+      savingsId:
+        type: string
+      savingsAmount:
+        type: number
+        format: double
+      savingsType:
+        type: string
+      savingsDate:
+        type: string
+        format: date-time
+  BankAccount:
+    type: object
+    properties:
+      bankAccountId:
+        type: string
+      accountNumber:
+        type: number
+        format: int64
+      accountHolderName:
+        type: string
+      accountType:
+        type: string
+      bankName:
+        type: string
+      ifscCode:
+        type: string
+  editprofile:
+    type: string
+    required:
+      - editprofile
+    properties:
+      editprofile:
+        type: string
+  profile_emailid:
+    type: string
+    required:
+      - profile_emailid
+    properties:
+      profile_emailid:
+        type: string
+  editprofile_id:
+    type: string
+    required:
+      - editprofile_id
+    properties:
+      editprofile_id:
+        type: string
+  viewprofile:
+    type: object
+    required:
+      - first_name
+      - last_name
+      - emai_id
+      - contact_number
+      - company_name
+      - profile_image
+    properties:
+      first_name:
+        type: string
+      last_name:
+        type: string
+      emai_id:
+        type: string
+      contact_number:
+        type: string
+      company_name:
+        type: string
+      profile_image:
+        type: string
+  usersettings:
+    type: object
+    required:
+      - emailId
+      - newPassword
+      - confirmPassword
+      - oldCurrency
+      - newCurrency
+    properties:
+      emailId:
+        type: string
+      newPassword:
+        type: string
+      confirmPassword:
+        type: string
+      oldCurrency:
+        type: string
+      newCurrency:
+        type: string
+  emailId:
+    type: string
+    required:
+      - emailId
+    properties:
+      emailId:
+        type: string
+  userSettingsByEmailId:
+    type: object
+    required:
+      - emailId
+      - password
+      - currency
+    properties:
+      emailId:
+        type: string
+      password:
+        type: string
+      currency:
+        type: string
+securityDefinitions:
+  bearerAuth:
+    type: apiKey
+    name: Bearer
+    in: header
+security:
+  - bearerAuth: []
