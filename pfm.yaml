@@ -8,7 +8,7 @@ info:
     name: JavaJ2EEFSEWorkshop1
     email: JavaJ2EEFSEWorkshop1@syntelinc.com
   license:
-    name: Syntel
+    name: JavaJ2EEFSEWorkshop1
     url: 'http://opensource.org/licenses/SyntelJavaJ2EEFSEWorkshop1'
 host: localhost:8080
 basePath: /v1
@@ -21,8 +21,8 @@ tags:
     description: expense Information.
   - name: income
     description: All about your incomes
-  - name: savings
-    description: All about your savings
+  - name: investments
+    description: All about your investments
   - name: budget
     description: Budget Trends Plots
   - name: bankAccount
@@ -58,7 +58,7 @@ paths:
           description: User Authentication failed.
       security:
         []
-  /register:
+  /register/new:
     post:
       tags:
         - register
@@ -126,7 +126,7 @@ paths:
             $ref: '#/definitions/activateUser'
         '404':
           description: Activating the user by validating with OTP Failed.
-  /expense:
+  /expense/all:
     get:
       tags:
       - expense
@@ -137,12 +137,13 @@ paths:
       - application/json
       parameters: []
       responses:
-        "200":
+        '200':
           description: successful operation
           schema:
             type: array
             items:
               $ref: "#/definitions/Expense"
+  /expense/new:
     put:
       tags:
       - expense
@@ -161,8 +162,9 @@ paths:
         schema:
           $ref: "#/definitions/Expense"
       responses:
-        "405":
+        '405':
           description: Invalid input
+  /expense/edit:
     post:
       tags:
       - expense
@@ -181,11 +183,11 @@ paths:
         schema:
           $ref: "#/definitions/Expense"
       responses:
-        "400":
+        '400':
           description: Invalid ID supplied
-        "404":
+        '404':
           description: Expense not found
-        "405":
+        '405':
           description: Invalid input
   /expense/{expenseId}:
     get:
@@ -203,14 +205,15 @@ paths:
         required: true
         type: string
       responses:
-        "200":
+        '200':
           description: successful operation
           schema:
             $ref: "#/definitions/Expense"
-        "400":
+        '400':
           description: Invalid ID supplied
-        "404":
+        '404':
           description: Expense not found
+  /expense/delete:
     delete:
       tags:
       - expense
@@ -226,11 +229,11 @@ paths:
         required: true
         type: string
       responses:
-        "400":
+        '400':
           description: Invalid ID supplied
-        "404":
+        '404':
           description: Expense not found
-  /income:
+  /income/all:
     get:
       tags:
       - income
@@ -241,12 +244,13 @@ paths:
       - application/json
       parameters: []
       responses:
-        "200":
+        '200':
           description: successful operation
           schema:
             type: array
             items:
               $ref: "#/definitions/Income"
+  /income/new:
     put:
       tags:
       - income
@@ -265,8 +269,9 @@ paths:
         schema:
           $ref: "#/definitions/Income"
       responses:
-        "405":
+        '405':
           description: Invalid input
+  /income/edit:
     post:
       tags:
       - income
@@ -285,11 +290,11 @@ paths:
         schema:
           $ref: "#/definitions/Income"
       responses:
-        "400":
+        '400':
           description: Invalid ID supplied
-        "404":
+        '404':
           description: Income not found
-        "405":
+        '405':
           description: Invalid input
   /income/{incomeId}:
     get:
@@ -307,14 +312,15 @@ paths:
         required: true
         type: string
       responses:
-        "200":
+        '200':
           description: successful operation
           schema:
             $ref: "#/definitions/Income"
-        "400":
+        '400':
           description: Invalid ID supplied
-        "404":
+        '404':
           description: Income not found
+  /income/delete:
     delete:
       tags:
       - income
@@ -330,33 +336,34 @@ paths:
         required: true
         type: string
       responses:
-        "400":
+        '400':
           description: Invalid ID supplied
-        "404":
+        '404':
           description: Income not found
-  /savings:
+  /investments/all:
     get:
       tags:
-      - savings
-      summary: savings list
-      description: Returns the list of savings
-      operationId: getSavingsList
+      - investments
+      summary: investments list
+      description: Returns the list of investments
+      operationId: getInvestmentsList
       produces:
       - application/json
       parameters: []
       responses:
-        "200":
+        '200':
           description: successful operation
           schema:
             type: array
             items:
-              $ref: "#/definitions/Savings"
+              $ref: "#/definitions/Investments"
+  /investments/new:
     put:
       tags:
-      - savings
-      summary: Create new savings
-      description: Creates new savings
-      operationId: addSavings
+      - investments
+      summary: Create new investments
+      description: Creates new investments
+      operationId: addInvestments
       consumes:
       - application/json
       produces:
@@ -364,19 +371,20 @@ paths:
       parameters:
       - in: body
         name: body
-        description: Savings object that needs to be added to the store
+        description: Investments object that needs to be added to the store
         required: true
         schema:
-          $ref: "#/definitions/Savings"
+          $ref: "#/definitions/Investments"
       responses:
-        "405":
+        '405':
           description: Invalid input
+  /investments/edit:
     post:
       tags:
-      - savings
-      summary: Update savings
-      description: Updates the savings
-      operationId: updateSavings
+      - investments
+      summary: Update investments
+      description: Updates the investments
+      operationId: updateInvestments
       consumes:
       - application/json
       produces:
@@ -384,86 +392,89 @@ paths:
       parameters:
       - in: body
         name: body
-        description: Savings object that needs to be updated to the store
+        description: Investments object that needs to be updated to the store
         required: true
         schema:
-          $ref: "#/definitions/Savings"
+          $ref: "#/definitions/Investments"
       responses:
-        "400":
+        '400':
           description: Invalid ID supplied
-        "404":
-          description: Savings not found
-        "405":
+        '404':
+          description: Investments not found
+        '405':
           description: Invalid input
-  /savings/{savingsId}:
+  /investments/{investmentsId}:
     get:
       tags:
-      - savings
-      summary: Find Savings by ID
-      description: Returns a single savings
-      operationId: getSavingsById
+      - investments
+      summary: Find Investments by ID
+      description: Returns a single investments
+      operationId: getInvestmentsById
       produces:
       - application/json
       parameters:
-      - name: savingsId
+      - name: investmentsId
         in: path
-        description: ID of savings to return
+        description: ID of investments to return
         required: true
         type: string
       responses:
-        "200":
+        '200':
           description: successful operation
           schema:
-            $ref: "#/definitions/Savings"
-        "400":
+            $ref: "#/definitions/Investments"
+        '400':
           description: Invalid ID supplied
-        "404":
-          description: Savings not found
+        '404':
+          description: Investments not found
+  /investments/delete:
     delete:
       tags:
-      - savings
-      summary: Deletes a savings
-      description: Deletes the savings
-      operationId: deleteSavings
+      - investments
+      summary: Deletes a investments
+      description: Deletes the investments
+      operationId: deleteInvestments
       produces:
       - application/json
       parameters:
-      - name: savingsId
+      - name: investmentsId
         in: path
-        description: Savings id to delete
+        description: Investments id to delete
         required: true
         type: string
       responses:
-        "400":
+        '400':
           description: Invalid ID supplied
-        "404":
-          description: Savings not found
-  /budget:
-    get:
+        '404':
+          description: Investments not found
+  /budget/plot:
+    post:
       tags:
       - budget
       summary: Plot the budget trends
       description: Returns a budget over a range
       operationId: getByDate
+      consumes:
+        - application/json
       produces:
       - application/json
       parameters:
       - in: body
         name: body
-        description: Returns a budget over a range.
+        description: Returns a income, expense, investments over the dateRange.
         required: true
         schema:
             $ref: '#/definitions/dateRange'        
       responses:
-        "200":
+        '200':
           description: successful operation
           schema:
             $ref: "#/definitions/budget"
-        "400":
+        '400':
           description: Invalid dateRange supplied
-        "404":
+        '404':
           description: budget fetch operation failed
-  /bankAccount:
+  /bankAccount/all:
     get:
       tags:
       - bankAccount
@@ -474,12 +485,13 @@ paths:
       - application/json
       parameters: []
       responses:
-        "200":
+        '200':
           description: successful operation
           schema:
             type: array
             items:
               $ref: "#/definitions/BankAccount"
+  /bankAccount/new:
     put:
       tags:
       - bankAccount
@@ -498,7 +510,7 @@ paths:
         schema:
           $ref: "#/definitions/BankAccount"
       responses:
-        "405":
+        '405':
           description: Invalid input
   /bankAccount/{bankAccountId}:
     get:
@@ -516,14 +528,15 @@ paths:
         required: true
         type: string
       responses:
-        "200":
+        '200':
           description: successful operation
           schema:
             $ref: "#/definitions/BankAccount"
-        "400":
+        '400':
           description: Invalid ID supplied
-        "404":
+        '404':
           description: Bank Account not found
+  /bankAccount/delete:
     delete:
       tags:
       - bankAccount
@@ -539,18 +552,37 @@ paths:
         required: true
         type: string
       responses:
-        "400":
+        '400':
           description: Invalid ID supplied
-        "404":
+        '404':
           description: Bank Account not found
-  /editprofile:
+  /profile/{emailId}:
+    get:
+      tags:
+        - profile
+      summary: Get profile details of user
+      description: fetch profile information by specifying an emailId.
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: emailId
+          description: email id of user for whom information is to be retrieved.
+          required: true
+          type: string
+      responses:
+        '200':
+          description: user profile information successfully retrieved.
+          schema:
+            $ref: '#/definitions/profile'
+  /profile/edit:
     post:
       tags:
         - profile
-      summary: Edit profile details.
+      summary: edit profile details.
       description: >-
-        Edit profile details details to the database. emailId, firstName, lastName, phone#,
-        companyName, changePassword, profilePic are the required fields.
+        Edit details like emailId, firstName, lastName, phone#,
+        companyName, profilePic are the required fields.
       produces:
         - application/json
       parameters:
@@ -559,37 +591,10 @@ paths:
           description: editprofile object to add to database.
           required: true
           schema:
-            $ref: '#/definitions/profile_emailid'
+            $ref: '#/definitions/profile'
       responses:
         '200':
           description: user profile information successfully added to database.
-          schema:
-            $ref: '#/definitions/viewprofile'
-        '404':
-          description: Edit profile details failed.
-  /viewprofile/{emailId}::
-    get:
-      tags:
-        - profile
-      summary: viewprofile
-      description: view profile by specifying an email_id.
-      produces:
-        - application/json
-      parameters:
-      - name: emailId
-        in: path
-        description: emailId of profile to be returned
-        required: true
-        type: string
-      responses:
-        '200':
-          description: viewprofile successfully retrieved.
-          schema:
-            type: array
-            items:
-              $ref: '#/definitions/viewprofile'
-        '404':
-          description: view profile details failed.
   /usersettings:
     post:
       tags:
@@ -706,17 +711,17 @@ definitions:
       incomeDate:
         type: string
         format: date-time
-  Savings:
+  Investments:
     type: object
     properties:
-      savingsId:
+      investmentsId:
         type: string
-      savingsAmount:
+      investmentsAmount:
         type: number
         format: double
-      savingsType:
+      investmentsType:
         type: string
-      savingsDate:
+      investmentsDate:
         type: string
         format: date-time
   dateRange:
@@ -739,10 +744,10 @@ definitions:
         type: array
         items:
           $ref: '#/definitions/Income'
-      Savings:
+      Investments:
         type: array
         items:
-          $ref: '#/definitions/Savings'
+          $ref: '#/definitions/Investments'
   BankAccount:
     type: object
     properties:
@@ -766,7 +771,7 @@ definitions:
     properties:
       profile_emailid:
         type: string
-  viewprofile:
+  profile:
     type: object
     required:
       - first_name
