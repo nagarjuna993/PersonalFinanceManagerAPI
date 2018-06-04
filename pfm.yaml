@@ -595,21 +595,43 @@ paths:
       responses:
         '200':
           description: user profile information successfully added to database.
-  /usersettings:
+  /userSettings/passwordUpdate:
     post:
       tags:
         - settings
-      summary: modify your settings
-      description: change your profile settings (Password and Currency).
+      summary: modify your password in settings screen
+      description: change your profile settings (Password).
       produces:
         - application/json
       parameters:
         - in: body
           name: body
-          description: User Profile Settings.
+          description: User Profile Settings - Change Password.
           required: true
           schema:
-            $ref: '#/definitions/usersettings'
+            $ref: '#/definitions/userPassword'
+      responses:
+        '200':
+          description: User Password information successfully updated to database.
+          schema:
+            $ref: '#/definitions/userSettingsByEmailId'
+        '404':
+          description: User Password information failed to be updated to database.
+  /userSettings/currencyUpdate:
+    post:
+      tags:
+        - settings
+      summary: modify your currency in settings screen
+      description: change your profile settings (Currency).
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: User Profile Settings - Change Currency.
+          required: true
+          schema:
+            $ref: '#/definitions/userCurrency'
       responses:
         '200':
           description: User information successfully updated to database.
@@ -793,20 +815,27 @@ definitions:
         type: string
       profile_image:
         type: string
-  usersettings:
+  userPassword:
     type: object
     required:
       - emailId
       - newPassword
       - confirmPassword
-      - oldCurrency
-      - newCurrency
     properties:
       emailId:
         type: string
       newPassword:
         type: string
       confirmPassword:
+        type: string
+  userCurrency:
+    type: object
+    required:
+      - emailId
+      - oldCurrency
+      - newCurrency
+    properties:
+      emailId:
         type: string
       oldCurrency:
         type: string
