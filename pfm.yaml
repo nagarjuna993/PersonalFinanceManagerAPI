@@ -50,7 +50,7 @@ paths:
           required: true
           schema:
             items:
-              $ref: '#/definitions/pfm_user_dtl'
+              $ref: '#/definitions/userDetail'
       responses:
         '200':
           description: User Authentication successful.
@@ -639,21 +639,20 @@ paths:
             $ref: '#/definitions/userSettingsByEmailId'
         '404':
           description: User information failed to be updated to database.
-  /settingByEmailId:
+  /settings/{emailId}:
     get:
       tags:
         - settings
       summary: find a unique user settings.
-      description: retrieve the user settings by specifying an investment_id.
+      description: retrieve the user settings by specifying an emailId.
       produces:
         - application/json
       parameters:
-        - in: body
-          name: body
+        - in: path
+          name: emailId
           description: Get User Profile Settings by email id
           required: true
-          schema:
-            $ref: '#/definitions/emailId'
+          type: string
       responses:
         '200':
           description: User profile settings successfully retrieved.
@@ -662,14 +661,14 @@ paths:
         '404':
           description: User profile settings failed to be retrieved.
 definitions:
-  pfm_user_dtl:
+  userDetail:
     required:
-      - pfm_user_id
-      - pfm_user_pwd
+      - emailId
+      - password
     properties:
-      pfm_user_id:
+      emailId:
         type: string
-      pfm_user_pwd:
+      password:
         type: string
   registeruser:
     type: object
@@ -840,13 +839,6 @@ definitions:
       oldCurrency:
         type: string
       newCurrency:
-        type: string
-  emailId:
-    type: string
-    required:
-      - emailId
-    properties:
-      emailId:
         type: string
   userSettingsByEmailId:
     type: object
