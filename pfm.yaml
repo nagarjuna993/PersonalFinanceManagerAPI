@@ -198,7 +198,7 @@ paths:
       - expense
       summary: find search expense details.
       description: retrieve all expense. this will include personal expense information.
-      operationId: getExpenseById
+      operationId: getExpenseByKey
       produces:
       - application/json
       parameters:
@@ -211,12 +211,14 @@ paths:
         '200':
           description: successful operation
           schema:
-            $ref: "#/definitions/Expense"
+            type: array
+            items:
+              $ref: "#/definitions/Expense"
         '400':
           description: Invalid ID supplied
         '404':
           description: Expense not found
-  /expense/delete:
+  /expense/delete/{expenseId}:
     delete:
       tags:
       - expense
@@ -299,17 +301,17 @@ paths:
           description: Income not found
         '405':
           description: Invalid input
-  /income/{incomeId}:
+  /income/{incomeKey}:
     get:
       tags:
       - income
-      summary: Find income by ID
-      description: Returns a single income
-      operationId: getIncomeById
+      summary: Searches income by incomeKey
+      description: Returns all income matching the incomeKey
+      operationId: getIncomeByKey
       produces:
       - application/json
       parameters:
-      - name: incomeId
+      - name: incomeKey
         in: path
         description: ID of income to return
         required: true
@@ -318,12 +320,14 @@ paths:
         '200':
           description: successful operation
           schema:
-            $ref: "#/definitions/Income"
+            type: array
+            items:
+              $ref: "#/definitions/Income"    
         '400':
           description: Invalid ID supplied
         '404':
           description: Income not found
-  /income/delete:
+  /income/delete/{incomeId}:
     delete:
       tags:
       - income
@@ -406,17 +410,17 @@ paths:
           description: Investments not found
         '405':
           description: Invalid input
-  /investments/{investmentsId}:
+  /investments/{investmentsKey}:
     get:
       tags:
       - investments
-      summary: Find Investments by ID
-      description: Returns a single investments
-      operationId: getInvestmentsById
+      summary: Find all Investments matching by investmentsKey
+      description: Returns investments matching the investmentsKey
+      operationId: getInvestmentsByKey
       produces:
       - application/json
       parameters:
-      - name: investmentsId
+      - name: investmentsKey
         in: path
         description: ID of investments to return
         required: true
@@ -425,12 +429,14 @@ paths:
         '200':
           description: successful operation
           schema:
-            $ref: "#/definitions/Investments"
+            type: array
+            items:
+              $ref: "#/definitions/Investments"
         '400':
           description: Invalid ID supplied
         '404':
           description: Investments not found
-  /investments/delete:
+  /investments/delete/{investmentsId}:
     delete:
       tags:
       - investments
