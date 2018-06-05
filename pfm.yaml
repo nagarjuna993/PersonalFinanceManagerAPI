@@ -41,6 +41,7 @@ paths:
         - login
       summary: Authenticate a valid user.
       description: Authenticate a valid user
+      operationId: loginUser
       produces:
         - application/json
       parameters:
@@ -63,6 +64,7 @@ paths:
         - register
       summary: Register user.
       description: Register user to the database. All fields are required fields. Password must be encrypted.
+      operationId: registerUser
       produces:
         - application/json
       parameters:
@@ -87,6 +89,7 @@ paths:
         - register
       summary: Send OTP to user via eMail.
       description: Send OTP to user via eMail. eMail is manadatory.
+      operationId: sendEmailToUser
       produces:
         - application/json
       parameters:
@@ -109,6 +112,7 @@ paths:
         - register
       summary: Activating the User.
       description: Activating the user by validating with OTP.
+      operationId: activateUserLoginAccount
       produces:
         - application/json
       parameters:
@@ -561,6 +565,7 @@ paths:
         - profile
       summary: Get profile details of user
       description: fetch profile information by specifying an emailId.
+      operationId: getProfileByEmailId
       produces:
         - application/json
       parameters:
@@ -582,6 +587,7 @@ paths:
       description: >-
         Edit details like emailId, firstName, lastName, phone#,
         companyName, profilePic are the required fields.
+      operationId: editProfileByEmailId
       produces:
         - application/json
       parameters:
@@ -600,6 +606,7 @@ paths:
         - settings
       summary: modify your password in settings screen
       description: change your profile settings (Password).
+      operationId: userPasswordUpdate
       produces:
         - application/json
       parameters:
@@ -622,6 +629,7 @@ paths:
         - settings
       summary: modify your currency in settings screen
       description: change your profile settings (Currency).
+      operationId: userCurrencyUpdate
       produces:
         - application/json
       parameters:
@@ -644,6 +652,7 @@ paths:
         - settings
       summary: find a unique user settings.
       description: retrieve the user settings by specifying an emailId.
+      operationId: getSettings
       produces:
         - application/json
       parameters:
