@@ -49,7 +49,6 @@ paths:
           description: User needs to be authenticated. Password must be encrypted.
           required: true
           schema:
-            items:
               $ref: '#/definitions/userDetail'
       responses:
         '200':
@@ -189,17 +188,17 @@ paths:
           description: Expense not found
         '405':
           description: Invalid input
-  /expense/{expenseId}:
+  /expense/{expenseKey}:
     get:
       tags:
       - expense
-      summary: Find expense by ID
-      description: Returns a single expense
+      summary: find search expense details.
+      description: retrieve all expense. this will include personal expense information.
       operationId: getExpenseById
       produces:
       - application/json
       parameters:
-      - name: expenseId
+      - name: expenseKey
         in: path
         description: ID of expense to return
         required: true
@@ -708,6 +707,11 @@ definitions:
         type: number
   Expense:
     type: object
+    required:
+      - expense_name
+      - expenseAmount
+      - expenseType
+      - expenseDate
     properties:
       expenseId:
         type: string
@@ -719,6 +723,22 @@ definitions:
       expenseDate:
         type: string
         format: date-time
+      created_date:
+          type: string
+          format: date-time
+      updated_date:    
+          type: string
+          format: date-time
+      is_delete:
+          type: boolean
+      create_by:
+          type: string
+      upd_by:
+          type: string
+      login_id:
+         type: string
+      expense_name:
+          type: string
   Income:
     type: object
     properties:
