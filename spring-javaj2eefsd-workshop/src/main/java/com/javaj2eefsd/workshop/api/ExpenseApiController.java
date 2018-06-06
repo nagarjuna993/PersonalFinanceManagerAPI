@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -25,6 +26,7 @@ import io.swagger.annotations.ApiParam;
  *         in webservice give the response for create ,update.delete,retrieve and search the expense details.
  */
 @Controller
+@CrossOrigin(origins = { "*" })
 public class ExpenseApiController implements ExpenseApi {
 
     private static final Logger log = LoggerFactory.getLogger(ExpenseApiController.class);
