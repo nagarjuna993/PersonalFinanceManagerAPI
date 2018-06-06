@@ -9,7 +9,7 @@ info:
     email: JavaJ2EEFSEWorkshop1@syntelinc.com
   license:
     name: JavaJ2EEFSEWorkshop1
-    url: 'http://opensource.org/licenses/SyntelJavaJ2EEFSEWorkshop1'
+    url: 'http://opensource.org/licenses/JavaJ2EEFSEWorkshop1'
 host: localhost:8080
 basePath: /v1
 tags:
