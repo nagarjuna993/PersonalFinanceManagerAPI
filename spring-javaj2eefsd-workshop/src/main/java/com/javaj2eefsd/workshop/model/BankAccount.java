@@ -1,22 +1,23 @@
 package com.javaj2eefsd.workshop.model;
 
-import java.util.Objects;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
-import org.springframework.validation.annotation.Validated;
+import java.util.Objects;
 import javax.validation.Valid;
-import javax.validation.constraints.*;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.validation.annotation.Validated;
+import org.threeten.bp.OffsetDateTime;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.annotations.ApiModelProperty;
 
 /**
  * BankAccount
  */
 @Validated
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2018-06-06T07:36:56.089+05:30")
-
-public class BankAccount   {
+@Document
+public class BankAccount {
+  @Id
   @JsonProperty("bankAccountId")
   private String bankAccountId = null;
 
@@ -34,6 +35,15 @@ public class BankAccount   {
 
   @JsonProperty("ifscCode")
   private String ifscCode = null;
+  
+  @JsonProperty("createdBy")
+  private String createdBy = null;
+
+  @JsonProperty("createdDate")
+  private OffsetDateTime createdDate = null;
+
+  @JsonProperty("updatedDate")
+  private OffsetDateTime updatedDate = null;
 
   public BankAccount bankAccountId(String bankAccountId) {
     this.bankAccountId = bankAccountId;
@@ -155,6 +165,68 @@ public class BankAccount   {
   public void setIfscCode(String ifscCode) {
     this.ifscCode = ifscCode;
   }
+  
+  public BankAccount createdBy(String createdBy) {
+    this.createdBy = createdBy;
+    return this;
+  }
+
+  /**
+   * Get createdBy
+   * @return createdBy
+  **/
+  @ApiModelProperty(value = "")
+
+
+  public String getCreatedBy() {
+    return createdBy;
+  }
+
+  public void setCreatedBy(String createdBy) {
+    this.createdBy = createdBy;
+  }
+
+  public BankAccount createdDate(OffsetDateTime createdDate) {
+    this.createdDate = createdDate;
+    return this;
+  }
+
+  /**
+   * Get createdDate
+   * @return createdDate
+  **/
+  @ApiModelProperty(value = "")
+
+  @Valid
+
+  public OffsetDateTime getCreatedDate() {
+    return createdDate;
+  }
+
+  public void setCreatedDate(OffsetDateTime createdDate) {
+    this.createdDate = createdDate;
+  }
+
+  public BankAccount updatedDate(OffsetDateTime updatedDate) {
+    this.updatedDate = updatedDate;
+    return this;
+  }
+
+  /**
+   * Get updatedDate
+   * @return updatedDate
+  **/
+  @ApiModelProperty(value = "")
+
+  @Valid
+
+  public OffsetDateTime getUpdatedDate() {
+    return updatedDate;
+  }
+
+  public void setUpdatedDate(OffsetDateTime updatedDate) {
+    this.updatedDate = updatedDate;
+  }
 
 
   @Override
@@ -171,12 +243,15 @@ public class BankAccount   {
         Objects.equals(this.accountHolderName, bankAccount.accountHolderName) &&
         Objects.equals(this.accountType, bankAccount.accountType) &&
         Objects.equals(this.bankName, bankAccount.bankName) &&
-        Objects.equals(this.ifscCode, bankAccount.ifscCode);
+        Objects.equals(this.ifscCode, bankAccount.ifscCode) &&
+        Objects.equals(this.createdBy, bankAccount.createdBy) &&
+        Objects.equals(this.createdDate, bankAccount.createdDate) &&
+        Objects.equals(this.updatedDate, bankAccount.updatedDate);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(bankAccountId, accountNumber, accountHolderName, accountType, bankName, ifscCode);
+    return Objects.hash(bankAccountId, accountNumber, accountHolderName, accountType, bankName, ifscCode, createdBy, createdDate, updatedDate);
   }
 
   @Override
@@ -190,6 +265,9 @@ public class BankAccount   {
     sb.append("    accountType: ").append(toIndentedString(accountType)).append("\n");
     sb.append("    bankName: ").append(toIndentedString(bankName)).append("\n");
     sb.append("    ifscCode: ").append(toIndentedString(ifscCode)).append("\n");
+    sb.append("    createdBy: ").append(toIndentedString(createdBy)).append("\n");
+    sb.append("    createdDate: ").append(toIndentedString(createdDate)).append("\n");
+    sb.append("    updatedDate: ").append(toIndentedString(updatedDate)).append("\n");
     sb.append("}");
     return sb.toString();
   }

@@ -1,22 +1,22 @@
 package com.javaj2eefsd.workshop.model;
 
 import java.util.Objects;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-import org.threeten.bp.OffsetDateTime;
-import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
-import javax.validation.constraints.*;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.validation.annotation.Validated;
+import org.threeten.bp.OffsetDateTime;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.annotations.ApiModelProperty;
 
 /**
  * Investments
  */
 @Validated
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2018-06-06T07:36:56.089+05:30")
-
-public class Investments   {
+@Document
+public class Investments {
+  @Id
   @JsonProperty("investmentsId")
   private String investmentsId = null;
 
@@ -28,6 +28,15 @@ public class Investments   {
 
   @JsonProperty("investmentsDate")
   private OffsetDateTime investmentsDate = null;
+  
+  @JsonProperty("createdBy")
+  private String createdBy = null;
+
+  @JsonProperty("createdDate")
+  private OffsetDateTime createdDate = null;
+
+  @JsonProperty("updatedDate")
+  private OffsetDateTime updatedDate = null;
 
   public Investments investmentsId(String investmentsId) {
     this.investmentsId = investmentsId;
@@ -109,6 +118,68 @@ public class Investments   {
   public void setInvestmentsDate(OffsetDateTime investmentsDate) {
     this.investmentsDate = investmentsDate;
   }
+  
+  public Investments createdBy(String createdBy) {
+    this.createdBy = createdBy;
+    return this;
+  }
+
+  /**
+   * Get createdBy
+   * @return createdBy
+  **/
+  @ApiModelProperty(value = "")
+
+
+  public String getCreatedBy() {
+    return createdBy;
+  }
+
+  public void setCreatedBy(String createdBy) {
+    this.createdBy = createdBy;
+  }
+
+  public Investments createdDate(OffsetDateTime createdDate) {
+    this.createdDate = createdDate;
+    return this;
+  }
+
+  /**
+   * Get createdDate
+   * @return createdDate
+  **/
+  @ApiModelProperty(value = "")
+
+  @Valid
+
+  public OffsetDateTime getCreatedDate() {
+    return createdDate;
+  }
+
+  public void setCreatedDate(OffsetDateTime createdDate) {
+    this.createdDate = createdDate;
+  }
+
+  public Investments updatedDate(OffsetDateTime updatedDate) {
+    this.updatedDate = updatedDate;
+    return this;
+  }
+
+  /**
+   * Get updatedDate
+   * @return updatedDate
+  **/
+  @ApiModelProperty(value = "")
+
+  @Valid
+
+  public OffsetDateTime getUpdatedDate() {
+    return updatedDate;
+  }
+
+  public void setUpdatedDate(OffsetDateTime updatedDate) {
+    this.updatedDate = updatedDate;
+  }
 
 
   @Override
@@ -123,12 +194,15 @@ public class Investments   {
     return Objects.equals(this.investmentsId, investments.investmentsId) &&
         Objects.equals(this.investmentsAmount, investments.investmentsAmount) &&
         Objects.equals(this.investmentsType, investments.investmentsType) &&
-        Objects.equals(this.investmentsDate, investments.investmentsDate);
+        Objects.equals(this.investmentsDate, investments.investmentsDate) &&
+        Objects.equals(this.createdBy, investments.createdBy) &&
+        Objects.equals(this.createdDate, investments.createdDate) &&
+        Objects.equals(this.updatedDate, investments.updatedDate);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(investmentsId, investmentsAmount, investmentsType, investmentsDate);
+    return Objects.hash(investmentsId, investmentsAmount, investmentsType, investmentsDate, createdBy, createdDate, updatedDate);
   }
 
   @Override
@@ -140,6 +214,9 @@ public class Investments   {
     sb.append("    investmentsAmount: ").append(toIndentedString(investmentsAmount)).append("\n");
     sb.append("    investmentsType: ").append(toIndentedString(investmentsType)).append("\n");
     sb.append("    investmentsDate: ").append(toIndentedString(investmentsDate)).append("\n");
+    sb.append("    createdBy: ").append(toIndentedString(createdBy)).append("\n");
+    sb.append("    createdDate: ").append(toIndentedString(createdDate)).append("\n");
+    sb.append("    updatedDate: ").append(toIndentedString(updatedDate)).append("\n");
     sb.append("}");
     return sb.toString();
   }

@@ -5,22 +5,21 @@
  */
 package com.javaj2eefsd.workshop.api;
 
-import com.javaj2eefsd.workshop.model.Income;
-import io.swagger.annotations.*;
+import java.util.List;
+import javax.validation.Valid;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.multipart.MultipartFile;
+import com.javaj2eefsd.workshop.model.Income;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+import io.swagger.annotations.Authorization;
 
-import javax.validation.Valid;
-import javax.validation.constraints.*;
-import java.util.List;
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2018-06-06T07:36:56.089+05:30")
 
 @Api(value = "income", description = "the income API")
@@ -35,7 +34,9 @@ public interface IncomeApi {
         produces = { "application/json" }, 
         consumes = { "application/json" },
         method = RequestMethod.PUT)
-    ResponseEntity<Void> addIncome(@ApiParam(value = "Income object that needs to be added to the store" ,required=true )  @Valid @RequestBody Income body);
+    ResponseEntity<Void> addIncome(
+    		@ApiParam(value = "Income object that needs to be added to the store" ,required=true )  @Valid @RequestBody Income body)
+			throws Exception;
 
 
     @ApiOperation(value = "Deletes a income", nickname = "deleteIncome", notes = "Deltes the income", authorizations = {
@@ -47,7 +48,9 @@ public interface IncomeApi {
     @RequestMapping(value = "/income/delete/{incomeId}",
         produces = { "application/json" }, 
         method = RequestMethod.DELETE)
-    ResponseEntity<Void> deleteIncome(@ApiParam(value = "Income id to delete",required=true) @PathVariable("incomeId") String incomeId);
+    ResponseEntity<Void> deleteIncome(
+    		@ApiParam(value = "Income id to delete",required=true) @PathVariable("incomeId") String incomeId)
+			throws Exception;
 
 
     @ApiOperation(value = "Searches income by incomeKey", nickname = "getIncomeByKey", notes = "Returns all income matching the incomeKey", response = Income.class, responseContainer = "List", authorizations = {
@@ -60,7 +63,9 @@ public interface IncomeApi {
     @RequestMapping(value = "/income/{incomeKey}",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    ResponseEntity<List<Income>> getIncomeByKey(@ApiParam(value = "ID of income to return",required=true) @PathVariable("incomeKey") String incomeKey);
+    ResponseEntity<List<Income>> getIncomeByKey(
+    		@ApiParam(value = "ID of income to return",required=true) @PathVariable("incomeKey") String incomeKey)
+			throws Exception;
 
 
     @ApiOperation(value = "incomes list", nickname = "getIncomeList", notes = "Returns the list of all incomes", response = Income.class, responseContainer = "List", authorizations = {
@@ -71,7 +76,7 @@ public interface IncomeApi {
     @RequestMapping(value = "/income/all",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    ResponseEntity<List<Income>> getIncomeList();
+    ResponseEntity<List<Income>> getIncomeList() throws Exception;
 
 
     @ApiOperation(value = "Update income", nickname = "updateIncome", notes = "Updates the income", authorizations = {
@@ -85,6 +90,8 @@ public interface IncomeApi {
         produces = { "application/json" }, 
         consumes = { "application/json" },
         method = RequestMethod.POST)
-    ResponseEntity<Void> updateIncome(@ApiParam(value = "Income object that needs to be updated to the store" ,required=true )  @Valid @RequestBody Income body);
+    ResponseEntity<Void> updateIncome(
+    		@ApiParam(value = "Income object that needs to be updated to the store" ,required=true )  @Valid @RequestBody Income body)
+			throws Exception;
 
 }

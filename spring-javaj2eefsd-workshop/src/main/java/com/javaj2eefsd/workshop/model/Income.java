@@ -1,22 +1,22 @@
 package com.javaj2eefsd.workshop.model;
 
 import java.util.Objects;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-import org.threeten.bp.OffsetDateTime;
-import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
-import javax.validation.constraints.*;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.validation.annotation.Validated;
+import org.threeten.bp.OffsetDateTime;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.annotations.ApiModelProperty;
 
 /**
  * Income
  */
 @Validated
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2018-06-06T07:36:56.089+05:30")
-
-public class Income   {
+@Document
+public class Income {
+  @Id
   @JsonProperty("incomeId")
   private String incomeId = null;
 
@@ -28,6 +28,15 @@ public class Income   {
 
   @JsonProperty("incomeDate")
   private OffsetDateTime incomeDate = null;
+  
+  @JsonProperty("createdBy")
+  private String createdBy = null;
+
+  @JsonProperty("createdDate")
+  private OffsetDateTime createdDate = null;
+
+  @JsonProperty("updatedDate")
+  private OffsetDateTime updatedDate = null;
 
   public Income incomeId(String incomeId) {
     this.incomeId = incomeId;
@@ -109,6 +118,68 @@ public class Income   {
   public void setIncomeDate(OffsetDateTime incomeDate) {
     this.incomeDate = incomeDate;
   }
+  
+  public Income createdBy(String createdBy) {
+    this.createdBy = createdBy;
+    return this;
+  }
+
+  /**
+   * Get createdBy
+   * @return createdBy
+  **/
+  @ApiModelProperty(value = "")
+
+
+  public String getCreatedBy() {
+    return createdBy;
+  }
+
+  public void setCreatedBy(String createdBy) {
+    this.createdBy = createdBy;
+  }
+
+  public Income createdDate(OffsetDateTime createdDate) {
+    this.createdDate = createdDate;
+    return this;
+  }
+
+  /**
+   * Get createdDate
+   * @return createdDate
+  **/
+  @ApiModelProperty(value = "")
+
+  @Valid
+
+  public OffsetDateTime getCreatedDate() {
+    return createdDate;
+  }
+
+  public void setCreatedDate(OffsetDateTime createdDate) {
+    this.createdDate = createdDate;
+  }
+
+  public Income updatedDate(OffsetDateTime updatedDate) {
+    this.updatedDate = updatedDate;
+    return this;
+  }
+
+  /**
+   * Get updatedDate
+   * @return updatedDate
+  **/
+  @ApiModelProperty(value = "")
+
+  @Valid
+
+  public OffsetDateTime getUpdatedDate() {
+    return updatedDate;
+  }
+
+  public void setUpdatedDate(OffsetDateTime updatedDate) {
+    this.updatedDate = updatedDate;
+  }
 
 
   @Override
@@ -123,12 +194,15 @@ public class Income   {
     return Objects.equals(this.incomeId, income.incomeId) &&
         Objects.equals(this.incomeAmount, income.incomeAmount) &&
         Objects.equals(this.incomeType, income.incomeType) &&
-        Objects.equals(this.incomeDate, income.incomeDate);
+        Objects.equals(this.incomeDate, income.incomeDate) &&
+        Objects.equals(this.createdBy, income.createdBy) &&
+        Objects.equals(this.createdDate, income.createdDate) &&
+        Objects.equals(this.updatedDate, income.updatedDate);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(incomeId, incomeAmount, incomeType, incomeDate);
+	return Objects.hash(incomeId, incomeAmount, incomeType, incomeDate, createdBy, createdDate, updatedDate);
   }
 
   @Override
@@ -140,6 +214,9 @@ public class Income   {
     sb.append("    incomeAmount: ").append(toIndentedString(incomeAmount)).append("\n");
     sb.append("    incomeType: ").append(toIndentedString(incomeType)).append("\n");
     sb.append("    incomeDate: ").append(toIndentedString(incomeDate)).append("\n");
+    sb.append("    createdBy: ").append(toIndentedString(createdBy)).append("\n");
+    sb.append("    createdDate: ").append(toIndentedString(createdDate)).append("\n");
+    sb.append("    updatedDate: ").append(toIndentedString(updatedDate)).append("\n");
     sb.append("}");
     return sb.toString();
   }
