@@ -98,7 +98,6 @@ public class ExpenseApiController implements ExpenseApi {
             try {
                 Optional.ofNullable(expenseKey).orElseThrow(() -> new IOException("search key is null"));
                 final List<Expense> searchList = expenseServiceImpl.expenseSearchGet(expenseKey);
-                // Optional.ofNullable(searchList).orElseThrow(() -> new IOException("search key is null"));
                 return new ResponseEntity<>(searchList, HttpStatus.OK);
             }
             catch (final IOException e) {
@@ -115,16 +114,14 @@ public class ExpenseApiController implements ExpenseApi {
      * service to retrieve the expense data
      */
     @Override
-    public ResponseEntity<List<Expense>> getExpenseList() throws Exception {
+    public ResponseEntity<List<Expense>> getExpenseList(
+            @ApiParam(value = "ID of expense to return", required = true) @PathVariable("id") final String id)
+            throws Exception {
         final String accept = request.getHeader("Accept");
         List<Expense> expenceList = null;
         if (accept != null && accept.contains("application/json")) {
             try {
-                // this login user id right now hardcoded once login module integration is done it's automated
-                final String expenseId = "1";
-                expenceList = expenseServiceImpl.expenseAllGet(expenseId);
-                Optional.ofNullable(expenceList)
-                        .orElseThrow(() -> new InternalError("HttpStatusINTERNAL_SERVER_ERROR"));
+                expenceList = expenseServiceImpl.expenseAllGet(id);
 
             }
             catch (final IOException e) {
