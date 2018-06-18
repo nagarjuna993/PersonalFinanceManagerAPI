@@ -772,6 +772,14 @@ definitions:
       incomeDate:
         type: string
         format: date-time
+      createdBy:
+        type: string
+      createdDate:
+        type: string
+        format: date-time
+      updatedDate:
+        type: string
+        format: date-time
   Investments:
     type: object
     properties:
@@ -783,6 +791,14 @@ definitions:
       investmentsType:
         type: string
       investmentsDate:
+        type: string
+        format: date-time
+      createdBy:
+        type: string
+      createdDate:
+        type: string
+        format: date-time
+      updatedDate:
         type: string
         format: date-time
   dateRange:
@@ -825,6 +841,14 @@ definitions:
         type: string
       ifscCode:
         type: string
+      createdBy:
+        type: string
+      createdDate:
+        type: string
+        format: date-time
+      updatedDate:
+        type: string
+        format: date-time
   profile_emailid:
     type: string
     required:
