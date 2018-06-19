@@ -43,12 +43,8 @@ public class ExpenseServiceImpl implements IExpenseService {
     @Override
     public Expense expenseCreatePost(final Expense expenseObj) throws Exception {
         expenseObj.setCreatedDate(OffsetDateTime.now());
-        // expenseObj.setExpenseDate(dateUtils());
         expenseObj.setUpdatedDate(OffsetDateTime.now());
-        expenseObj.setIsDelete(true);
-        expenseObj.setCreateBy("sathish");
-        expenseObj.setUpdBy(expenseObj.getCreateBy());
-        expenseObj.setLoginId("1");
+        expenseObj.setIsDelete(false);
         return expenseDaoImpl.expenseCreatePost(expenseObj);
     }
 
@@ -75,7 +71,6 @@ public class ExpenseServiceImpl implements IExpenseService {
     @Override
     public Expense expenseUpdatePost(final Expense expenseObj) throws Exception {
         expenseObj.setUpdatedDate(OffsetDateTime.now());
-        expenseObj.setUpdBy("sathish");
         return expenseDaoImpl.expenseUpdatePost(expenseObj);
     }
 
