@@ -40,6 +40,8 @@ public class IncomeServiceImpl implements IncomeService {
     	incomeObj.setCreatedDate(OffsetDateTime.now());
     	incomeObj.setUpdatedDate(OffsetDateTime.now());
     	incomeObj.setCreatedBy("1");
+    	incomeObj.setUpdatedBy(incomeObj.getCreatedBy());
+    	incomeObj.setIsDelete(false);
         return incomeDaoImpl.createIncome(incomeObj);
     }
 

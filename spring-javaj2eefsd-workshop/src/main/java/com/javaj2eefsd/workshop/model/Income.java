@@ -31,6 +31,12 @@ public class Income {
   
   @JsonProperty("createdBy")
   private String createdBy = null;
+  
+  @JsonProperty("updatedBy")
+  private String updatedBy = null;
+  
+  @JsonProperty("isDelete")
+  private Boolean isDelete = null;
 
   @JsonProperty("createdDate")
   private OffsetDateTime createdDate = null;
@@ -138,6 +144,46 @@ public class Income {
   public void setCreatedBy(String createdBy) {
     this.createdBy = createdBy;
   }
+  
+  public Income updatedBy(String updatedBy) {
+    this.updatedBy = updatedBy;
+    return this;
+  }
+
+  /**
+   * Get updatedBy
+   * @return updatedBy
+  **/
+  @ApiModelProperty(value = "")
+
+
+  public String getUpdatedBy() {
+    return createdBy;
+  }
+
+  public void setUpdatedBy(String updatedBy) {
+    this.updatedBy = updatedBy;
+  }
+  
+  public Income isDelete(Boolean isDelete) {
+    this.isDelete = isDelete;
+    return this;
+  }
+
+  /**
+   * Get isDelete
+   * @return isDelete
+  **/
+  @ApiModelProperty(value = "")
+
+
+  public Boolean getIsDelete() {
+    return isDelete;
+  }
+
+  public void setIsDelete(Boolean isDelete) {
+    this.isDelete = isDelete;
+  }
 
   public Income createdDate(OffsetDateTime createdDate) {
     this.createdDate = createdDate;
@@ -196,6 +242,8 @@ public class Income {
         Objects.equals(this.incomeType, income.incomeType) &&
         Objects.equals(this.incomeDate, income.incomeDate) &&
         Objects.equals(this.createdBy, income.createdBy) &&
+        Objects.equals(this.updatedBy, income.updatedBy) &&
+        Objects.equals(this.isDelete, income.isDelete) &&
         Objects.equals(this.createdDate, income.createdDate) &&
         Objects.equals(this.updatedDate, income.updatedDate);
   }
@@ -215,6 +263,8 @@ public class Income {
     sb.append("    incomeType: ").append(toIndentedString(incomeType)).append("\n");
     sb.append("    incomeDate: ").append(toIndentedString(incomeDate)).append("\n");
     sb.append("    createdBy: ").append(toIndentedString(createdBy)).append("\n");
+    sb.append("    updatedBy: ").append(toIndentedString(updatedBy)).append("\n");
+    sb.append("    isDelete: ").append(toIndentedString(isDelete)).append("\n");
     sb.append("    createdDate: ").append(toIndentedString(createdDate)).append("\n");
     sb.append("    updatedDate: ").append(toIndentedString(updatedDate)).append("\n");
     sb.append("}");

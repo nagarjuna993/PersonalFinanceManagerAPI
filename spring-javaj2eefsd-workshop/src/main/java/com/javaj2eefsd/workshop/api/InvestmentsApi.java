@@ -5,22 +5,21 @@
  */
 package com.javaj2eefsd.workshop.api;
 
-import com.javaj2eefsd.workshop.model.Investments;
-import io.swagger.annotations.*;
+import java.util.List;
+import javax.validation.Valid;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.multipart.MultipartFile;
+import com.javaj2eefsd.workshop.model.Investments;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+import io.swagger.annotations.Authorization;
 
-import javax.validation.Valid;
-import javax.validation.constraints.*;
-import java.util.List;
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2018-06-06T07:36:56.089+05:30")
 
 @Api(value = "investments", description = "the investments API")
@@ -35,7 +34,9 @@ public interface InvestmentsApi {
         produces = { "application/json" }, 
         consumes = { "application/json" },
         method = RequestMethod.PUT)
-    ResponseEntity<Void> addInvestments(@ApiParam(value = "Investments object that needs to be added to the store" ,required=true )  @Valid @RequestBody Investments body);
+    ResponseEntity<Void> addInvestments(
+    		@ApiParam(value = "Investments object that needs to be added to the store" ,required=true )  @Valid @RequestBody Investments body)
+    		throws Exception;
 
 
     @ApiOperation(value = "Deletes a investments", nickname = "deleteInvestments", notes = "Deletes the investments", authorizations = {
@@ -47,7 +48,9 @@ public interface InvestmentsApi {
     @RequestMapping(value = "/investments/delete/{investmentsId}",
         produces = { "application/json" }, 
         method = RequestMethod.DELETE)
-    ResponseEntity<Void> deleteInvestments(@ApiParam(value = "Investments id to delete",required=true) @PathVariable("investmentsId") String investmentsId);
+    ResponseEntity<Void> deleteInvestments(
+    		@ApiParam(value = "Investments id to delete",required=true) @PathVariable("investmentsId") String investmentsId)
+    		throws Exception;
 
 
     @ApiOperation(value = "Find all Investments matching by investmentsKey", nickname = "getInvestmentsByKey", notes = "Returns investments matching the investmentsKey", response = Investments.class, responseContainer = "List", authorizations = {
@@ -60,7 +63,9 @@ public interface InvestmentsApi {
     @RequestMapping(value = "/investments/{investmentsKey}",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    ResponseEntity<List<Investments>> getInvestmentsByKey(@ApiParam(value = "ID of investments to return",required=true) @PathVariable("investmentsKey") String investmentsKey);
+    ResponseEntity<List<Investments>> getInvestmentsByKey(
+    		@ApiParam(value = "ID of investments to return",required=true) @PathVariable("investmentsKey") String investmentsKey)
+    		throws Exception;
 
 
     @ApiOperation(value = "investments list", nickname = "getInvestmentsList", notes = "Returns the list of investments", response = Investments.class, responseContainer = "List", authorizations = {
@@ -71,7 +76,7 @@ public interface InvestmentsApi {
     @RequestMapping(value = "/investments/all",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    ResponseEntity<List<Investments>> getInvestmentsList();
+    ResponseEntity<List<Investments>> getInvestmentsList() throws Exception;
 
 
     @ApiOperation(value = "Update investments", nickname = "updateInvestments", notes = "Updates the investments", authorizations = {
@@ -85,6 +90,8 @@ public interface InvestmentsApi {
         produces = { "application/json" }, 
         consumes = { "application/json" },
         method = RequestMethod.POST)
-    ResponseEntity<Void> updateInvestments(@ApiParam(value = "Investments object that needs to be updated to the store" ,required=true )  @Valid @RequestBody Investments body);
+    ResponseEntity<Void> updateInvestments(
+    		@ApiParam(value = "Investments object that needs to be updated to the store" ,required=true )  @Valid @RequestBody Investments body)
+    		throws Exception;
 
 }

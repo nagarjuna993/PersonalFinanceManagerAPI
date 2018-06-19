@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.Objects;
 import javax.validation.Valid;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.validation.annotation.Validated;
 import org.threeten.bp.OffsetDateTime;
@@ -21,6 +22,7 @@ public class BankAccount {
   @JsonProperty("bankAccountId")
   private String bankAccountId = null;
 
+  @Indexed(unique=true)
   @JsonProperty("accountNumber")
   private BigDecimal accountNumber = null;
 
@@ -38,6 +40,12 @@ public class BankAccount {
   
   @JsonProperty("createdBy")
   private String createdBy = null;
+  
+  @JsonProperty("updatedBy")
+  private String updatedBy = null;
+  
+  @JsonProperty("isDelete")
+  private Boolean isDelete = null;
 
   @JsonProperty("createdDate")
   private OffsetDateTime createdDate = null;
@@ -185,6 +193,46 @@ public class BankAccount {
   public void setCreatedBy(String createdBy) {
     this.createdBy = createdBy;
   }
+  
+  public BankAccount updatedBy(String updatedBy) {
+    this.updatedBy = updatedBy;
+    return this;
+  }
+
+  /**
+   * Get updatedBy
+   * @return updatedBy
+  **/
+  @ApiModelProperty(value = "")
+
+
+  public String getUpdatedBy() {
+    return createdBy;
+  }
+
+  public void setUpdatedBy(String updatedBy) {
+    this.updatedBy = updatedBy;
+  }
+  
+  public BankAccount isDelete(Boolean isDelete) {
+    this.isDelete = isDelete;
+    return this;
+  }
+
+  /**
+   * Get isDelete
+   * @return isDelete
+  **/
+  @ApiModelProperty(value = "")
+
+
+  public Boolean getIsDelete() {
+    return isDelete;
+  }
+
+  public void setIsDelete(Boolean isDelete) {
+    this.isDelete = isDelete;
+  }
 
   public BankAccount createdDate(OffsetDateTime createdDate) {
     this.createdDate = createdDate;
@@ -245,13 +293,15 @@ public class BankAccount {
         Objects.equals(this.bankName, bankAccount.bankName) &&
         Objects.equals(this.ifscCode, bankAccount.ifscCode) &&
         Objects.equals(this.createdBy, bankAccount.createdBy) &&
+        Objects.equals(this.updatedBy, bankAccount.updatedBy) &&
+        Objects.equals(this.isDelete, bankAccount.isDelete) &&
         Objects.equals(this.createdDate, bankAccount.createdDate) &&
         Objects.equals(this.updatedDate, bankAccount.updatedDate);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(bankAccountId, accountNumber, accountHolderName, accountType, bankName, ifscCode, createdBy, createdDate, updatedDate);
+    return Objects.hash(bankAccountId, accountNumber, accountHolderName, accountType, bankName, ifscCode, createdBy, updatedBy, isDelete, createdDate, updatedDate);
   }
 
   @Override
@@ -266,6 +316,8 @@ public class BankAccount {
     sb.append("    bankName: ").append(toIndentedString(bankName)).append("\n");
     sb.append("    ifscCode: ").append(toIndentedString(ifscCode)).append("\n");
     sb.append("    createdBy: ").append(toIndentedString(createdBy)).append("\n");
+    sb.append("    updatedBy: ").append(toIndentedString(updatedBy)).append("\n");
+    sb.append("    isDelete: ").append(toIndentedString(isDelete)).append("\n");
     sb.append("    createdDate: ").append(toIndentedString(createdDate)).append("\n");
     sb.append("    updatedDate: ").append(toIndentedString(updatedDate)).append("\n");
     sb.append("}");

@@ -78,7 +78,7 @@ public class IncomeApiController implements IncomeApi {
     }
 
     public ResponseEntity<List<Income>> getIncomeByKey(
-    		@ApiParam(value = "ID of income to return",required=true) @PathVariable("incomeKey") String incomeKey)
+    		@ApiParam(value = "Key to search for income",required=true) @PathVariable("incomeKey") String incomeKey)
     		throws Exception {
     	
         final String accept = request.getHeader("Accept");

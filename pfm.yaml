@@ -318,7 +318,7 @@ paths:
       parameters:
       - name: incomeKey
         in: path
-        description: ID of income to return
+        description: Key to search for income
         required: true
         type: string
       responses:
@@ -526,31 +526,33 @@ paths:
       responses:
         '405':
           description: Invalid input
-  /bankAccount/{bankAccountId}:
+  /bankAccount/{bankAccountKey}:
     get:
       tags:
       - bankAccount
-      summary: Find Bank Account by ID
-      description: Returns a single bank account
-      operationId: getBankAccountById
+      summary: Searches Bank Accounts by bankAccountKey
+      description: Returns all bank accounts matching the bankAccountKey
+      operationId: getBankAccountByKey
       produces:
       - application/json
       parameters:
-      - name: bankAccountId
+      - name: bankAccountKey
         in: path
-        description: ID of bank account to return
+        description: Key to search for Bank Accounts
         required: true
         type: string
       responses:
         '200':
           description: successful operation
           schema:
-            $ref: "#/definitions/BankAccount"
+            type: array
+            items:
+              $ref: '#/definitions/BankAccount'
         '400':
           description: Invalid ID supplied
         '404':
           description: Bank Account not found
-  /bankAccount/delete:
+  /bankAccount/delete/{bankAccountId}:
     delete:
       tags:
       - bankAccount
@@ -774,6 +776,10 @@ definitions:
         format: date-time
       createdBy:
         type: string
+      updatedBy:
+        type: string
+      isDelete:
+        type: boolean
       createdDate:
         type: string
         format: date-time
@@ -795,6 +801,10 @@ definitions:
         format: date-time
       createdBy:
         type: string
+      updatedBy:
+        type: string
+      isDelete:
+        type: boolean
       createdDate:
         type: string
         format: date-time
@@ -843,6 +853,10 @@ definitions:
         type: string
       createdBy:
         type: string
+      updatedBy:
+        type: string
+      isDelete:
+        type: boolean
       createdDate:
         type: string
         format: date-time

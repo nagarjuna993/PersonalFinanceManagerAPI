@@ -31,6 +31,7 @@ public class IncomeDaoImpl implements IncomeDao {
 		List<Income> incomeList = null;
         try {
             final Query query = new Query();
+            query.addCriteria(Criteria.where("isDelete").is(false));
             query.addCriteria(Criteria.where("createdBy").is(userId));
             incomeList = mongoTemplate.find(query, Income.class);
         }
@@ -72,7 +73,10 @@ public class IncomeDaoImpl implements IncomeDao {
 		try {
             final Query query = new Query();
             query.addCriteria(Criteria.where("incomeId").is(incomeId));
-            mongoTemplate.findAndRemove(query, Income.class);
+            //mongoTemplate.findAndRemove(query, Income.class);
+            final Update update = new Update();
+            update.set("isDelete", true);
+            mongoTemplate.updateFirst(query, update, Income.class);
         }
         catch (final Exception e) {
             throw new Exception(e.getMessage());
@@ -96,6 +100,7 @@ public class IncomeDaoImpl implements IncomeDao {
             update.set("incomeType", incomeObj.getIncomeType());
             update.set("incomeDate", incomeObj.getIncomeDate());
             update.set("updatedDate", incomeObj.getUpdatedDate());
+            update.set("updatedBy", incomeObj.getUpdatedBy());
             mongoTemplate.updateFirst(query, update, Income.class);
         }
         catch (final Exception e) {
@@ -123,7 +128,7 @@ public class IncomeDaoImpl implements IncomeDao {
         
         try {
             final Query query = new Query();
-            query.addCriteria((Criteria.where("createdBy").is("1"))
+            query.addCriteria(Criteria.where("isDelete").is(false).andOperator(Criteria.where("createdBy").is("1"))
                     .orOperator(Criteria.where("incomeAmount").is(amount),
                             Criteria.where("incomeType").is(incomeKey),
                             Criteria.where("incomeDate").is(incomeKey)));

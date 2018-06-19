@@ -5,22 +5,21 @@
  */
 package com.javaj2eefsd.workshop.api;
 
-import com.javaj2eefsd.workshop.model.BankAccount;
-import io.swagger.annotations.*;
+import java.util.List;
+import javax.validation.Valid;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.multipart.MultipartFile;
+import com.javaj2eefsd.workshop.model.BankAccount;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+import io.swagger.annotations.Authorization;
 
-import javax.validation.Valid;
-import javax.validation.constraints.*;
-import java.util.List;
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2018-06-06T07:36:56.089+05:30")
 
 @Api(value = "bankAccount", description = "the bankAccount API")
@@ -35,7 +34,9 @@ public interface BankAccountApi {
         produces = { "application/json" }, 
         consumes = { "application/json" },
         method = RequestMethod.PUT)
-    ResponseEntity<Void> addBankAccount(@ApiParam(value = "Bank Account object that needs to be added to the store" ,required=true )  @Valid @RequestBody BankAccount body);
+    ResponseEntity<Void> addBankAccount(
+    		@ApiParam(value = "Bank Account object that needs to be added to the store" ,required=true )  @Valid @RequestBody BankAccount body)
+    		throws Exception;
 
 
     @ApiOperation(value = "Deletes a bank account", nickname = "deleteBankAccount", notes = "Deletes the bank account", authorizations = {
@@ -44,23 +45,27 @@ public interface BankAccountApi {
     @ApiResponses(value = { 
         @ApiResponse(code = 400, message = "Invalid ID supplied"),
         @ApiResponse(code = 404, message = "Bank Account not found") })
-    @RequestMapping(value = "/bankAccount/delete",
+    @RequestMapping(value = "/bankAccount/delete/{bankAccountId}",
         produces = { "application/json" }, 
         method = RequestMethod.DELETE)
-    ResponseEntity<Void> deleteBankAccount(@ApiParam(value = "Bank Account id to delete",required=true) @PathVariable("bankAccountId") String bankAccountId);
+    ResponseEntity<Void> deleteBankAccount(
+    		@ApiParam(value = "Bank Account id to delete",required=true) @PathVariable("bankAccountId") String bankAccountId)
+    		throws Exception;
 
 
-    @ApiOperation(value = "Find Bank Account by ID", nickname = "getBankAccountById", notes = "Returns a single bank account", response = BankAccount.class, authorizations = {
-        @Authorization(value = "bearerAuth")
-    }, tags={ "bankAccount", })
-    @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "successful operation", response = BankAccount.class),
-        @ApiResponse(code = 400, message = "Invalid ID supplied"),
-        @ApiResponse(code = 404, message = "Bank Account not found") })
-    @RequestMapping(value = "/bankAccount/{bankAccountId}",
-        produces = { "application/json" }, 
-        method = RequestMethod.GET)
-    ResponseEntity<BankAccount> getBankAccountById(@ApiParam(value = "ID of bank account to return",required=true) @PathVariable("bankAccountId") String bankAccountId);
+    @ApiOperation(value = "Searches Bank Accounts by bankAccountKey", nickname = "getBankAccountByKey", notes = "Returns all bank accounts matching the bankAccountKey", response = BankAccount.class, responseContainer = "List", authorizations = {
+            @Authorization(value = "bearerAuth")
+        }, tags={ "bankAccount", })
+        @ApiResponses(value = { 
+            @ApiResponse(code = 200, message = "successful operation", response = BankAccount.class, responseContainer = "List"),
+            @ApiResponse(code = 400, message = "Invalid ID supplied"),
+            @ApiResponse(code = 404, message = "BankAccount not found") })
+        @RequestMapping(value = "/bankAccount/{bankAccountKey}",
+            produces = { "application/json" }, 
+            method = RequestMethod.GET)
+        ResponseEntity<List<BankAccount>> getBankAccountByKey(
+        		@ApiParam(value = "Key to search for Bank Accounts",required=true) @PathVariable("bankAccountKey") String bankAccountKey)
+    			throws Exception;
 
 
     @ApiOperation(value = "bank accounts list", nickname = "getBankAccountsList", notes = "Returns the list of bank accounts", response = BankAccount.class, responseContainer = "List", authorizations = {
@@ -71,6 +76,6 @@ public interface BankAccountApi {
     @RequestMapping(value = "/bankAccount/all",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    ResponseEntity<List<BankAccount>> getBankAccountsList();
+    ResponseEntity<List<BankAccount>> getBankAccountsList() throws Exception;
 
 }
