@@ -66,7 +66,7 @@ public interface ExpenseApi {
     }, tags = { "expense", })
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "successful operation", response = Expense.class, responseContainer = "List") })
-    @RequestMapping(value = "/expense/all{id}", produces = { "application/json" }, method = RequestMethod.GET)
+    @RequestMapping(value = "/expense/all/{id}", produces = { "application/json" }, method = RequestMethod.GET)
     ResponseEntity<List<Expense>> getExpenseList(
             @ApiParam(value = "ID of expense to return", required = true) @PathVariable("id") String id)
             throws Exception;

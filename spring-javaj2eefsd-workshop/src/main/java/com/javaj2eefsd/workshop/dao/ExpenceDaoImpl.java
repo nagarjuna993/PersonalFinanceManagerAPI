@@ -36,7 +36,7 @@ public class ExpenceDaoImpl implements IExpenseDao {
         List<Expense> expenseList = null;
         try {
             final Query query = new Query();
-            query.addCriteria(Criteria.where("isDelete").is(true));
+            query.addCriteria(Criteria.where("isDelete").is(false));
             query.addCriteria(Criteria.where("loginId").is(expenseId));
             expenseList = mongoTemplate.find(query, Expense.class);
         }
@@ -80,7 +80,7 @@ public class ExpenceDaoImpl implements IExpenseDao {
             query.addCriteria(Criteria.where("_id").is(id));
             // mongoTemplate.find(query, Expense.class);
             final Update update = new Update();
-            update.set("isDelete", false);
+            update.set("isDelete", true);
             mongoTemplate.updateFirst(query, update, Expense.class);
         }
         catch (final Exception e) {
@@ -129,17 +129,21 @@ public class ExpenceDaoImpl implements IExpenseDao {
         List<Expense> SearchList = null;
         int amount = 0;
         // check the key is number or not
-        if (key.matches("-?\\d+(\\.\\d+)?")) {
+        final String[] search = key.split("-");
+
+        if (search[0].matches("-?\\d+(\\.\\d+)?")) {
             amount = Integer.parseInt(key);
         }
         try {
 
             final Query query = new Query();
-            query.addCriteria(Criteria.where("isDelete").is(true).andOperator(Criteria.where("loginId").is("1"))
-                    .orOperator(Criteria.where("expenseName").is(key),
-                            Criteria.where("expenseAmount").is(amount), Criteria.where("expenseDate").is(key),
-                            Criteria.where("expenseSpentFrom").is(key)));
+            query.addCriteria(Criteria.where("isDelete").is(false).andOperator(Criteria.where("loginId").is(search[1]))
+                    .orOperator(Criteria.where("expenseName").is(search[0]),
+                            Criteria.where("expenseAmount").is(amount), Criteria.where("expenseType").is(search[0]),
+                            Criteria.where("expenseSpentFrom").is(search[0])));
+
             SearchList = mongoTemplate.find(query, Expense.class);
+
         }
         catch (final Exception e) {
             throw new Exception(e.getMessage());
