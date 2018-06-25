@@ -4,6 +4,8 @@
 package com.javaj2eefsd.workshop.service;
 
 import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.threeten.bp.OffsetDateTime;
@@ -16,6 +18,9 @@ import com.javaj2eefsd.workshop.model.Expense;
  */
 @Service
 public class ExpenseServiceImpl implements IExpenseService {
+    // logger instance
+    private static final Logger log = LoggerFactory.getLogger(ExpenseServiceImpl.class);
+
     // create object from IExpenseDao
     @Autowired
     IExpenseDao expenseDaoImpl;
@@ -29,7 +34,7 @@ public class ExpenseServiceImpl implements IExpenseService {
      */
     @Override
     public List<Expense> expenseAllGet(final String expenseId) throws Exception {
-        // TODO Auto-generated method stub
+        log.info("start expenseAllGet service");
         return expenseDaoImpl.expenseAllGet(expenseId);
     }
 
@@ -42,9 +47,11 @@ public class ExpenseServiceImpl implements IExpenseService {
      */
     @Override
     public Expense expenseCreatePost(final Expense expenseObj) throws Exception {
+        log.info("start expenseCreatePost in service ");
         expenseObj.setCreatedDate(OffsetDateTime.now());
         expenseObj.setUpdatedDate(OffsetDateTime.now());
         expenseObj.setIsDelete(false);
+        log.info("update the some field in  expenseCreatePost method in  service ");
         return expenseDaoImpl.expenseCreatePost(expenseObj);
     }
 
@@ -57,6 +64,7 @@ public class ExpenseServiceImpl implements IExpenseService {
      */
     @Override
     public void expenseDeleteDelete(final String id) throws Exception {
+        log.info("start expenseDeleteDelete in service ");
         expenseDaoImpl.expenseDeleteDelete(id);
 
     }
@@ -70,6 +78,7 @@ public class ExpenseServiceImpl implements IExpenseService {
      */
     @Override
     public Expense expenseUpdatePost(final Expense expenseObj) throws Exception {
+        log.info("start expenseUpdatePost in service ");
         expenseObj.setUpdatedDate(OffsetDateTime.now());
         return expenseDaoImpl.expenseUpdatePost(expenseObj);
     }
@@ -83,7 +92,7 @@ public class ExpenseServiceImpl implements IExpenseService {
      */
     @Override
     public List<Expense> expenseSearchGet(final String key) throws Exception {
-        // TODO Auto-generated method stub
+        log.info("start expenseSearchGet in service ");
         return expenseDaoImpl.expenseSearchGet(key);
     }
 

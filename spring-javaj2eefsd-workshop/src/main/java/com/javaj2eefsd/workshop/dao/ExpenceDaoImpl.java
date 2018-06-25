@@ -4,6 +4,8 @@
 package com.javaj2eefsd.workshop.dao;
 
 import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -11,6 +13,8 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
 import com.javaj2eefsd.workshop.model.Expense;
+import com.javaj2eefsd.workshop.service.ExpenseServiceImpl;
+import com.mongodb.WriteResult;
 
 
 /**
@@ -19,6 +23,9 @@ import com.javaj2eefsd.workshop.model.Expense;
  */
 @Repository
 public class ExpenceDaoImpl implements IExpenseDao {
+    // logger instance
+    private static final Logger log = LoggerFactory.getLogger(ExpenseServiceImpl.class);
+
     // create object from MongoTemplate
     @Autowired
     MongoTemplate mongoTemplate;
@@ -32,15 +39,17 @@ public class ExpenceDaoImpl implements IExpenseDao {
      */
     @Override
     public List<Expense> expenseAllGet(final String expenseId) throws Exception {
-        // TODO Auto-generated method stub
+        log.info("start expenseAllGet method in dao");
         List<Expense> expenseList = null;
         try {
             final Query query = new Query();
             query.addCriteria(Criteria.where("isDelete").is(false));
             query.addCriteria(Criteria.where("loginId").is(expenseId));
             expenseList = mongoTemplate.find(query, Expense.class);
+            log.info("successfuly excuted the query ");
         }
         catch (final Exception e) {
+            log.error(e.getMessage());
             throw new Exception(e.getMessage());
         }
         return expenseList;
@@ -55,12 +64,12 @@ public class ExpenceDaoImpl implements IExpenseDao {
      */
     @Override
     public Expense expenseCreatePost(final Expense expenseObj) throws Exception {
-        // TODO Auto-generated method stub
+        log.info("start expenseCreatePost method in dao");
         try {
             mongoTemplate.save(expenseObj);
         }
         catch (final Exception e) {
-            // TODO: handle exception
+            log.error(e.getMessage());
             throw new Exception(e.getMessage());
         }
         return expenseObj;
@@ -75,15 +84,23 @@ public class ExpenceDaoImpl implements IExpenseDao {
      */
     @Override
     public void expenseDeleteDelete(final String id) throws Exception {
+        log.info("start expenseDeleteDelete method in dao");
+        final WriteResult result;
         try {
             final Query query = new Query();
             query.addCriteria(Criteria.where("_id").is(id));
             // mongoTemplate.find(query, Expense.class);
             final Update update = new Update();
             update.set("isDelete", true);
-            mongoTemplate.updateFirst(query, update, Expense.class);
+            result = mongoTemplate.updateFirst(query, update, Expense.class);
+            if (!result.isUpdateOfExisting()) {
+                log.info("ssomthing is wrong going to exception");
+                throw new Exception("expense Id is not correct");
+            }
+            log.info("successfuly excuted the query ");
         }
         catch (final Exception e) {
+            log.error(e.getMessage());
             throw new Exception(e.getMessage());
         }
 
@@ -98,6 +115,8 @@ public class ExpenceDaoImpl implements IExpenseDao {
      */
     @Override
     public Expense expenseUpdatePost(final Expense expenseObj) throws Exception {
+        log.info("start expenseUpdatePost method in dao");
+        final WriteResult result;
         try {
             final Query query = new Query();
             query.addCriteria(Criteria.where("_id").is(expenseObj.getExpenseId()));
@@ -109,9 +128,14 @@ public class ExpenceDaoImpl implements IExpenseDao {
             update.set("expenseType", expenseObj.getExpenseType());
             update.set("updatedDate", expenseObj.getUpdatedDate());
             update.set("updBy", expenseObj.getUpdBy());
-            mongoTemplate.updateFirst(query, update, Expense.class);
+            result = mongoTemplate.updateFirst(query, update, Expense.class);
+            if (!result.isUpdateOfExisting()) {
+                log.info("ssomthing is wrong going to exception");
+                throw new Exception("expense Id is not correct");
+            }
         }
         catch (final Exception e) {
+            log.error(e.getMessage());
             throw new Exception(e.getMessage());
         }
         return expenseObj;
@@ -126,6 +150,7 @@ public class ExpenceDaoImpl implements IExpenseDao {
      */
     @Override
     public List<Expense> expenseSearchGet(final String key) throws Exception {
+        log.info("start expenseSearchGet method in dao");
         List<Expense> SearchList = null;
         int amount = 0;
         // check the key is number or not
@@ -134,18 +159,20 @@ public class ExpenceDaoImpl implements IExpenseDao {
         if (search[0].matches("-?\\d+(\\.\\d+)?")) {
             amount = Integer.parseInt(key);
         }
+        log.info("validate the search key field");
         try {
 
             final Query query = new Query();
             query.addCriteria(Criteria.where("isDelete").is(false).andOperator(Criteria.where("loginId").is(search[1]))
                     .orOperator(Criteria.where("expenseName").is(search[0]),
                             Criteria.where("expenseAmount").is(amount), Criteria.where("expenseType").is(search[0]),
-                            Criteria.where("expenseSpentFrom").is(search[0])));
+                            Criteria.where("createBy").is(search[0]), Criteria.where("updBy").is(search[0])));
 
             SearchList = mongoTemplate.find(query, Expense.class);
-
+            log.info("query excution is completed");
         }
         catch (final Exception e) {
+            log.error(e.getMessage());
             throw new Exception(e.getMessage());
         }
         return SearchList;
