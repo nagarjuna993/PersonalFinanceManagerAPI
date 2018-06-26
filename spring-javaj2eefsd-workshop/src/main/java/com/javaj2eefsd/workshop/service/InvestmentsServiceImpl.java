@@ -1,6 +1,8 @@
 package com.javaj2eefsd.workshop.service;
 
 import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.threeten.bp.OffsetDateTime;
@@ -12,7 +14,9 @@ import com.javaj2eefsd.workshop.model.Investments;
  */
 @Service
 public class InvestmentsServiceImpl implements InvestmentsService {
-	
+	// logger instance
+    private static final Logger log = LoggerFactory.getLogger(InvestmentsServiceImpl.class);
+    
 	@Autowired
 	InvestmentsDao investmentsDaoImpl;
 	
@@ -25,6 +29,7 @@ public class InvestmentsServiceImpl implements InvestmentsService {
      */
 	@Override
     public List<Investments> getInvestmentsAll(String userId) throws Exception {
+		log.info("[getInvestmentsAll] start getInvestmentsAll in Service");
 		return investmentsDaoImpl.getInvestmentsAll("1");
     }
 
@@ -37,11 +42,13 @@ public class InvestmentsServiceImpl implements InvestmentsService {
      */
     @Override
     public Investments createInvestments(Investments investmentsObj) throws Exception {
+    	log.info("[createInvestments] start createInvestments in Service");
     	investmentsObj.setCreatedDate(OffsetDateTime.now());
     	investmentsObj.setUpdatedDate(OffsetDateTime.now());
     	investmentsObj.setCreatedBy("1");
     	investmentsObj.setUpdatedBy(investmentsObj.getCreatedBy());
     	investmentsObj.setIsDelete(false);
+    	log.info("[IncomeServiceImpl] [createInvestments] update some fields before save");
         return investmentsDaoImpl.createInvestments(investmentsObj);
     }
 
@@ -54,6 +61,7 @@ public class InvestmentsServiceImpl implements InvestmentsService {
      */
     @Override
     public void deleteInvestments(String investmentsId) throws Exception {
+    	log.info("[deleteInvestments] start deleteInvestments in Service");
     	investmentsDaoImpl.deleteInvestments(investmentsId);
     }
 
@@ -66,8 +74,10 @@ public class InvestmentsServiceImpl implements InvestmentsService {
      */
     @Override
     public Investments updateInvestments(Investments investmentsObj) throws Exception {
+    	log.info("[updateInvestments] start updateInvestments in Service");
     	investmentsObj.setUpdatedDate(OffsetDateTime.now());
     	investmentsObj.setCreatedBy("1");
+    	log.info("[IncomeServiceImpl] [updateInvestments] update some fields before update");
         return investmentsDaoImpl.updateInvestments(investmentsObj);
     }
 
@@ -80,6 +90,7 @@ public class InvestmentsServiceImpl implements InvestmentsService {
      */
     @Override
     public List<Investments> searchInvestments(String investmentsKey) throws Exception {
+    	log.info("[searchInvestments] start searchInvestments in Service");
     	return investmentsDaoImpl.searchInvestments(investmentsKey);
     }
 }

@@ -1,6 +1,8 @@
 package com.javaj2eefsd.workshop.service;
 
 import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.threeten.bp.OffsetDateTime;
@@ -12,7 +14,9 @@ import com.javaj2eefsd.workshop.model.Income;
  */
 @Service
 public class IncomeServiceImpl implements IncomeService {
-	
+	// logger instance
+    private static final Logger log = LoggerFactory.getLogger(IncomeServiceImpl.class);
+    
 	@Autowired
     IncomeDao incomeDaoImpl;
 	
@@ -25,6 +29,7 @@ public class IncomeServiceImpl implements IncomeService {
      */
 	@Override
     public List<Income> getIncomeAll(String userId) throws Exception {
+		log.info("[getIncomeAll] start getIncomeAll in Service");
 		return incomeDaoImpl.getIncomeAll("1");
     }
 
@@ -37,11 +42,13 @@ public class IncomeServiceImpl implements IncomeService {
      */
     @Override
     public Income createIncome(Income incomeObj) throws Exception {
+    	log.info("[createIncome] start createIncome in Service");
     	incomeObj.setCreatedDate(OffsetDateTime.now());
     	incomeObj.setUpdatedDate(OffsetDateTime.now());
     	incomeObj.setCreatedBy("1");
     	incomeObj.setUpdatedBy(incomeObj.getCreatedBy());
     	incomeObj.setIsDelete(false);
+    	log.info("[createIncome] update some fields before save");
         return incomeDaoImpl.createIncome(incomeObj);
     }
 
@@ -54,6 +61,7 @@ public class IncomeServiceImpl implements IncomeService {
      */
     @Override
     public void deleteIncome(String incomeId) throws Exception {
+    	log.info("[deleteIncome] start deleteIncome in Service");
     	incomeDaoImpl.deleteIncome(incomeId);
     }
 
@@ -66,8 +74,10 @@ public class IncomeServiceImpl implements IncomeService {
      */
     @Override
     public Income updateIncome(Income incomeObj) throws Exception {
+    	log.info("[updateIncome] start updateIncome in Service");
     	incomeObj.setUpdatedDate(OffsetDateTime.now());
     	incomeObj.setCreatedBy("1");
+    	log.info("[updateIncome] update some fields before update");
         return incomeDaoImpl.updateIncome(incomeObj);
     }
 
@@ -80,6 +90,7 @@ public class IncomeServiceImpl implements IncomeService {
      */
     @Override
     public List<Income> searchIncome(String incomeKey) throws Exception {
+    	log.info("[searchIncome] start searchIncome in Service");
     	return incomeDaoImpl.searchIncome(incomeKey);
     }
 }

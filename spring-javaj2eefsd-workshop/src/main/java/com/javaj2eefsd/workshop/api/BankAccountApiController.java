@@ -51,6 +51,9 @@ public class BankAccountApiController implements BankAccountApi {
             catch (final IOException e) {
                 log.error("Couldn't serialize response for content type application/json", e);
                 return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            } catch (final Exception e) {
+            	log.error(e.getMessage());
+            	return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
             }
         } else {
         	return new ResponseEntity<>(HttpStatus.UNSUPPORTED_MEDIA_TYPE);
@@ -71,6 +74,9 @@ public class BankAccountApiController implements BankAccountApi {
         catch (final IOException e) {
             log.error("Couldn't serialize response for content type application/json", e);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        } catch (final Exception e) {
+        	log.error(e.getMessage());
+        	return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
         
         return new ResponseEntity<>(HttpStatus.OK);
@@ -90,6 +96,9 @@ public class BankAccountApiController implements BankAccountApi {
             catch (final IOException e) {
                 log.error("Couldn't serialize response for content type application/json", e);
                 return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            } catch (final Exception e) {
+            	log.error(e.getMessage());
+            	return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
             }
         } else {
         	return new ResponseEntity<>(HttpStatus.UNSUPPORTED_MEDIA_TYPE);
@@ -114,6 +123,9 @@ public class BankAccountApiController implements BankAccountApi {
             catch (final IOException e) {
                 log.error("Couldn't serialize response for content type application/json", e);
                 return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            } catch (final Exception e) {
+            	log.error(e.getMessage());
+            	return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
             }
         } else {
         	return new ResponseEntity<>(HttpStatus.UNSUPPORTED_MEDIA_TYPE);
