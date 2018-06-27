@@ -12,6 +12,7 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
+import org.threeten.bp.OffsetDateTime;
 import com.javaj2eefsd.workshop.model.Expense;
 import com.javaj2eefsd.workshop.service.ExpenseServiceImpl;
 import com.mongodb.WriteResult;
@@ -92,6 +93,7 @@ public class ExpenceDaoImpl implements IExpenseDao {
             // mongoTemplate.find(query, Expense.class);
             final Update update = new Update();
             update.set("isDelete", true);
+            update.set("updatedDate", OffsetDateTime.now());
             result = mongoTemplate.updateFirst(query, update, Expense.class);
             if (!result.isUpdateOfExisting()) {
                 log.info("ssomthing is wrong going to exception");
