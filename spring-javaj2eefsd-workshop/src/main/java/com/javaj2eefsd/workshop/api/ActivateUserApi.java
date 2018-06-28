@@ -5,8 +5,8 @@
  */
 package com.javaj2eefsd.workshop.api;
 
-import java.math.BigDecimal;
 import io.swagger.annotations.*;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,23 +18,42 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.javaj2eefsd.workshop.model.Income;
+import com.javaj2eefsd.workshop.model.Registeruser;
+
 import javax.validation.Valid;
 import javax.validation.constraints.*;
+
 import java.util.List;
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2018-06-06T07:36:56.089+05:30")
 
 @Api(value = "activateUser", description = "the activateUser API")
 public interface ActivateUserApi {
-
-    @ApiOperation(value = "Activating the User.", nickname = "activateUserLoginAccount", notes = "Activating the user by validating with OTP.", response = BigDecimal.class, authorizations = {
-        @Authorization(value = "bearerAuth")
-    }, tags={ "register", })
+	//@ApiOperation(value = "Register user.", nickname = "registerUser", notes = "Register user to the database. All fields are required fields. Password must be encrypted.", response = Registeruser.class, tags={ "register", })
+	
+    @ApiOperation(value = "Activating the User.", nickname = "activateUserLoginAccount", notes = "Activating the user by validating with OTP.", 
+    		response = Registeruser.class, tags={ "register", })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "Activating user.", response = BigDecimal.class),
+        @ApiResponse(code = 200, message = "Activating user.", response = Registeruser.class),
         @ApiResponse(code = 404, message = "Activating the user by validating with OTP Failed.") })
     @RequestMapping(value = "/activateUser",
         produces = { "application/json" }, 
         method = RequestMethod.POST)
-    ResponseEntity<BigDecimal> activateUserLoginAccount(@ApiParam(value = "Activating user." ,required=true )  @Valid @RequestBody BigDecimal body);
-
+    ResponseEntity<Registeruser> activateUserLoginAccount(@ApiParam(value = "Activating user." ,required=true )  
+    @RequestParam("userId") String userId, Integer otp) throws Exception;
+    
+    //
+    //  @Valid @RequestBody Registeruser body,
+    
+    
+    
+    
+//    ResponseEntity<Void> updateIncome(
+//    		@ApiParam(value = "Income object that needs to be updated to the store" ,required=true )  @Valid @RequestBody Income body)
+//			throws Exception;
+//    
+    
+    // @ApiOperation(value = "Searches income by incomeKey", nickname = "getIncomeByKey", notes = "Returns all income matching the incomeKey", response = Income.class, responseContainer = "List", authorizations = {
+    //    @Authorization(value = "bearerAuth")
+   
 }

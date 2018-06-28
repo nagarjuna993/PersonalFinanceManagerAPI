@@ -33,6 +33,6 @@ public interface RegisterApi {
     @RequestMapping(value = "/register/new",
         produces = { "application/json" }, 
         method = RequestMethod.POST)
-    ResponseEntity<Registeruser> registerUser(@ApiParam(value = "User registration." ,required=true )  @Valid @RequestBody Registeruser body);
+    ResponseEntity<Registeruser> registerUser(@ApiParam(value = "User registration." ,required=true )  @Valid @RequestBody Registeruser body) throws Exception;
 
 }
