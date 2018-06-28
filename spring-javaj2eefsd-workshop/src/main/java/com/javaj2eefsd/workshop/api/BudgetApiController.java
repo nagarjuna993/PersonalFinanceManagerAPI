@@ -2,10 +2,12 @@ package com.javaj2eefsd.workshop.api;
 
 import com.javaj2eefsd.workshop.model.Budget;
 import com.javaj2eefsd.workshop.model.DateRange;
+import com.javaj2eefsd.workshop.service.IBudgetService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -31,25 +33,34 @@ public class BudgetApiController implements BudgetApi {
     private final ObjectMapper objectMapper;
 
     private final HttpServletRequest request;
+    
+    @Autowired
+    IBudgetService budgetServiceImpl;
 
     @org.springframework.beans.factory.annotation.Autowired
     public BudgetApiController(ObjectMapper objectMapper, HttpServletRequest request) {
         this.objectMapper = objectMapper;
         this.request = request;
     }
-
-    public ResponseEntity<Budget> getByDate(@ApiParam(value = "Returns a income, expense, investments over the dateRange." ,required=true )  @Valid @RequestBody DateRange body) {
-        String accept = request.getHeader("Accept");
+    
+    @Override
+    public ResponseEntity<List<Budget>> getByDate(@ApiParam(value = "Returns a income, expense, investments over the dateRange." ,required=true )  @Valid @RequestBody final DateRange body) throws Exception {
+    	final String accept = request.getHeader("Accept");
+    	List<Budget> budgetList = null;
         if (accept != null && accept.contains("application/json")) {
             try {
-                return new ResponseEntity<Budget>(objectMapper.readValue("{  \"Expense\" : [ {    \"create_by\" : \"create_by\",    \"login_id\" : \"login_id\",    \"expenseAmount\" : 0.8008281904610115,    \"expenseType\" : \"expenseType\",    \"expense_name\" : \"expense_name\",    \"expenseId\" : \"expenseId\",    \"created_date\" : \"2000-01-23T04:56:07.000+00:00\",    \"updated_date\" : \"2000-01-23T04:56:07.000+00:00\",    \"upd_by\" : \"upd_by\",    \"expenseDate\" : \"2000-01-23T04:56:07.000+00:00\",    \"is_delete\" : true  }, {    \"create_by\" : \"create_by\",    \"login_id\" : \"login_id\",    \"expenseAmount\" : 0.8008281904610115,    \"expenseType\" : \"expenseType\",    \"expense_name\" : \"expense_name\",    \"expenseId\" : \"expenseId\",    \"created_date\" : \"2000-01-23T04:56:07.000+00:00\",    \"updated_date\" : \"2000-01-23T04:56:07.000+00:00\",    \"upd_by\" : \"upd_by\",    \"expenseDate\" : \"2000-01-23T04:56:07.000+00:00\",    \"is_delete\" : true  } ],  \"Investments\" : [ {    \"investmentsAmount\" : 0.8008281904610115,    \"investmentsDate\" : \"2000-01-23T04:56:07.000+00:00\",    \"investmentsId\" : \"investmentsId\",    \"investmentsType\" : \"investmentsType\"  }, {    \"investmentsAmount\" : 0.8008281904610115,    \"investmentsDate\" : \"2000-01-23T04:56:07.000+00:00\",    \"investmentsId\" : \"investmentsId\",    \"investmentsType\" : \"investmentsType\"  } ],  \"Income\" : [ {    \"incomeId\" : \"incomeId\",    \"incomeType\" : \"incomeType\",    \"incomeAmount\" : 0.8008281904610115,    \"incomeDate\" : \"2000-01-23T04:56:07.000+00:00\"  }, {    \"incomeId\" : \"incomeId\",    \"incomeType\" : \"incomeType\",    \"incomeAmount\" : 0.8008281904610115,    \"incomeDate\" : \"2000-01-23T04:56:07.000+00:00\"  } ]}", Budget.class), HttpStatus.NOT_IMPLEMENTED);
+            	budgetList = budgetServiceImpl.getBudgetByDate(body);
+                //return new ResponseEntity<List<Budget>>(objectMapper.readValue("{  \"Expense\" : [ {    \"create_by\" : \"create_by\",    \"login_id\" : \"login_id\",    \"expenseAmount\" : 0.8008281904610115,    \"expenseType\" : \"expenseType\",    \"expense_name\" : \"expense_name\",    \"expenseId\" : \"expenseId\",    \"created_date\" : \"2000-01-23T04:56:07.000+00:00\",    \"updated_date\" : \"2000-01-23T04:56:07.000+00:00\",    \"upd_by\" : \"upd_by\",    \"expenseDate\" : \"2000-01-23T04:56:07.000+00:00\",    \"is_delete\" : true  }, {    \"create_by\" : \"create_by\",    \"login_id\" : \"login_id\",    \"expenseAmount\" : 0.8008281904610115,    \"expenseType\" : \"expenseType\",    \"expense_name\" : \"expense_name\",    \"expenseId\" : \"expenseId\",    \"created_date\" : \"2000-01-23T04:56:07.000+00:00\",    \"updated_date\" : \"2000-01-23T04:56:07.000+00:00\",    \"upd_by\" : \"upd_by\",    \"expenseDate\" : \"2000-01-23T04:56:07.000+00:00\",    \"is_delete\" : true  } ],  \"Investments\" : [ {    \"investmentsAmount\" : 0.8008281904610115,    \"investmentsDate\" : \"2000-01-23T04:56:07.000+00:00\",    \"investmentsId\" : \"investmentsId\",    \"investmentsType\" : \"investmentsType\"  }, {    \"investmentsAmount\" : 0.8008281904610115,    \"investmentsDate\" : \"2000-01-23T04:56:07.000+00:00\",    \"investmentsId\" : \"investmentsId\",    \"investmentsType\" : \"investmentsType\"  } ],  \"Income\" : [ {    \"incomeId\" : \"incomeId\",    \"incomeType\" : \"incomeType\",    \"incomeAmount\" : 0.8008281904610115,    \"incomeDate\" : \"2000-01-23T04:56:07.000+00:00\"  }, {    \"incomeId\" : \"incomeId\",    \"incomeType\" : \"incomeType\",    \"incomeAmount\" : 0.8008281904610115,    \"incomeDate\" : \"2000-01-23T04:56:07.000+00:00\"  } ]}", Budget.class), HttpStatus.NOT_IMPLEMENTED);
             } catch (IOException e) {
                 log.error("Couldn't serialize response for content type application/json", e);
-                return new ResponseEntity<Budget>(HttpStatus.INTERNAL_SERVER_ERROR);
+                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
             }
         }
 
-        return new ResponseEntity<Budget>(HttpStatus.NOT_IMPLEMENTED);
+        //return new ResponseEntity<Budget>(HttpStatus.NOT_IMPLEMENTED);
+        //return new ResponseEntity<Budget>(HttpStatus.OK);
+        return new ResponseEntity<List<Budget>>(budgetList, HttpStatus.OK);
     }
 
 }
+

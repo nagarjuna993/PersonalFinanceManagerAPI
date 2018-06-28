@@ -19,16 +19,16 @@ import io.swagger.annotations.ApiModelProperty;
 @Document
 public class Expense {
     @Id
-    @JsonProperty("expenseId")
+    @JsonProperty("expense_id")
     private String expenseId = null;
 
-    @JsonProperty("expenseAmount")
+    @JsonProperty("expense_amount")
     private Double expenseAmount = null;
 
-    @JsonProperty("expenseType")
+    @JsonProperty("expense_type")
     private String expenseType = null;
 
-    @JsonProperty("expenseDate")
+    @JsonProperty("expense_date")
     private OffsetDateTime expenseDate = null;
 
     @JsonProperty("created_date")
