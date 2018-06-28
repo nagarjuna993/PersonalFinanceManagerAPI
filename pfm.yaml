@@ -731,18 +731,18 @@ definitions:
     type: object
     required:
       - expense_name
-      - expenseAmount
-      - expenseType
-      - expenseDate
+      - expense_amount
+      - expense_type
+      - expense_date
     properties:
-      expenseId:
+      expense_id:
         type: string
-      expenseAmount:
+      expense_amount:
         type: number
         format: double
-      expenseType:
+      expense_type:
         type: string
-      expenseDate:
+      expense_date:
         type: string
         format: date-time
       created_date:
