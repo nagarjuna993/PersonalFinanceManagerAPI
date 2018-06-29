@@ -43,8 +43,8 @@ public class Expense {
     @JsonProperty("create_by")
     private String createBy = null;
 
-    @JsonProperty("upd_by")
-    private String updBy = null;
+    @JsonProperty("update_by")
+    private String updateBy = null;
 
     @JsonProperty("login_id")
     private String loginId = null;
@@ -221,8 +221,8 @@ public class Expense {
         this.createBy = createBy;
     }
 
-    public Expense updBy(final String updBy) {
-        this.updBy = updBy;
+    public Expense updateBy(final String updateBy) {
+        this.updateBy = updateBy;
         return this;
     }
 
@@ -233,12 +233,12 @@ public class Expense {
      **/
     @ApiModelProperty(value = "")
 
-    public String getUpdBy() {
-        return updBy;
+    public String getUpdateBy() {
+        return updateBy;
     }
 
-    public void setUpdBy(final String updBy) {
-        this.updBy = updBy;
+    public void setUpdateBy(final String updateBy) {
+        this.updateBy = updateBy;
     }
 
     public Expense loginId(final String loginId) {
@@ -299,7 +299,7 @@ public class Expense {
                 Objects.equals(updatedDate, expense.updatedDate) &&
                 Objects.equals(isDelete, expense.isDelete) &&
                 Objects.equals(createBy, expense.createBy) &&
-                Objects.equals(updBy, expense.updBy) &&
+                Objects.equals(updateBy, expense.updateBy) &&
                 Objects.equals(loginId, expense.loginId) &&
                 Objects.equals(expenseName, expense.expenseName);
     }
@@ -307,7 +307,7 @@ public class Expense {
     @Override
     public int hashCode() {
         return Objects.hash(expenseId, expenseAmount, expenseType, expenseDate, createdDate, updatedDate, isDelete,
-                createBy, updBy, loginId, expenseName);
+                createBy, updateBy, loginId, expenseName);
     }
 
     @Override
@@ -323,7 +323,7 @@ public class Expense {
         sb.append("    updatedDate: ").append(toIndentedString(updatedDate)).append("\n");
         sb.append("    isDelete: ").append(toIndentedString(isDelete)).append("\n");
         sb.append("    createBy: ").append(toIndentedString(createBy)).append("\n");
-        sb.append("    updBy: ").append(toIndentedString(updBy)).append("\n");
+        sb.append("    updBy: ").append(toIndentedString(updateBy)).append("\n");
         sb.append("    loginId: ").append(toIndentedString(loginId)).append("\n");
         sb.append("    expenseName: ").append(toIndentedString(expenseName)).append("\n");
         sb.append("}");

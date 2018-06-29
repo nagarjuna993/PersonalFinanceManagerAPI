@@ -129,7 +129,7 @@ public class ExpenceDaoImpl implements IExpenseDao {
             update.set("expenseDate", expenseObj.getExpenseDate());
             update.set("expenseType", expenseObj.getExpenseType());
             update.set("updatedDate", expenseObj.getUpdatedDate());
-            update.set("updBy", expenseObj.getUpdBy());
+            update.set("updateBy", expenseObj.getUpdateBy());
             result = mongoTemplate.updateFirst(query, update, Expense.class);
             if (!result.isUpdateOfExisting()) {
                 log.info("ssomthing is wrong going to exception");
@@ -168,7 +168,7 @@ public class ExpenceDaoImpl implements IExpenseDao {
             query.addCriteria(Criteria.where("isDelete").is(false).andOperator(Criteria.where("loginId").is(search[1]))
                     .orOperator(Criteria.where("expenseName").is(search[0]),
                             Criteria.where("expenseAmount").is(amount), Criteria.where("expenseType").is(search[0]),
-                            Criteria.where("createBy").is(search[0]), Criteria.where("updBy").is(search[0])));
+                            Criteria.where("createBy").is(search[0]), Criteria.where("updateBy").is(search[0])));
 
             SearchList = mongoTemplate.find(query, Expense.class);
             log.info("query excution is completed");
