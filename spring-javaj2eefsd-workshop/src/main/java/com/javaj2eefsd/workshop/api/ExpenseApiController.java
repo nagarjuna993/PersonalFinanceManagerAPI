@@ -56,14 +56,15 @@ public class ExpenseApiController implements ExpenseApi {
         if (accept != null && accept.contains("application/json")) {
             try {
                 expenseServiceImpl.expenseCreatePost(body);
-
+                return new ResponseEntity<>(HttpStatus.CREATED);
             }
             catch (final IOException e) {
                 log.error("Couldn't serialize response for content type application/json", e);
                 return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
             }
+
         }
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
     /**
@@ -75,14 +76,17 @@ public class ExpenseApiController implements ExpenseApi {
             @ApiParam(value = "Expense id to delete", required = true) @PathVariable("expenseId") final String expenseId)
             throws Exception {
         final String accept = request.getHeader("Accept");
-        try {
-            expenseServiceImpl.expenseDeleteDelete(expenseId);
+        if (accept != null && accept.contains("application/json")) {
+            try {
+                expenseServiceImpl.expenseDeleteDelete(expenseId);
+                return new ResponseEntity<>(HttpStatus.OK);
+            }
+            catch (final IOException e) {
+                log.error("Couldn't serialize response for content type application/json", e);
+                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            }
         }
-        catch (final IOException e) {
-            log.error("Couldn't serialize response for content type application/json", e);
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
     /**
@@ -106,7 +110,7 @@ public class ExpenseApiController implements ExpenseApi {
             }
         }
 
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
     /***
@@ -122,7 +126,7 @@ public class ExpenseApiController implements ExpenseApi {
         if (accept != null && accept.contains("application/json")) {
             try {
                 expenceList = expenseServiceImpl.expenseAllGet(id);
-
+                return new ResponseEntity<>(expenceList, (HttpStatus.OK));
             }
             catch (final IOException e) {
                 log.error("Couldn't serialize response for content type application/json", e);
@@ -130,7 +134,7 @@ public class ExpenseApiController implements ExpenseApi {
             }
         }
 
-        return new ResponseEntity<>(expenceList, (HttpStatus.OK));
+        return new ResponseEntity<>(expenceList, (HttpStatus.BAD_REQUEST));
     }
 
     /***
@@ -145,14 +149,14 @@ public class ExpenseApiController implements ExpenseApi {
         if (accept != null && accept.contains("application/json")) {
             try {
                 expenseServiceImpl.expenseUpdatePost(body);
-
+                return new ResponseEntity<>(HttpStatus.OK);
             }
-            catch (final IOException e) {
+            catch (final Exception e) {
                 log.error("Couldn't serialize response for content type application/json", e);
                 return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
             }
         }
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
 }
