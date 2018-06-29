@@ -13,6 +13,7 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
 import org.threeten.bp.OffsetDateTime;
+import com.javaj2eefsd.workshop.constant.ErrorMassage;
 import com.javaj2eefsd.workshop.model.Expense;
 import com.javaj2eefsd.workshop.service.ExpenseServiceImpl;
 import com.mongodb.WriteResult;
@@ -96,8 +97,8 @@ public class ExpenceDaoImpl implements IExpenseDao {
             update.set("updatedDate", OffsetDateTime.now());
             result = mongoTemplate.updateFirst(query, update, Expense.class);
             if (!result.isUpdateOfExisting()) {
-                log.info("ssomthing is wrong going to exception");
-                throw new Exception("expense Id is not correct");
+                log.info("somthing is wrong going to exception");
+                throw new Exception(ErrorMassage.INVALIDEXPENSEID);
             }
             log.info("successfuly excuted the query ");
         }
@@ -132,8 +133,8 @@ public class ExpenceDaoImpl implements IExpenseDao {
             update.set("updateBy", expenseObj.getUpdateBy());
             result = mongoTemplate.updateFirst(query, update, Expense.class);
             if (!result.isUpdateOfExisting()) {
-                log.info("ssomthing is wrong going to exception");
-                throw new Exception("expense Id is not correct");
+                log.info("somthing is wrong going to exception");
+                throw new Exception(ErrorMassage.INVALIDEXPENSEID);
             }
         }
         catch (final Exception e) {

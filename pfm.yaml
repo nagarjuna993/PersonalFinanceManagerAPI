@@ -755,7 +755,7 @@ definitions:
           type: boolean
       create_by:
           type: string
-      upd_by:
+      update_by:
           type: string
       login_id:
          type: string

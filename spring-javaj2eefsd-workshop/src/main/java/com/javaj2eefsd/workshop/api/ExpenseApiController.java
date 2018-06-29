@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.javaj2eefsd.workshop.constant.ErrorMassage;
 import com.javaj2eefsd.workshop.model.Expense;
 import com.javaj2eefsd.workshop.service.IExpenseService;
 import io.swagger.annotations.ApiParam;
@@ -100,7 +101,7 @@ public class ExpenseApiController implements ExpenseApi {
         final String accept = request.getHeader("Accept");
         if (accept != null && accept.contains("application/json")) {
             try {
-                Optional.ofNullable(expenseKey).orElseThrow(() -> new IOException("search key is null"));
+                Optional.ofNullable(expenseKey).orElseThrow(() -> new IOException(ErrorMassage.SEARCHKEYISNULL));
                 final List<Expense> searchList = expenseServiceImpl.expenseSearchGet(expenseKey);
                 return new ResponseEntity<>(searchList, HttpStatus.OK);
             }
