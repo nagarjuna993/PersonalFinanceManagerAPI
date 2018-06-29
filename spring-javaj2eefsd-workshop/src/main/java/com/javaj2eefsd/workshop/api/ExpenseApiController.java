@@ -64,7 +64,7 @@ public class ExpenseApiController implements ExpenseApi {
             }
 
         }
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(HttpStatus.UNSUPPORTED_MEDIA_TYPE);
     }
 
     /**
@@ -86,7 +86,7 @@ public class ExpenseApiController implements ExpenseApi {
                 return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
             }
         }
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(HttpStatus.UNSUPPORTED_MEDIA_TYPE);
     }
 
     /**
@@ -110,7 +110,7 @@ public class ExpenseApiController implements ExpenseApi {
             }
         }
 
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(HttpStatus.UNSUPPORTED_MEDIA_TYPE);
     }
 
     /***
@@ -134,7 +134,7 @@ public class ExpenseApiController implements ExpenseApi {
             }
         }
 
-        return new ResponseEntity<>(expenceList, (HttpStatus.BAD_REQUEST));
+        return new ResponseEntity<>(expenceList, (HttpStatus.UNSUPPORTED_MEDIA_TYPE));
     }
 
     /***
@@ -156,7 +156,7 @@ public class ExpenseApiController implements ExpenseApi {
                 return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
             }
         }
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(HttpStatus.UNSUPPORTED_MEDIA_TYPE);
     }
 
 }
