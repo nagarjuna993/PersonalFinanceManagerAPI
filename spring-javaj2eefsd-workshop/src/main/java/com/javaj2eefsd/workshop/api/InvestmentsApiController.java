@@ -83,12 +83,39 @@ public class InvestmentsApiController implements InvestmentsApi {
         
         return new ResponseEntity<>(HttpStatus.OK);
     }
+    
+    public ResponseEntity<Investments> getInvestments(
+    		@ApiParam(value = "id to search for investments",required=true) @PathVariable("investmentsId") String investmentsId)
+    		throws Exception {
+    	
+        final String accept = request.getHeader("Accept");
+        Investments investmentsObj = null;
+        
+        if (accept != null && accept.contains("application/json")) {
+            try {
+            	final String userId = "1";
+            	Optional.ofNullable(investmentsId).orElseThrow(() -> new IOException("investments id is null"));
+            	investmentsObj = investmentsServiceImpl.getInvestments(investmentsId, userId);
+            	Optional.ofNullable(investmentsObj)
+                	.orElseThrow(() -> new InternalError("HttpStatusINTERNAL_SERVER_ERROR"));
+            	return new ResponseEntity<>(investmentsObj, HttpStatus.OK);
+            } catch (IOException e) {
+                log.error("Couldn't serialize response for content type application/json", e);
+                return new ResponseEntity<Investments>(HttpStatus.INTERNAL_SERVER_ERROR);
+            } catch (Exception e) {
+            	log.error(e.getMessage());
+            	return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+        }
+
+        return new ResponseEntity<>(HttpStatus.UNSUPPORTED_MEDIA_TYPE);
+    }
 
     public ResponseEntity<List<Investments>> getInvestmentsByKey(
     		@ApiParam(value = "ID of investments to return",required=true) @PathVariable("investmentsKey") String investmentsKey)
     		throws Exception {
     	
-        String accept = request.getHeader("Accept");
+        final String accept = request.getHeader("Accept");
         List<Investments> investmentsList = null;
         
         if (accept != null && accept.contains("application/json")) {
@@ -112,7 +139,7 @@ public class InvestmentsApiController implements InvestmentsApi {
 
     public ResponseEntity<List<Investments>> getInvestmentsList() throws Exception {
         
-    	String accept = request.getHeader("Accept");
+    	final String accept = request.getHeader("Accept");
         List<Investments> investmentsList = null;
         
         if (accept != null && accept.contains("application/json")) {

@@ -51,6 +51,19 @@ public interface InvestmentsApi {
     ResponseEntity<Void> deleteInvestments(
     		@ApiParam(value = "Investments id to delete",required=true) @PathVariable("investmentsId") String investmentsId)
     		throws Exception;
+    
+    
+    @ApiOperation(value = "get investments by id", nickname = "getInvestments", notes = "Returns the particular investments", response = Investments.class, authorizations = {
+        @Authorization(value = "bearerAuth")
+    }, tags={ "investments", })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "successful operation", response = Investments.class) })
+    @RequestMapping(value = "/investments/{investmentsId}",
+        produces = { "application/json" }, 
+        method = RequestMethod.GET)
+    ResponseEntity<Investments> getInvestments(
+    		@ApiParam(value = "id to search for investments",required=true) @PathVariable("investmentsId") String investmentsId)
+    		throws Exception;
 
 
     @ApiOperation(value = "Find all Investments matching by investmentsKey", nickname = "getInvestmentsByKey", notes = "Returns investments matching the investmentsKey", response = Investments.class, responseContainer = "List", authorizations = {
@@ -60,7 +73,7 @@ public interface InvestmentsApi {
         @ApiResponse(code = 200, message = "successful operation", response = Investments.class, responseContainer = "List"),
         @ApiResponse(code = 400, message = "Invalid ID supplied"),
         @ApiResponse(code = 404, message = "Investments not found") })
-    @RequestMapping(value = "/investments/{investmentsKey}",
+    @RequestMapping(value = "/investments/search/{investmentsKey}",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
     ResponseEntity<List<Investments>> getInvestmentsByKey(

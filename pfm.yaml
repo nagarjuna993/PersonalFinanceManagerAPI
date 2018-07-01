@@ -243,6 +243,26 @@ paths:
           description: Invalid ID supplied
         '404':
           description: Expense not found
+  /income/{incomeId}:
+    get:
+      tags:
+        - income
+      summary: get income by id
+      description: Returns the particular income
+      operationId: getIncome
+      produces:
+        - application/json
+      parameters:
+        - name: incomeId
+          in: path
+          description: id to search for income
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/Income'
   /income/all:
     get:
       tags:
@@ -306,7 +326,7 @@ paths:
           description: Income not found
         '405':
           description: Invalid input
-  /income/{incomeKey}:
+  /income/search/{incomeKey}:
     get:
       tags:
       - income
@@ -352,6 +372,26 @@ paths:
           description: Invalid ID supplied
         '404':
           description: Income not found
+  /investments/{investmentsId}:
+    get:
+      tags:
+        - investments
+      summary: get investments by id
+      description: Returns the particular investments
+      operationId: getInvestments
+      produces:
+        - application/json
+      parameters:
+        - name: investmentsId
+          in: path
+          description: id to search for investments
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/Investments'
   /investments/all:
     get:
       tags:
@@ -415,7 +455,7 @@ paths:
           description: Investments not found
         '405':
           description: Invalid input
-  /investments/{investmentsKey}:
+  /investments/search/{investmentsKey}:
     get:
       tags:
       - investments
@@ -488,6 +528,26 @@ paths:
           description: Invalid dateRange supplied
         '404':
           description: budget fetch operation failed
+  /bankAccount/{bankAccountId}:
+    get:
+      tags:
+        - bankAccount
+      summary: get bankAccount by id
+      description: Returns the particular bankAccount
+      operationId: getBankAccount
+      produces:
+        - application/json
+      parameters:
+        - name: bankAccountId
+          in: path
+          description: id to search for bankAccount
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/BankAccount'
   /bankAccount/all:
     get:
       tags:
@@ -526,7 +586,7 @@ paths:
       responses:
         '405':
           description: Invalid input
-  /bankAccount/{bankAccountKey}:
+  /bankAccount/search/{bankAccountKey}:
     get:
       tags:
       - bankAccount

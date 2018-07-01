@@ -51,6 +51,19 @@ public interface IncomeApi {
     ResponseEntity<Void> deleteIncome(
     		@ApiParam(value = "Income id to delete",required=true) @PathVariable("incomeId") String incomeId)
 			throws Exception;
+    
+    
+    @ApiOperation(value = "get income by id", nickname = "getIncome", notes = "Returns the particular income", response = Income.class, authorizations = {
+        @Authorization(value = "bearerAuth")
+    }, tags={ "income", })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "successful operation", response = Income.class) })
+    @RequestMapping(value = "/income/{incomeId}",
+        produces = { "application/json" }, 
+        method = RequestMethod.GET)
+    ResponseEntity<Income> getIncome(
+    		@ApiParam(value = "id to search for income",required=true) @PathVariable("incomeId") String incomeId)
+    		throws Exception;
 
 
     @ApiOperation(value = "Searches income by incomeKey", nickname = "getIncomeByKey", notes = "Returns all income matching the incomeKey", response = Income.class, responseContainer = "List", authorizations = {
@@ -60,7 +73,7 @@ public interface IncomeApi {
         @ApiResponse(code = 200, message = "successful operation", response = Income.class, responseContainer = "List"),
         @ApiResponse(code = 400, message = "Invalid ID supplied"),
         @ApiResponse(code = 404, message = "Income not found") })
-    @RequestMapping(value = "/income/{incomeKey}",
+    @RequestMapping(value = "/income/search/{incomeKey}",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
     ResponseEntity<List<Income>> getIncomeByKey(

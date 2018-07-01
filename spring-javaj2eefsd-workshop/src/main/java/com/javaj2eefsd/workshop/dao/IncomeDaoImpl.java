@@ -25,6 +25,33 @@ public class IncomeDaoImpl implements IncomeDao {
     MongoTemplate mongoTemplate;
 	
 	/**
+     * getIncome method used to retrieve the income data from db
+     *
+     * @param incomeId
+     * @return
+     * @throws Exception
+     */
+	@Override
+	public Income getIncome(String incomeId, String userId) throws Exception {
+		log.info("[getIncome] Start getIncome method in DAO");
+		Income incomeObj = null;
+		try {
+            final Query query = new Query();
+            query.addCriteria(Criteria.where("incomeId").is(incomeId));
+            query.addCriteria(Criteria.where("isDelete").is(false));
+            query.addCriteria(Criteria.where("createdBy").is(userId));
+            incomeObj = mongoTemplate.findOne(query, Income.class);
+            log.info("[getIncome] Successfully executed query");
+        }
+        catch (final Exception e) {
+        	log.error(e.getMessage());
+            throw new Exception(e.getMessage());
+        }
+		
+		return incomeObj;
+	}
+	
+	/**
      * getIncomeAll method used to retrieve the income data from db
      *
      * @param incomeId

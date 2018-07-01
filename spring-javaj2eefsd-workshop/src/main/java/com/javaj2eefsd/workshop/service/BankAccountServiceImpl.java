@@ -21,6 +21,18 @@ public class BankAccountServiceImpl implements BankAccountService {
 	BankAccountDao bankAccountDaoImpl;
 	
 	/**
+     * getBankAccount method used to retrieve the BankAccount data from db
+     *
+     * @param BankAccountId
+     * @return
+     * @throws Exception
+     */
+    public BankAccount getBankAccount(String bankAccountId, String userId) throws Exception {
+    	log.info("[getBankAccount] start getBankAccount in Service");
+		return bankAccountDaoImpl.getBankAccount(bankAccountId, userId);
+    }
+	
+	/**
      * getBankAccountAll method used to retrieve the BankAccount data from db
      *
      * @param BankAccountId
@@ -30,7 +42,7 @@ public class BankAccountServiceImpl implements BankAccountService {
 	@Override
     public List<BankAccount> getBankAccountAll(String userId) throws Exception {
 		log.info("[getBankAccountAll] start getBankAccountAll in Service");
-		return bankAccountDaoImpl.getBankAccountAll("1");
+		return bankAccountDaoImpl.getBankAccountAll(userId);
     }
 
     /**

@@ -8,6 +8,15 @@ import com.javaj2eefsd.workshop.model.Income;
  */
 public interface IncomeService {
 	/**
+     * getIncome method used to retrieve the income data from db
+     *
+     * @param incomeId
+     * @return
+     * @throws Exception
+     */
+    Income getIncome(String incomeId, String userId) throws Exception;
+    
+	/**
      * getIncomeAll method used to retrieve the income data from db
      *
      * @param incomeId

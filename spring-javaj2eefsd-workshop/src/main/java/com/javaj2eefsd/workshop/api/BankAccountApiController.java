@@ -83,6 +83,33 @@ public class BankAccountApiController implements BankAccountApi {
         
         return new ResponseEntity<>(HttpStatus.OK);
     }
+    
+    public ResponseEntity<BankAccount> getBankAccount(
+    		@ApiParam(value = "id to search for bankAccount",required=true) @PathVariable("bankAccountId") String bankAccountId)
+    		throws Exception {
+    	
+        final String accept = request.getHeader("Accept");
+        BankAccount bankAccountObj = null;
+        
+        if (accept != null && accept.contains("application/json")) {
+            try {
+            	//TODO: add user model instead of hard coding
+                final String userId = "1";
+                bankAccountObj = bankAccountServiceImpl.getBankAccount(bankAccountId, userId);
+                Optional.ofNullable(bankAccountObj)
+                	.orElseThrow(() -> new InternalError("HttpStatusINTERNAL_SERVER_ERROR"));
+                return new ResponseEntity<>(bankAccountObj, HttpStatus.OK);
+            } catch (IOException e) {
+                log.error("Couldn't serialize response for content type application/json", e);
+                return new ResponseEntity<BankAccount>(HttpStatus.INTERNAL_SERVER_ERROR);
+            } catch (Exception e) {
+            	log.error(e.getMessage());
+            	return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+        }
+
+        return new ResponseEntity<BankAccount>(HttpStatus.UNSUPPORTED_MEDIA_TYPE);
+    }
 
     public ResponseEntity<List<BankAccount>> getBankAccountByKey(
     		@ApiParam(value = "Key to search for Bank Accounts",required=true) @PathVariable("bankAccountKey") String bankAccountKey)

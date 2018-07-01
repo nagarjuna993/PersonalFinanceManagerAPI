@@ -25,6 +25,33 @@ public class InvestmentsDaoImpl implements InvestmentsDao {
     MongoTemplate mongoTemplate;
 	
 	/**
+     * getInvestments method used to retrieve the Investments data from db
+     *
+     * @param InvestmentsId
+     * @return
+     * @throws Exception
+     */
+	@Override
+	public Investments getInvestments(String investmentsId, String userId) throws Exception {
+		log.info("[getInvestments] Start getInvestments method in DAO");
+		Investments investmentsObj = null;
+		try {
+            final Query query = new Query();
+            query.addCriteria(Criteria.where("investmentsId").is(investmentsId));
+            query.addCriteria(Criteria.where("isDelete").is(false));
+            query.addCriteria(Criteria.where("createdBy").is(userId));
+            investmentsObj = mongoTemplate.findOne(query, Investments.class);
+            log.info("[getInvestments] Successfully executed query");
+        }
+        catch (final Exception e) {
+        	log.error(e.getMessage());
+            throw new Exception(e.getMessage());
+        }
+		
+		return investmentsObj;
+	}
+	
+	/**
      * getInvestmentsAll method used to retrieve the Investments data from db
      *
      * @param InvestmentsId

@@ -21,6 +21,19 @@ public class IncomeServiceImpl implements IncomeService {
     IncomeDao incomeDaoImpl;
 	
 	/**
+     * getIncome method used to retrieve the income data from db
+     *
+     * @param incomeId
+     * @return
+     * @throws Exception
+     */
+	@Override
+	public Income getIncome(String incomeId, String userId) throws Exception {
+		log.info("[getIncome] start getIncome in Service");
+		return incomeDaoImpl.getIncome(incomeId, userId);
+	}
+	
+	/**
      * getIncomeAll method used to retrieve the income data from db
      *
      * @param incomeId

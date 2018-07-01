@@ -84,6 +84,33 @@ public class IncomeApiController implements IncomeApi {
         
         return new ResponseEntity<>(HttpStatus.OK);
     }
+    
+    public ResponseEntity<Income> getIncome(
+    		@ApiParam(value = "id to search for income",required=true) @PathVariable("incomeId") String incomeId)
+    		throws Exception {
+    	
+    	final String accept = request.getHeader("Accept");
+    	Income incomeObj = null;
+    	
+        if (accept != null && accept.contains("application/json")) {
+            try {
+            	//TODO: add user model instead of hard coding
+                final String userId = "1";
+            	incomeObj = incomeServiceImpl.getIncome(incomeId, userId);
+            	Optional.ofNullable(incomeObj)
+                	.orElseThrow(() -> new InternalError("HttpStatusINTERNAL_SERVER_ERROR"));
+            	return new ResponseEntity<>(incomeObj, HttpStatus.OK);
+            } catch (IOException e) {
+                log.error("Couldn't serialize response for content type application/json", e);
+                return new ResponseEntity<Income>(HttpStatus.INTERNAL_SERVER_ERROR);
+            } catch (Exception e) {
+            	log.error(e.getMessage());
+            	return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+        }
+
+        return new ResponseEntity<Income>(HttpStatus.UNSUPPORTED_MEDIA_TYPE);
+    }
 
     public ResponseEntity<List<Income>> getIncomeByKey(
     		@ApiParam(value = "Key to search for income",required=true) @PathVariable("incomeKey") String incomeKey)

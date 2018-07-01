@@ -9,6 +9,15 @@ import com.javaj2eefsd.workshop.model.Investments;
  */
 public interface InvestmentsDao {
 	/**
+     * getInvestments method used to retrieve the Investments data from db
+     *
+     * @param InvestmentsId
+     * @return
+     * @throws Exception
+     */
+    Investments getInvestments(String investmentsId, String userId) throws Exception;
+    
+	/**
      * getInvestmentsAll method used to retrieve the Investments data from db
      *
      * @param InvestmentsId

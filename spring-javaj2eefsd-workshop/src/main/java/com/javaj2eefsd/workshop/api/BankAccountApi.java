@@ -51,6 +51,19 @@ public interface BankAccountApi {
     ResponseEntity<Void> deleteBankAccount(
     		@ApiParam(value = "Bank Account id to delete",required=true) @PathVariable("bankAccountId") String bankAccountId)
     		throws Exception;
+    
+    
+    @ApiOperation(value = "get bankAccount by id", nickname = "getBankAccount", notes = "Returns the particular bankAccount", response = BankAccount.class, authorizations = {
+        @Authorization(value = "bearerAuth")
+    }, tags={ "bankAccount", })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "successful operation", response = BankAccount.class) })
+    @RequestMapping(value = "/bankAccount/{bankAccountId}",
+        produces = { "application/json" }, 
+        method = RequestMethod.GET)
+    ResponseEntity<BankAccount> getBankAccount(
+    		@ApiParam(value = "id to search for bankAccount",required=true) @PathVariable("bankAccountId") String bankAccountId)
+    		throws Exception;
 
 
     @ApiOperation(value = "Searches Bank Accounts by bankAccountKey", nickname = "getBankAccountByKey", notes = "Returns all bank accounts matching the bankAccountKey", response = BankAccount.class, responseContainer = "List", authorizations = {
@@ -60,7 +73,7 @@ public interface BankAccountApi {
             @ApiResponse(code = 200, message = "successful operation", response = BankAccount.class, responseContainer = "List"),
             @ApiResponse(code = 400, message = "Invalid ID supplied"),
             @ApiResponse(code = 404, message = "BankAccount not found") })
-        @RequestMapping(value = "/bankAccount/{bankAccountKey}",
+        @RequestMapping(value = "/bankAccount/search/{bankAccountKey}",
             produces = { "application/json" }, 
             method = RequestMethod.GET)
         ResponseEntity<List<BankAccount>> getBankAccountByKey(

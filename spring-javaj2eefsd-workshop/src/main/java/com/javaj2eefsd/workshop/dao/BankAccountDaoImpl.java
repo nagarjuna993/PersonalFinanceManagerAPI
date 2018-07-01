@@ -25,6 +25,33 @@ public class BankAccountDaoImpl implements BankAccountDao {
     MongoTemplate mongoTemplate;
 	
 	/**
+     * getBankAccount method used to retrieve the BankAccount data from db
+     *
+     * @param BankAccountId
+     * @return
+     * @throws Exception
+     */
+	@Override
+    public BankAccount getBankAccount(String bankAccountId, String userId) throws Exception {
+    	log.info("[getBankAccount] Start getBankAccount method in DAO");
+		BankAccount bankAccountObj = null;
+        try {
+            final Query query = new Query();
+            query.addCriteria(Criteria.where("bankAccountId").is(bankAccountId));
+            query.addCriteria(Criteria.where("isDelete").is(false));
+            query.addCriteria(Criteria.where("createdBy").is(userId));
+            bankAccountObj = mongoTemplate.findOne(query, BankAccount.class);
+            log.info("[getBankAccount] Successfully executed query");
+        }
+        catch (final Exception e) {
+        	log.error(e.getMessage());
+            throw new Exception(e.getMessage());
+        }
+        
+        return bankAccountObj;
+    }
+	
+	/**
      * getBankAccountAll method used to retrieve the BankAccount data from db
      *
      * @param BankAccountId

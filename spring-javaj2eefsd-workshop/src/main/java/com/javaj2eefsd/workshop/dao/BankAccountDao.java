@@ -9,6 +9,15 @@ import com.javaj2eefsd.workshop.model.BankAccount;
  */
 public interface BankAccountDao {
 	/**
+     * getBankAccount method used to retrieve the BankAccount data from db
+     *
+     * @param BankAccountId
+     * @return
+     * @throws Exception
+     */
+    BankAccount getBankAccount(String bankAccountId, String userId) throws Exception;
+    
+	/**
      * getBankAccountAll method used to retrieve the BankAccount data from db
      *
      * @param BankAccountId

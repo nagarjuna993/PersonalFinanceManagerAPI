@@ -21,6 +21,18 @@ public class InvestmentsServiceImpl implements InvestmentsService {
 	InvestmentsDao investmentsDaoImpl;
 	
 	/**
+     * getInvestments method used to retrieve the Investments data from db
+     *
+     * @param InvestmentsId
+     * @return
+     * @throws Exception
+     */
+    public Investments getInvestments(String investmentsId, String userId) throws Exception {
+    	log.info("[getInvestments] start getInvestments in Service");
+		return investmentsDaoImpl.getInvestments(investmentsId, userId);
+    }
+	
+	/**
      * getInvestmentsAll method used to retrieve the Investments data from db
      *
      * @param InvestmentsId
@@ -30,7 +42,7 @@ public class InvestmentsServiceImpl implements InvestmentsService {
 	@Override
     public List<Investments> getInvestmentsAll(String userId) throws Exception {
 		log.info("[getInvestmentsAll] start getInvestmentsAll in Service");
-		return investmentsDaoImpl.getInvestmentsAll("1");
+		return investmentsDaoImpl.getInvestmentsAll(userId);
     }
 
     /**
