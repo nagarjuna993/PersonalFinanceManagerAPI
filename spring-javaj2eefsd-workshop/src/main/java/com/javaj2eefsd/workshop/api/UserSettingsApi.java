@@ -8,7 +8,9 @@ package com.javaj2eefsd.workshop.api;
 import com.javaj2eefsd.workshop.model.UserCurrency;
 import com.javaj2eefsd.workshop.model.UserPassword;
 import com.javaj2eefsd.workshop.model.UserSettingsByEmailId;
+
 import io.swagger.annotations.*;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,6 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import javax.validation.constraints.*;
+
 import java.util.List;
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2018-06-06T07:36:56.089+05:30")
 
@@ -37,7 +40,7 @@ public interface UserSettingsApi {
     @RequestMapping(value = "/userSettings/currencyUpdate",
         produces = { "application/json" }, 
         method = RequestMethod.POST)
-    ResponseEntity<UserSettingsByEmailId> userCurrencyUpdate(@ApiParam(value = "User Profile Settings - Change Currency." ,required=true )  @Valid @RequestBody UserCurrency body);
+    ResponseEntity<UserSettingsByEmailId> userCurrencyUpdate(@ApiParam(value = "User Profile Settings - Change Currency." ,required=true )  @Valid @RequestBody UserCurrency usercurrencymodel) throws Exception;
 
 
     @ApiOperation(value = "modify your password in settings screen", nickname = "userPasswordUpdate", notes = "change your profile settings (Password).", response = UserSettingsByEmailId.class, authorizations = {
@@ -49,6 +52,6 @@ public interface UserSettingsApi {
     @RequestMapping(value = "/userSettings/passwordUpdate",
         produces = { "application/json" }, 
         method = RequestMethod.POST)
-    ResponseEntity<UserSettingsByEmailId> userPasswordUpdate(@ApiParam(value = "User Profile Settings - Change Password." ,required=true )  @Valid @RequestBody UserPassword body);
+    ResponseEntity<UserSettingsByEmailId> userPasswordUpdate(@ApiParam(value = "User Profile Settings - Change Password." ,required=true )  @Valid @RequestBody UserPassword userpasswordmodel) throws Exception;
 
 }

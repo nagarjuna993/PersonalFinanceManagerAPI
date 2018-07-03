@@ -35,6 +35,6 @@ public interface SettingsApi {
     @RequestMapping(value = "/settings/{emailId}",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    ResponseEntity<UserSettingsByEmailId> getSettings(@ApiParam(value = "Get User Profile Settings by email id",required=true) @PathVariable("emailId") String emailId);
+    ResponseEntity<UserSettingsByEmailId> getSettings(@ApiParam(value = "Get User Profile Settings by email id",required=true) @PathVariable("emailId") String emailId) throws Exception;
 
 }

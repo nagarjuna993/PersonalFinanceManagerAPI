@@ -1,27 +1,34 @@
 package com.javaj2eefsd.workshop.model;
 
-import java.util.Objects;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+
+import java.util.Objects;
+
+import javax.validation.constraints.NotNull;
+
+import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * UserSettingsByEmailId
  */
 @Validated
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2018-06-06T07:36:56.089+05:30")
-
+@Document(collection = "user")
 public class UserSettingsByEmailId   {
+  @Indexed(unique=true)
   @JsonProperty("emailId")
   private String emailId = null;
-
+  
+  @Field(value="password")
   @JsonProperty("password")
   private String password = null;
-
+  
+  @Field(value="currency")
   @JsonProperty("currency")
   private String currency = null;
 
