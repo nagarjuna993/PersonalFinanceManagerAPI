@@ -33,6 +33,6 @@ public interface LoginApi {
     @RequestMapping(value = "/login",
         produces = { "application/json" }, 
         method = RequestMethod.POST)
-    ResponseEntity<Void> loginUser(@ApiParam(value = "User needs to be authenticated. Password must be encrypted." ,required=true )  @Valid @RequestBody UserDetail body);
+    ResponseEntity<UserDetail> loginUser(@ApiParam(value = "User needs to be authenticated. Password must be encrypted." ,required=true )  @Valid @RequestBody UserDetail body) throws Exception;
 
 }

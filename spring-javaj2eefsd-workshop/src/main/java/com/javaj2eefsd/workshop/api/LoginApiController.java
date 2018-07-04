@@ -1,10 +1,14 @@
 package com.javaj2eefsd.workshop.api;
 
+import com.javaj2eefsd.workshop.model.Registeruser;
 import com.javaj2eefsd.workshop.model.UserDetail;
+import com.javaj2eefsd.workshop.service.LoginService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -36,10 +40,27 @@ public class LoginApiController implements LoginApi {
         this.objectMapper = objectMapper;
         this.request = request;
     }
-
-    public ResponseEntity<Void> loginUser(@ApiParam(value = "User needs to be authenticated. Password must be encrypted." ,required=true )  @Valid @RequestBody UserDetail body) {
+    
+    @Autowired
+       LoginService loginserviceObj; 
+    public ResponseEntity<UserDetail> loginUser(@ApiParam(value = "User needs to be authenticated. Password must be encrypted." ,required=true )  @Valid @RequestBody UserDetail body) throws Exception {
         String accept = request.getHeader("Accept");
-        return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);
+        if (accept != null && accept.contains("application/json")) {
+            try {
+            	loginserviceObj.getLogin(body);
+            	 return new ResponseEntity<UserDetail>(HttpStatus.OK);
+            } catch (IOException e) {
+                log.error("Couldn't serialize response for content type application/json", e);
+                return new ResponseEntity<UserDetail>(HttpStatus.INTERNAL_SERVER_ERROR);
+            } catch (Exception e) {
+                log.error("unknown exception",e);
+                return new ResponseEntity<UserDetail>(HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+            
+           
+        }
+        
+        return new ResponseEntity<UserDetail>(HttpStatus.UNSUPPORTED_MEDIA_TYPE);
     }
 
 }

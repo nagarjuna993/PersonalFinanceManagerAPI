@@ -751,6 +751,8 @@ definitions:
         type: string
       password:
         type: string
+      userStatus:
+        type: boolean
   registeruser:
     type: object
     required:
