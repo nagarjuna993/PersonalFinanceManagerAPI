@@ -13,9 +13,8 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
 import org.threeten.bp.OffsetDateTime;
-import com.javaj2eefsd.workshop.constant.ErrorMassage;
+import com.javaj2eefsd.workshop.errormessageconfig.ExpenseErrorMassage;
 import com.javaj2eefsd.workshop.model.Expense;
-import com.javaj2eefsd.workshop.service.ExpenseServiceImpl;
 import com.mongodb.WriteResult;
 
 
@@ -26,7 +25,7 @@ import com.mongodb.WriteResult;
 @Repository
 public class ExpenceDaoImpl implements IExpenseDao {
     // logger instance
-    private static final Logger log = LoggerFactory.getLogger(ExpenseServiceImpl.class);
+    private static final Logger log = LoggerFactory.getLogger(ExpenceDaoImpl.class);
 
     // create object from MongoTemplate
     @Autowired
@@ -98,7 +97,7 @@ public class ExpenceDaoImpl implements IExpenseDao {
             result = mongoTemplate.updateFirst(query, update, Expense.class);
             if (!result.isUpdateOfExisting()) {
                 log.info("somthing is wrong going to exception");
-                throw new Exception(ErrorMassage.INVALIDEXPENSEID);
+                throw new Exception(ExpenseErrorMassage.INVALIDEXPENSEID);
             }
             log.info("successfuly excuted the query ");
         }
@@ -134,7 +133,7 @@ public class ExpenceDaoImpl implements IExpenseDao {
             result = mongoTemplate.updateFirst(query, update, Expense.class);
             if (!result.isUpdateOfExisting()) {
                 log.info("somthing is wrong going to exception");
-                throw new Exception(ErrorMassage.INVALIDEXPENSEID);
+                throw new Exception(ExpenseErrorMassage.INVALIDEXPENSEID);
             }
         }
         catch (final Exception e) {
