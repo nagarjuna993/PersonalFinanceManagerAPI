@@ -59,7 +59,7 @@ public class ExpenseApiController implements ExpenseApi {
                 expenseServiceImpl.expenseCreatePost(body);
                 return new ResponseEntity<>(HttpStatus.CREATED);
             }
-            catch (final IOException e) {
+            catch (final IOException | RuntimeException e) {
                 log.error("Couldn't serialize response for content type application/json", e);
                 return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
             }
@@ -82,7 +82,7 @@ public class ExpenseApiController implements ExpenseApi {
                 expenseServiceImpl.expenseDeleteDelete(expenseId);
                 return new ResponseEntity<>(HttpStatus.OK);
             }
-            catch (final IOException e) {
+            catch (final IOException | RuntimeException e) {
                 log.error("Couldn't serialize response for content type application/json", e);
                 return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
             }
@@ -108,7 +108,7 @@ public class ExpenseApiController implements ExpenseApi {
                 return new ResponseEntity<>(searchList, HttpStatus.OK);
 
             }
-            catch (final IOException e) {
+            catch (final IOException | RuntimeException e) {
                 log.error("Couldn't serialize response for content type application/json", e);
                 return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
             }
@@ -132,7 +132,7 @@ public class ExpenseApiController implements ExpenseApi {
                 expenceList = expenseServiceImpl.expenseAllGet(id);
                 return new ResponseEntity<>(expenceList, (HttpStatus.OK));
             }
-            catch (final IOException e) {
+            catch (final IOException | RuntimeException e) {
                 log.error("Couldn't serialize response for content type application/json", e);
                 return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
             }
@@ -155,7 +155,7 @@ public class ExpenseApiController implements ExpenseApi {
                 expenseServiceImpl.expenseUpdatePost(body);
                 return new ResponseEntity<>(HttpStatus.OK);
             }
-            catch (final IOException e) {
+            catch (final IOException | RuntimeException e) {
                 log.error("Couldn't serialize response for content type application/json", e);
                 return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
             }
