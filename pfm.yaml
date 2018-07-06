@@ -197,7 +197,7 @@ paths:
           description: Expense not found
         '405':
           description: Invalid input
-  /expense/{expenseKey}:
+  /expense/search:
     get:
       tags:
       - expense
@@ -208,7 +208,12 @@ paths:
       - application/json
       parameters:
       - name: expenseKey
-        in: path
+        in: query
+        description: ID of expense to return
+        required: true
+        type: string
+      - name: userId
+        in: query
         description: ID of expense to return
         required: true
         type: string

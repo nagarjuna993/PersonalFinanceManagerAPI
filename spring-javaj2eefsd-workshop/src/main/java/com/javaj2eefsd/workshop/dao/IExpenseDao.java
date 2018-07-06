@@ -47,10 +47,11 @@ public interface IExpenseDao {
 
     /**
      * expenseSearchGet method used to search the expense data based on user inputs
-     *
+     * 
+     * @param userId
      * @param expenseId
      * @return
      * @throws Exception
      */
-    List<Expense> expenseSearchGet(String key) throws Exception;
+    List<Expense> expenseSearchGet(String key, String userId) throws Exception;
 }

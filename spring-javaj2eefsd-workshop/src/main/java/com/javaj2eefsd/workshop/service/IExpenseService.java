@@ -50,10 +50,12 @@ public interface IExpenseService {
 
     /**
      * expenseSearchGet method used to search the expense data based on user inputs
-     *
-     * @param expenseId
+     * 
+     * @param key
+     * @param userId
      * @return
      * @throws Exception
      */
-    List<Expense> expenseSearchGet(String key) throws Exception;
+    List<Expense> expenseSearchGet(String key, String userId) throws Exception;
+
 }

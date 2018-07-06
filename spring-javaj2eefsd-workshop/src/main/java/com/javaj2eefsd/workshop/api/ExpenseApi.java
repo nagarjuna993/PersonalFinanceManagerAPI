@@ -7,11 +7,13 @@ package com.javaj2eefsd.workshop.api;
 
 import java.util.List;
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import com.javaj2eefsd.workshop.model.Expense;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -56,9 +58,10 @@ public interface ExpenseApi {
             @ApiResponse(code = 200, message = "successful operation", response = Expense.class, responseContainer = "List"),
             @ApiResponse(code = 400, message = "Invalid ID supplied"),
             @ApiResponse(code = 404, message = "Expense not found") })
-    @RequestMapping(value = "/expense/{expenseKey}", produces = { "application/json" }, method = RequestMethod.GET)
+    @RequestMapping(value = "/expense/search", produces = { "application/json" }, method = RequestMethod.GET)
     ResponseEntity<List<Expense>> getExpenseByKey(
-            @ApiParam(value = "ID of expense to return", required = true) @PathVariable("expenseKey") String expenseKey)
+            @NotNull @ApiParam(value = "ID of expense to return", required = true) @Valid @RequestParam(value = "expenseKey", required = true) String expenseKey,
+            @NotNull @ApiParam(value = "ID of expense to return", required = true) @Valid @RequestParam(value = "userId", required = true) String userId)
             throws Exception;
 
     @ApiOperation(value = "expenses list", nickname = "getExpenseList", notes = "Returns the list of all expenses", response = Expense.class, responseContainer = "List", authorizations = {

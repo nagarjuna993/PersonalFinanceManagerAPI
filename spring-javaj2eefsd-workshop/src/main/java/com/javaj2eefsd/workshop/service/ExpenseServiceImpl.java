@@ -91,9 +91,9 @@ public class ExpenseServiceImpl implements IExpenseService {
      * @throws Exception
      */
     @Override
-    public List<Expense> expenseSearchGet(final String key) throws Exception {
+    public List<Expense> expenseSearchGet(final String key, final String userId) throws Exception {
         log.info("start expenseSearchGet in service ");
-        return expenseDaoImpl.expenseSearchGet(key);
+        return expenseDaoImpl.expenseSearchGet(key, userId);
     }
 
 }

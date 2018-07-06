@@ -47,7 +47,11 @@ public class ExpenceDaoImpl implements IExpenseDao {
             query.addCriteria(Criteria.where("isDelete").is(false));
             query.addCriteria(Criteria.where("loginId").is(expenseId));
             expenseList = mongoTemplate.find(query, Expense.class);
+            if (expenseList.isEmpty() || expenseList.size() == 0) {
+                throw new Exception(ExpenseErrorMassage.INVALIDUSERID);
+            }
             log.info("successfuly excuted the query ");
+
         }
         catch (final Exception e) {
             log.error(e.getMessage());
@@ -151,26 +155,37 @@ public class ExpenceDaoImpl implements IExpenseDao {
      * @throws Exception
      */
     @Override
-    public List<Expense> expenseSearchGet(final String key) throws Exception {
+    public List<Expense> expenseSearchGet(final String key, final String userId) throws Exception {
         log.info("start expenseSearchGet method in dao");
         List<Expense> SearchList = null;
-        int amount = 0;
-        // check the key is number or not
-        final String[] search = key.split("-");
+        Double amount = 0.0;
 
-        if (search[0].matches("-?\\d+(\\.\\d+)?")) {
-            amount = Integer.parseInt(key);
+        if (key.matches("-?\\d+(\\.\\d+)?")) {
+            amount = Double.parseDouble(key);
         }
         log.info("validate the search key field");
         try {
 
             final Query query = new Query();
-            query.addCriteria(Criteria.where("isDelete").is(false).andOperator(Criteria.where("loginId").is(search[1]))
-                    .orOperator(Criteria.where("expenseName").is(search[0]),
-                            Criteria.where("expenseAmount").is(amount), Criteria.where("expenseType").is(search[0]),
-                            Criteria.where("createBy").is(search[0]), Criteria.where("updateBy").is(search[0])));
+            query.addCriteria(Criteria.where("isDelete").is(false));
+            query.addCriteria(Criteria.where("loginId").is(userId));
+            final Expense expense = mongoTemplate.findOne(query, Expense.class);
+            if (expense == null || expense.getExpenseId().isEmpty()) {
+                throw new Exception(ExpenseErrorMassage.INVALIDUSERID);
+            }
+            final Query searchQuery = new Query();
+            searchQuery.addCriteria(
+                    Criteria.where("isDelete").is(false).andOperator(Criteria.where("loginId").is(userId))
+                            .orOperator(Criteria.where("expenseName").is(key),
+                                    Criteria.where("expenseAmount").is(amount),
+                                    Criteria.where("expenseType").is(key),
+                                    Criteria.where("createBy").is(key),
+                                    Criteria.where("updateBy").is(key)));
 
-            SearchList = mongoTemplate.find(query, Expense.class);
+            SearchList = mongoTemplate.find(searchQuery, Expense.class);
+            if (SearchList.isEmpty() || SearchList.size() == 0) {
+                throw new Exception(ExpenseErrorMassage.INVALIDKEY);
+            }
             log.info("query excution is completed");
         }
         catch (final Exception e) {
