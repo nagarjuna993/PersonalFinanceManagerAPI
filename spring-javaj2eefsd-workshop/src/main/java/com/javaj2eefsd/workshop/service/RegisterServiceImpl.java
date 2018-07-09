@@ -18,8 +18,6 @@ public class RegisterServiceImpl implements RegisterService {
 	@Autowired
 	RegisterDao registerObj;
 	
-	@Autowired
-    MongoTemplate mongoTemplate;
 
 	@Override
 	public Registeruser registerUser(Registeruser registeruser)
@@ -28,41 +26,13 @@ public class RegisterServiceImpl implements RegisterService {
 		return registerObj.registerUser(registeruser);
 	}
 
-	/*@Override
-	public Registeruser activateUser(String userId, int otp)
-			throws Exception {
-		// TODO Auto-generated method stub
-		
-		
-		
-		
-		
-		registeruser.setUserId("5b323b33df75711f081d5c13");
-		
-		if(otp==registeruser.getOtp())
-			registeruser.setUserStatus(true);
-		
-		return registeruser;
-		
-		
-		final Query query = new Query();
-        query.addCriteria(Criteria.where("investmentsId").is(investmentsId));
-        //mongoTemplate.findAndRemove(query, Investments.class);
-        final Update update = new Update();
-        update.set("isDelete", true);
-        mongoTemplate.updateFirst(query, update, Investments.class);
-		
-	}*/
-
 	@Override
-	public Registeruser activateUser(String userId,
+	public void activateUser(String userId,
 			Integer otp) throws Exception {
+		
 		// TODO Auto-generated method stub
+		registerObj.activateUser(userId,otp);
 		
-		
-		return registerObj.activateUser(userId,otp);
-		
-		//return null;
 	}
 
 }

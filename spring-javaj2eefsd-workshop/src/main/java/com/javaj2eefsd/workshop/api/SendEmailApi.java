@@ -25,12 +25,12 @@ import java.util.List;
 @Api(value = "sendEmail", description = "the sendEmail API")
 public interface SendEmailApi {
 
-    @ApiOperation(value = "Send OTP to user via eMail.", nickname = "sendEmailToUser", notes = "Send OTP to user via eMail. eMail is manadatory.", response = String.class, authorizations = {
+    @ApiOperation(value = "Send OTP to user via emailId.", nickname = "sendEmailToUser", notes = "Send OTP to user via emailId. emailId is manadatory.", response = String.class, authorizations = {
         @Authorization(value = "bearerAuth")
     }, tags={ "register", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Send OTP mail.", response = String.class),
-        @ApiResponse(code = 404, message = "Send OTP to user via eMail Failed.") })
+        @ApiResponse(code = 404, message = "Send OTP to user via emailId Failed.") })
     @RequestMapping(value = "/sendEmail",
         produces = { "application/json" }, 
         method = RequestMethod.POST)

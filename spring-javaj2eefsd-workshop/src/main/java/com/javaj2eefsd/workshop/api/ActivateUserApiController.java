@@ -49,16 +49,13 @@ public class ActivateUserApiController implements ActivateUserApi {
     
 
 
-    public ResponseEntity<Registeruser> activateUserLoginAccount(@ApiParam(value = "Activating user." ,required=true )  @RequestParam("userId") String userId, Integer otp) throws Exception {
+    public ResponseEntity<Registeruser> activateUserLoginAccount(@ApiParam(value = "Activating user." ,required=true )  @RequestParam("userId") String userId, @RequestParam("otp") Integer otp) throws Exception {
         String accept = request.getHeader("Accept");
         if (accept != null && accept.contains("application/json")) {
             try {
-                //return new ResponseEntity<BigDecimal>(objectMapper.readValue("{  \"otp\" : 0.80082819046101150206595775671303272247314453125,  \"userId\" : 6.02745618307040320615897144307382404804229736328125}", BigDecimal.class), HttpStatus.NOT_IMPLEMENTED);
-                //registerserviceObj.activateUser(body, "5b323b33df75711f081d5c13", 1010);
             	registerserviceObj.activateUser(userId , otp);
             } catch (IOException e) {
                 log.error("Couldn't serialize response for content type application/json", e);
-                //return new ResponseEntity<Registeruser>(HttpStatus.INTERNAL_SERVER_ERROR);
             }
         }
 

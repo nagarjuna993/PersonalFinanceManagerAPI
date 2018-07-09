@@ -40,7 +40,7 @@ public class SendEmailApiController implements SendEmailApi {
         String accept = request.getHeader("Accept");
         if (accept != null && accept.contains("application/json")) {
             try {
-                return new ResponseEntity<String>(objectMapper.readValue("{  \"eMail\" : \"eMail\"}", String.class), HttpStatus.NOT_IMPLEMENTED);
+                return new ResponseEntity<String>(objectMapper.readValue("{  \"emailId\" : \"emailId\"}", String.class), HttpStatus.NOT_IMPLEMENTED);
             } catch (IOException e) {
                 log.error("Couldn't serialize response for content type application/json", e);
                 return new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);

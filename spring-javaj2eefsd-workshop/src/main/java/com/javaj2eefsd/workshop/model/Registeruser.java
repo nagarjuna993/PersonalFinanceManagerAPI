@@ -35,13 +35,13 @@ public class Registeruser   {
 	private String lastName = null;
 	
 	@Indexed(unique=true)
-	@Field(value="emailId")
-	@JsonProperty("eMail")
-	private String eMail = null;
+	@JsonProperty("emailId")
+	private String emailId = null;
 
 	@JsonProperty("password")
 	private String password = null;
 
+	@Indexed(unique=true)
 	@JsonProperty("mobileNumber")
 	private BigDecimal mobileNumber = null;
 
@@ -102,26 +102,28 @@ public class Registeruser   {
 		this.lastName = lastName;
 	}
 
-	public Registeruser eMail(String eMail) {
-		this.eMail = eMail;
+	public Registeruser emailId(String emailId) {
+		this.emailId = emailId;
 		return this;
 	}
+	
+	public String getEmailId() {
+		return emailId;
+	}
 
+	public void setEmailId(String emailId) {
+		this.emailId = emailId;
+	}
+	
 	/**
-	 * Get eMail
-	 * @return eMail
+	 * Get emailId
+	 * @return emailId
 	 **/
 	@ApiModelProperty(required = true, value = "")
 	@NotNull
 
 
-	public String getEMail() {
-		return eMail;
-	}
 
-	public void setEMail(String eMail) {
-		this.eMail = eMail;
-	}
 
 	public Registeruser password(String password) {
 		this.password = password;
@@ -221,7 +223,7 @@ public class Registeruser   {
 		Registeruser registeruser = (Registeruser) o;
 		return Objects.equals(this.firstName, registeruser.firstName) &&
 				Objects.equals(this.lastName, registeruser.lastName) &&
-				Objects.equals(this.eMail, registeruser.eMail) &&
+				Objects.equals(this.emailId, registeruser.emailId) &&
 				Objects.equals(this.password, registeruser.password) &&
 				Objects.equals(this.mobileNumber, registeruser.mobileNumber) &&
 				Objects.equals(this.otp, registeruser.otp) &&
@@ -230,7 +232,7 @@ public class Registeruser   {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(firstName, lastName, eMail, password, mobileNumber,otp, userStatus);
+		return Objects.hash(firstName, lastName, emailId, password, mobileNumber,otp, userStatus);
 	}
 
 	@Override
@@ -240,7 +242,7 @@ public class Registeruser   {
 
 		sb.append("    firstName: ").append(toIndentedString(firstName)).append("\n");
 		sb.append("    lastName: ").append(toIndentedString(lastName)).append("\n");
-		sb.append("    eMail: ").append(toIndentedString(eMail)).append("\n");
+		sb.append("    emailId: ").append(toIndentedString(emailId)).append("\n");
 		sb.append("    password: ").append(toIndentedString(password)).append("\n");
 		sb.append("    mobileNumber: ").append(toIndentedString(mobileNumber)).append("\n");
 		sb.append("    otp: ").append(toIndentedString(otp)).append("\n");

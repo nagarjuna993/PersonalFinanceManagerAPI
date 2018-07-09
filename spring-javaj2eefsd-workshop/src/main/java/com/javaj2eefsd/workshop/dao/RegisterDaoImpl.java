@@ -2,6 +2,8 @@ package com.javaj2eefsd.workshop.dao;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -14,6 +16,10 @@ import com.javaj2eefsd.workshop.model.Registeruser;
 
 @Repository
 public class RegisterDaoImpl implements RegisterDao {
+	
+	// logger instance
+    private static final Logger log = LoggerFactory.getLogger(RegisterDaoImpl.class);
+    
 	@Autowired
     MongoTemplate mongoTemplate;
 
@@ -33,16 +39,16 @@ public class RegisterDaoImpl implements RegisterDao {
 	}
 
 	@Override
-	public Registeruser activateUser(String userId, Integer otp)
+	public void activateUser(String userId, Integer otp)
 			throws Exception {
 		// TODO Auto-generated method stub
 		
 		
-		try {
+try {
 			
 			List<Registeruser> registeruserList = null;
 			
-			System.out.println(userId+ "OTP" +otp );
+			log.info(userId+ "OTP" +otp );
 			
             final Query query = new Query();
             //query.addCriteria(Criteria.where("userId").is(registeruser.getUserId())) ;
@@ -59,23 +65,15 @@ public class RegisterDaoImpl implements RegisterDao {
             
             mongoTemplate.updateFirst(query, update, Registeruser.class);
             //Updating the user status ends here
-            System.out.println(" After update :: "+" userId ==> "+userId + " otp ==> "+otp + registeruserList.get(0).getFirstName()+" "+registeruserList.get(0).getLastName());
+            log.info(" After update :: "+" userId ==> "+userId + " otp ==> "+otp + registeruserList.get(0).getOtp()+" "+registeruserList.get(0).getLastName());
             
-          //mongoTemplate.findAndRemove(query, Investments.class);
-            if(otp==registeruserList.get(0).getOtp())
-            {
-            	//registeruser.setUserStatus(true);
-            	registeruserList.get(0).setUserStatus(true);
-    		}
+
         }
         catch (final Exception e) {
             throw new Exception(e.getMessage());
         }
 		
-		
-		
-		
-		return new Registeruser();
+
 	}
 		
 
