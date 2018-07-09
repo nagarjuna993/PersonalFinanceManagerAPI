@@ -7,6 +7,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -46,6 +47,7 @@ public class ExpenceDaoImpl implements IExpenseDao {
             final Query query = new Query();
             query.addCriteria(Criteria.where("isDelete").is(false));
             query.addCriteria(Criteria.where("loginId").is(expenseId));
+            query.with(new Sort(Sort.Direction.DESC, "_id"));
             expenseList = mongoTemplate.find(query, Expense.class);
             if (expenseList.isEmpty() || expenseList.size() == 0) {
                 throw new Exception(ExpenseErrorMassage.INVALIDUSERID);
@@ -181,7 +183,7 @@ public class ExpenceDaoImpl implements IExpenseDao {
                                     Criteria.where("expenseType").is(key),
                                     Criteria.where("createBy").is(key),
                                     Criteria.where("updateBy").is(key)));
-
+            query.with(new Sort(Sort.Direction.DESC, "_id"));
             SearchList = mongoTemplate.find(searchQuery, Expense.class);
             if (SearchList.isEmpty() || SearchList.size() == 0) {
                 throw new Exception(ExpenseErrorMassage.INVALIDKEY);
