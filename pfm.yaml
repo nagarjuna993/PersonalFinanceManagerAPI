@@ -763,7 +763,7 @@ definitions:
     required:
       - firstName
       - lastName 
-      - eMail
+      - emailId
       - password
       - mobileNumber
     properties:
@@ -771,7 +771,7 @@ definitions:
         type: string
       lastName:
         type: string      
-      eMail:
+      emailId:
         type: string      
       password:
         type: string 
@@ -780,9 +780,9 @@ definitions:
   sendEmail:
     type: string
     required:
-      - eMail
+      - emailId
     properties:
-      eMail:
+      emailId:
         type: string
   activateUser:
     type: number

@@ -6,6 +6,7 @@
 package com.javaj2eefsd.workshop.api;
 
 import io.swagger.annotations.*;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import javax.validation.constraints.*;
+
 import java.util.List;
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2018-06-06T07:36:56.089+05:30")
 
@@ -34,6 +36,6 @@ public interface SendEmailApi {
     @RequestMapping(value = "/sendEmail",
         produces = { "application/json" }, 
         method = RequestMethod.POST)
-    ResponseEntity<String> sendEmailToUser(@ApiParam(value = "Send OTP mail." ,required=true )  @Valid @RequestBody String body);
+    ResponseEntity<String> sendEmailToUser(@ApiParam(value = "Send OTP mail." ,required=true )  @RequestParam("emailId") String emailId, Integer otp) throws Exception;
 
 }

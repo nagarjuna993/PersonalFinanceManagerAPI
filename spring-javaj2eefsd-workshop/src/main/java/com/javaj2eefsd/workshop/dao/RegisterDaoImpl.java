@@ -12,7 +12,7 @@ import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
 
 import com.javaj2eefsd.workshop.model.Investments;
-import com.javaj2eefsd.workshop.model.Registeruser;
+import com.javaj2eefsd.workshop.model.User;
 
 @Repository
 public class RegisterDaoImpl implements RegisterDao {
@@ -24,7 +24,7 @@ public class RegisterDaoImpl implements RegisterDao {
     MongoTemplate mongoTemplate;
 
 	@Override
-	public Registeruser registerUser(Registeruser registeruser) throws Exception  {
+	public User registerUser(User registeruser) throws Exception  {
 		// TODO Auto-generated method stub
 		try {
 			//Setting user status to False
@@ -46,7 +46,7 @@ public class RegisterDaoImpl implements RegisterDao {
 		
 try {
 			
-			List<Registeruser> registeruserList = null;
+			List<User> registeruserList = null;
 			
 			log.info(userId+ "OTP" +otp );
 			
@@ -55,7 +55,7 @@ try {
             
             query.addCriteria(Criteria.where("userId").is(userId)) ;
             
-            registeruserList = mongoTemplate.find(query, Registeruser.class);
+            registeruserList = mongoTemplate.find(query, User.class);
             
             //Updating the user status starts here
             final Update update = new Update();
@@ -63,7 +63,7 @@ try {
             if(otp==registeruserList.get(0).getOtp())
             	update.set("userStatus", true);
             
-            mongoTemplate.updateFirst(query, update, Registeruser.class);
+            mongoTemplate.updateFirst(query, update, User.class);
             //Updating the user status ends here
             log.info(" After update :: "+" userId ==> "+userId + " otp ==> "+otp + registeruserList.get(0).getOtp()+" "+registeruserList.get(0).getLastName());
             

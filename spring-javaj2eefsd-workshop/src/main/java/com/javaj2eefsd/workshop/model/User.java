@@ -1,28 +1,28 @@
 package com.javaj2eefsd.workshop.model;
 
+import io.swagger.annotations.ApiModelProperty;
+
 import java.math.BigDecimal;
 import java.util.Objects;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.validator.constraints.Email;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.Field;
 import org.springframework.validation.annotation.Validated;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import io.swagger.annotations.ApiModelProperty;
-
 /**
- * Registeruser
+ * User
  */
 @Validated
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2018-06-06T07:36:56.089+05:30")
 @Document(collection="user")
-public class Registeruser   {
+public class User   {
 	
 	@Id
 	@JsonProperty("userId")
@@ -36,6 +36,7 @@ public class Registeruser   {
 	
 	@Indexed(unique=true)
 	@JsonProperty("emailId")
+	@Email
 	private String emailId = null;
 
 	@JsonProperty("password")
@@ -60,7 +61,7 @@ public class Registeruser   {
 	}
 
 
-	public Registeruser firstName(String firstName) {
+	public User firstName(String firstName) {
 		this.firstName = firstName;
 		return this;
 	}
@@ -81,7 +82,7 @@ public class Registeruser   {
 		this.firstName = firstName;
 	}
 
-	public Registeruser lastName(String lastName) {
+	public User lastName(String lastName) {
 		this.lastName = lastName;
 		return this;
 	}
@@ -102,7 +103,7 @@ public class Registeruser   {
 		this.lastName = lastName;
 	}
 
-	public Registeruser emailId(String emailId) {
+	public User emailId(String emailId) {
 		this.emailId = emailId;
 		return this;
 	}
@@ -125,7 +126,7 @@ public class Registeruser   {
 
 
 
-	public Registeruser password(String password) {
+	public User password(String password) {
 		this.password = password;
 		return this;
 	}
@@ -146,7 +147,7 @@ public class Registeruser   {
 		this.password = password;
 	}
 
-	public Registeruser mobileNumber(BigDecimal mobileNumber) {
+	public User mobileNumber(BigDecimal mobileNumber) {
 		this.mobileNumber = mobileNumber;
 		return this;
 	}
@@ -168,7 +169,7 @@ public class Registeruser   {
 		this.mobileNumber = mobileNumber;
 	}
 
-	public Registeruser otp(int otp) {
+	public User otp(int otp) {
 		this.otp=otp;
 		return this;
 	}
@@ -189,7 +190,7 @@ public class Registeruser   {
 	public void setOtp(int otp) {
 		this.otp = otp;
 	}
-	public Registeruser userStatus(boolean userStatus) {
+	public User userStatus(boolean userStatus) {
 		this.userStatus=userStatus;
 		return this;
 	}
@@ -220,7 +221,7 @@ public class Registeruser   {
 		if (o == null || getClass() != o.getClass()) {
 			return false;
 		}
-		Registeruser registeruser = (Registeruser) o;
+		User registeruser = (User) o;
 		return Objects.equals(this.firstName, registeruser.firstName) &&
 				Objects.equals(this.lastName, registeruser.lastName) &&
 				Objects.equals(this.emailId, registeruser.emailId) &&
@@ -238,7 +239,7 @@ public class Registeruser   {
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
-		sb.append("class Registeruser {\n");
+		sb.append("class User {\n");
 
 		sb.append("    firstName: ").append(toIndentedString(firstName)).append("\n");
 		sb.append("    lastName: ").append(toIndentedString(lastName)).append("\n");

@@ -1,6 +1,6 @@
 package com.javaj2eefsd.workshop.api;
 
-import com.javaj2eefsd.workshop.model.Registeruser;
+import com.javaj2eefsd.workshop.model.User;
 import com.javaj2eefsd.workshop.service.RegisterService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -45,18 +45,18 @@ public class RegisterApiController implements RegisterApi {
     @Autowired
     RegisterService registerserviceObj;
 
-    public ResponseEntity<Registeruser> registerUser(@ApiParam(value = "User registration." ,required=true )  @Valid @RequestBody Registeruser body) throws Exception {
+    public ResponseEntity<User> registerUser(@ApiParam(value = "User registration." ,required=true )  @Valid @RequestBody User body) throws Exception {
         String accept = request.getHeader("Accept");
         if (accept != null && accept.contains("application/json")) {
             try {
                 registerserviceObj.registerUser(body);
             } catch (IOException e) {
                 log.error("Couldn't serialize response for content type application/json", e);
-                return new ResponseEntity<Registeruser>(HttpStatus.INTERNAL_SERVER_ERROR);
+                return new ResponseEntity<User>(HttpStatus.INTERNAL_SERVER_ERROR);
             }
         }
 
-        return new ResponseEntity<Registeruser>(HttpStatus.OK);
+        return new ResponseEntity<User>(HttpStatus.OK);
     }
 
 }

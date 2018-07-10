@@ -3,7 +3,7 @@ package com.javaj2eefsd.workshop.api;
 import java.math.BigDecimal;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.javaj2eefsd.workshop.model.Registeruser;
+import com.javaj2eefsd.workshop.model.User;
 import com.javaj2eefsd.workshop.service.RegisterService;
 
 import io.swagger.annotations.*;
@@ -49,7 +49,7 @@ public class ActivateUserApiController implements ActivateUserApi {
     
 
 
-    public ResponseEntity<Registeruser> activateUserLoginAccount(@ApiParam(value = "Activating user." ,required=true )  @RequestParam("userId") String userId, @RequestParam("otp") Integer otp) throws Exception {
+    public ResponseEntity<User> activateUserLoginAccount(@ApiParam(value = "Activating user." ,required=true )  @RequestParam("userId") String userId, @RequestParam("otp") Integer otp) throws Exception {
         String accept = request.getHeader("Accept");
         if (accept != null && accept.contains("application/json")) {
             try {
@@ -59,17 +59,9 @@ public class ActivateUserApiController implements ActivateUserApi {
             }
         }
 
-        return new ResponseEntity<Registeruser>(HttpStatus.OK);
+        return new ResponseEntity<User>(HttpStatus.OK);
         
-       /* String accept = request.getHeader("Accept");
-        if (accept != null && accept.contains("application/json")) {
-            try {
-                registerserviceObj.registerUser(body);
-            } catch (IOException e) {
-                log.error("Couldn't serialize response for content type application/json", e);
-                return new ResponseEntity<Registeruser>(HttpStatus.INTERNAL_SERVER_ERROR);
-            }
-        }*/
+    
     }
 
 }

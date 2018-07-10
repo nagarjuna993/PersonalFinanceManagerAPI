@@ -5,7 +5,7 @@
  */
 package com.javaj2eefsd.workshop.api;
 
-import com.javaj2eefsd.workshop.model.Registeruser;
+import com.javaj2eefsd.workshop.model.User;
 import io.swagger.annotations.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -26,13 +26,13 @@ import java.util.List;
 @Api(value = "register", description = "the register API")
 public interface RegisterApi {
 
-    @ApiOperation(value = "Register user.", nickname = "registerUser", notes = "Register user to the database. All fields are required fields. Password must be encrypted.", response = Registeruser.class, tags={ "register", })
+    @ApiOperation(value = "Register user.", nickname = "registerUser", notes = "Register user to the database. All fields are required fields. Password must be encrypted.", response = User.class, tags={ "register", })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "User information successfully added to database.", response = Registeruser.class),
+        @ApiResponse(code = 200, message = "User information successfully added to database.", response = User.class),
         @ApiResponse(code = 404, message = "User Registration Failed.") })
     @RequestMapping(value = "/register/new",
         produces = { "application/json" }, 
         method = RequestMethod.POST)
-    ResponseEntity<Registeruser> registerUser(@ApiParam(value = "User registration." ,required=true )  @Valid @RequestBody Registeruser body) throws Exception;
+    ResponseEntity<User> registerUser(@ApiParam(value = "User registration." ,required=true )  @Valid @RequestBody User body) throws Exception;
 
 }
