@@ -129,7 +129,7 @@ paths:
             $ref: '#/definitions/activateUser'
         '404':
           description: Activating the user by validating with OTP Failed.
-  /expense/all/{id}:
+  /expense/all/:
     get:
       tags:
       - expense
@@ -138,12 +138,7 @@ paths:
       operationId: getExpenseList
       produces:
       - application/json
-      parameters:
-      - name: id
-        in: path
-        description: ID of expense to return
-        required: true
-        type: string
+      parameters: []
       responses:
         '200':
           description: successful operation
@@ -208,11 +203,6 @@ paths:
       - application/json
       parameters:
       - name: expenseKey
-        in: query
-        description: ID of expense to return
-        required: true
-        type: string
-      - name: userId
         in: query
         description: ID of expense to return
         required: true

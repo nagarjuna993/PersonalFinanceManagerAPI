@@ -98,12 +98,13 @@ public class ExpenseApiController implements ExpenseApi {
      */
     @Override
     public ResponseEntity<List<Expense>> getExpenseByKey(
-            @NotNull @ApiParam(value = "ExpenseKey of expense to return", required = true) @Valid @RequestParam(value = "expenseKey", required = true) final String expenseKey,
-            @NotNull @ApiParam(value = "ID of expense to return", required = true) @Valid @RequestParam(value = "userId", required = true) final String userId)
+            @NotNull @ApiParam(value = "ExpenseKey of expense to return", required = true) @Valid @RequestParam(value = "expenseKey", required = true) final String expenseKey)
             throws Exception {
         final String accept = request.getHeader("Accept");
         if (accept != null && accept.contains("application/json")) {
             try {
+                // make the value in session
+                final String userId = "1";
                 final List<Expense> searchList = expenseServiceImpl.expenseSearchGet(expenseKey, userId);
                 return new ResponseEntity<>(searchList, HttpStatus.OK);
 
@@ -122,13 +123,14 @@ public class ExpenseApiController implements ExpenseApi {
      * service to retrieve the expense data
      */
     @Override
-    public ResponseEntity<List<Expense>> getExpenseList(
-            @ApiParam(value = "ID of expense to return", required = true) @PathVariable("id") final String id)
+    public ResponseEntity<List<Expense>> getExpenseList()
             throws Exception {
         final String accept = request.getHeader("Accept");
         List<Expense> expenceList = null;
         if (accept != null && accept.contains("application/json")) {
             try {
+                // make the value in session
+                final String id = "1";
                 expenceList = expenseServiceImpl.expenseAllGet(id);
                 return new ResponseEntity<>(expenceList, (HttpStatus.OK));
             }

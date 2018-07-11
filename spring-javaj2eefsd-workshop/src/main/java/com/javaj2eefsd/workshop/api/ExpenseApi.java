@@ -60,8 +60,7 @@ public interface ExpenseApi {
             @ApiResponse(code = 404, message = "Expense not found") })
     @RequestMapping(value = "/expense/search", produces = { "application/json" }, method = RequestMethod.GET)
     ResponseEntity<List<Expense>> getExpenseByKey(
-            @NotNull @ApiParam(value = "ID of expense to return", required = true) @Valid @RequestParam(value = "expenseKey", required = true) String expenseKey,
-            @NotNull @ApiParam(value = "ID of expense to return", required = true) @Valid @RequestParam(value = "userId", required = true) String userId)
+            @NotNull @ApiParam(value = "ID of expense to return", required = true) @Valid @RequestParam(value = "expenseKey", required = true) String expenseKey)
             throws Exception;
 
     @ApiOperation(value = "expenses list", nickname = "getExpenseList", notes = "Returns the list of all expenses", response = Expense.class, responseContainer = "List", authorizations = {
@@ -69,10 +68,8 @@ public interface ExpenseApi {
     }, tags = { "expense", })
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "successful operation", response = Expense.class, responseContainer = "List") })
-    @RequestMapping(value = "/expense/all/{id}", produces = { "application/json" }, method = RequestMethod.GET)
-    ResponseEntity<List<Expense>> getExpenseList(
-            @ApiParam(value = "ID of expense to return", required = true) @PathVariable("id") String id)
-            throws Exception;
+    @RequestMapping(value = "/expense/all/", produces = { "application/json" }, method = RequestMethod.GET)
+    ResponseEntity<List<Expense>> getExpenseList() throws Exception;
 
     @ApiOperation(value = "Update expense", nickname = "updateExpense", notes = "Updates the expense", authorizations = {
             @Authorization(value = "bearerAuth")
