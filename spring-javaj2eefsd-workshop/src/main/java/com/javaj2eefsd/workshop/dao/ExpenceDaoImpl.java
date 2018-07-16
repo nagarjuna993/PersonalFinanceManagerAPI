@@ -40,13 +40,13 @@ public class ExpenceDaoImpl implements IExpenseDao {
      * @throws Exception
      */
     @Override
-    public List<Expense> expenseAllGet(final String expenseId) throws Exception {
+    public List<Expense> expenseAllGet(final String userId) throws Exception {
         log.info("start expenseAllGet method in dao");
         List<Expense> expenseList = null;
         try {
             final Query query = new Query();
             query.addCriteria(Criteria.where("isDelete").is(false));
-            query.addCriteria(Criteria.where("loginId").is(expenseId));
+            query.addCriteria(Criteria.where("loginId").is(userId));
             query.with(new Sort(Sort.Direction.DESC, "_id"));
             expenseList = mongoTemplate.find(query, Expense.class);
             if (expenseList.isEmpty() || expenseList.size() == 0) {
@@ -195,6 +195,30 @@ public class ExpenceDaoImpl implements IExpenseDao {
             throw new Exception(e.getMessage());
         }
         return SearchList;
+    }
+
+    @Override
+    public Expense getExpense(final String expenseId) throws Exception {
+
+        log.info("start expenseAllGet method in dao");
+        Expense expenseObj = null;
+        try {
+            final Query query = new Query();
+            query.addCriteria(Criteria.where("isDelete").is(false));
+            query.addCriteria(Criteria.where("expenseId").is(expenseId));
+            expenseObj = mongoTemplate.findOne(query, Expense.class);
+            if (expenseObj == null) {
+                throw new Exception(ExpenseErrorMassage.INVALIDEXPENSEID);
+            }
+            log.info("successfuly excuted the query ");
+
+        }
+        catch (final Exception e) {
+            log.error(e.getMessage());
+            throw new Exception(e.getMessage());
+        }
+        return expenseObj;
+
     }
 
 }

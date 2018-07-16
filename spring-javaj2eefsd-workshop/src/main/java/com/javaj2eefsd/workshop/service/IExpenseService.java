@@ -19,7 +19,7 @@ public interface IExpenseService {
      * @return
      * @throws Exception
      */
-    List<Expense> expenseAllGet(String expenseId) throws Exception;
+    List<Expense> expenseAllGet(String userId) throws Exception;
 
     /**
      * expenseCreatePost method used to create new expense data in db
@@ -50,12 +50,21 @@ public interface IExpenseService {
 
     /**
      * expenseSearchGet method used to search the expense data based on user inputs
-     * 
+     *
      * @param key
      * @param userId
      * @return
      * @throws Exception
      */
     List<Expense> expenseSearchGet(String key, String userId) throws Exception;
+
+    /**
+     * This method get the expense data based on expense id
+     *
+     * @param expenseId
+     * @return
+     * @throws Exception
+     */
+    Expense getExpense(String expenseId) throws Exception;
 
 }

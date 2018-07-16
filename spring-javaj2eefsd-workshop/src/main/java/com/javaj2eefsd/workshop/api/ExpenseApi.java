@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import com.javaj2eefsd.workshop.model.Expense;
+import com.javaj2eefsd.workshop.model.Income;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -68,7 +69,7 @@ public interface ExpenseApi {
     }, tags = { "expense", })
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "successful operation", response = Expense.class, responseContainer = "List") })
-    @RequestMapping(value = "/expense/all/", produces = { "application/json" }, method = RequestMethod.GET)
+    @RequestMapping(value = "/expense/all", produces = { "application/json" }, method = RequestMethod.GET)
     ResponseEntity<List<Expense>> getExpenseList() throws Exception;
 
     @ApiOperation(value = "Update expense", nickname = "updateExpense", notes = "Updates the expense", authorizations = {
@@ -82,6 +83,16 @@ public interface ExpenseApi {
             "application/json" }, method = RequestMethod.POST)
     ResponseEntity<Void> updateExpense(
             @ApiParam(value = "Expense object that needs to be updated to the store", required = true) @Valid @RequestBody Expense body)
+            throws Exception;
+
+    @ApiOperation(value = "get expense by id", nickname = "getExpense", notes = "Returns the particular expense", response = Income.class, authorizations = {
+            @Authorization(value = "bearerAuth")
+    }, tags = { "expense", })
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "successful operation", response = Income.class) })
+    @RequestMapping(value = "/expense/{expenseId}", produces = { "application/json" }, method = RequestMethod.GET)
+    ResponseEntity<Expense> getExpense(
+            @ApiParam(value = "id to search for expense", required = true) @PathVariable("expenseId") String expenseId)
             throws Exception;
 
 }

@@ -33,9 +33,9 @@ public class ExpenseServiceImpl implements IExpenseService {
      * @throws Exception
      */
     @Override
-    public List<Expense> expenseAllGet(final String expenseId) throws Exception {
+    public List<Expense> expenseAllGet(final String userId) throws Exception {
         log.info("start expenseAllGet service");
-        return expenseDaoImpl.expenseAllGet(expenseId);
+        return expenseDaoImpl.expenseAllGet(userId);
     }
 
     /**
@@ -50,6 +50,8 @@ public class ExpenseServiceImpl implements IExpenseService {
         log.info("start expenseCreatePost in service ");
         expenseObj.setCreatedDate(OffsetDateTime.now());
         expenseObj.setUpdatedDate(OffsetDateTime.now());
+        expenseObj.setCreateBy("sathish");
+        expenseObj.setUpdateBy("sathish");
         expenseObj.setIsDelete(false);
         log.info("update the some field in  expenseCreatePost method in  service ");
         return expenseDaoImpl.expenseCreatePost(expenseObj);
@@ -94,6 +96,12 @@ public class ExpenseServiceImpl implements IExpenseService {
     public List<Expense> expenseSearchGet(final String key, final String userId) throws Exception {
         log.info("start expenseSearchGet in service ");
         return expenseDaoImpl.expenseSearchGet(key, userId);
+    }
+
+    @Override
+    public Expense getExpense(final String expenseId) throws Exception {
+        log.info("start getExpense in service ");
+        return expenseDaoImpl.getExpense(expenseId);
     }
 
 }

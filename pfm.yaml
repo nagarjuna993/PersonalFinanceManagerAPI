@@ -73,7 +73,7 @@ paths:
           description: User registration.
           required: true
           schema:
-            $ref: '#/definitions/registeruser'		  
+            $ref: '#/definitions/registeruser'      
       responses:
         '200':
           description: User information successfully added to database.
@@ -98,7 +98,7 @@ paths:
           description: Send OTP mail.
           required: true
           schema:
-            $ref: '#/definitions/sendEmail'		  
+            $ref: '#/definitions/sendEmail'     
       responses:
         '200':
           description: Send OTP mail.
@@ -121,7 +121,7 @@ paths:
           description: Activating user.
           required: true
           schema:
-            $ref: '#/definitions/activateUser'		  
+            $ref: '#/definitions/activateUser'      
       responses:
         '200':
           description: Activating user.
@@ -238,6 +238,26 @@ paths:
           description: Invalid ID supplied
         '404':
           description: Expense not found
+  /expense/{expenseId}:
+    get:
+      tags:
+        - expense
+      summary: get expense by id
+      description: Returns the particular expense
+      operationId: getExpense
+      produces:
+        - application/json
+      parameters:
+        - name: expenseId
+          in: path
+          description: id to search for expense
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/Expense'      
   /income/{incomeId}:
     get:
       tags:

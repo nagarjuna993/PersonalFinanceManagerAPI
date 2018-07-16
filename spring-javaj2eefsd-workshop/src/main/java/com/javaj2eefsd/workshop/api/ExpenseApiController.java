@@ -56,6 +56,8 @@ public class ExpenseApiController implements ExpenseApi {
         final String accept = request.getHeader("Accept");
         if (accept != null && accept.contains("application/json")) {
             try {
+                // futhure we will get the user id session
+                body.setLoginId("1");
                 expenseServiceImpl.expenseCreatePost(body);
                 return new ResponseEntity<>(HttpStatus.CREATED);
             }
@@ -156,6 +158,24 @@ public class ExpenseApiController implements ExpenseApi {
             try {
                 expenseServiceImpl.expenseUpdatePost(body);
                 return new ResponseEntity<>(HttpStatus.OK);
+            }
+            catch (final IOException | RuntimeException e) {
+                log.error("Couldn't serialize response for content type application/json", e);
+                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+        }
+        return new ResponseEntity<>(HttpStatus.UNSUPPORTED_MEDIA_TYPE);
+    }
+
+    @Override
+    public ResponseEntity<Expense> getExpense(
+            @ApiParam(value = "id to search for expense", required = true) @PathVariable("expenseId") final String expenseId)
+            throws Exception {
+        final String accept = request.getHeader("Accept");
+        if (accept != null && accept.contains("application/json")) {
+            try {
+                final Expense expenseObj = expenseServiceImpl.getExpense(expenseId);
+                return new ResponseEntity<>(expenseObj, HttpStatus.OK);
             }
             catch (final IOException | RuntimeException e) {
                 log.error("Couldn't serialize response for content type application/json", e);
