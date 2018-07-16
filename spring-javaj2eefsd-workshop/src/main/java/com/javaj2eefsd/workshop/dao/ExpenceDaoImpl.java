@@ -4,6 +4,7 @@
 package com.javaj2eefsd.workshop.dao;
 
 import java.util.List;
+import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -172,9 +173,7 @@ public class ExpenceDaoImpl implements IExpenseDao {
             query.addCriteria(Criteria.where("isDelete").is(false));
             query.addCriteria(Criteria.where("loginId").is(userId));
             final Expense expense = mongoTemplate.findOne(query, Expense.class);
-            if (expense == null || expense.getExpenseId().isEmpty()) {
-                throw new Exception(ExpenseErrorMassage.INVALIDUSERID);
-            }
+            Optional.ofNullable(expense).orElseThrow(() -> new Exception(ExpenseErrorMassage.INVALIDUSERID));
             final Query searchQuery = new Query();
             searchQuery.addCriteria(
                     Criteria.where("isDelete").is(false).andOperator(Criteria.where("loginId").is(userId))
@@ -207,9 +206,7 @@ public class ExpenceDaoImpl implements IExpenseDao {
             query.addCriteria(Criteria.where("isDelete").is(false));
             query.addCriteria(Criteria.where("expenseId").is(expenseId));
             expenseObj = mongoTemplate.findOne(query, Expense.class);
-            if (expenseObj == null) {
-                throw new Exception(ExpenseErrorMassage.INVALIDEXPENSEID);
-            }
+            Optional.ofNullable(expenseObj).orElseThrow(() -> new Exception(ExpenseErrorMassage.INVALIDEXPENSEID));
             log.info("successfuly excuted the query ");
 
         }
