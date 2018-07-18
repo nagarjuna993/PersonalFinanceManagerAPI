@@ -42,7 +42,7 @@ public interface IncomeDao {
      * @return
      * @throws Exception
      */
-    void deleteIncome(String incomeId) throws Exception;
+    void deleteIncome(String incomeId, String userId) throws Exception;
 
     /**
      * updateIncome method used to update the income data in db
@@ -51,7 +51,7 @@ public interface IncomeDao {
      * @return
      * @throws Exception
      */
-    Income updateIncome(Income incomeObj) throws Exception;
+    void updateIncome(Income incomeObj, String userId) throws Exception;
 
     /**
      * searchIncome method used to search the income data based on user inputs
@@ -60,5 +60,5 @@ public interface IncomeDao {
      * @return
      * @throws Exception
      */
-    List<Income> searchIncome(String incomeKey) throws Exception;
+    List<Income> searchIncome(String incomeKey, String userId) throws Exception;
 }

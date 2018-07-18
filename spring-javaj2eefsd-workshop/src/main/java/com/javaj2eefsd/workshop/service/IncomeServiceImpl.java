@@ -73,9 +73,9 @@ public class IncomeServiceImpl implements IncomeService {
      * @throws Exception
      */
     @Override
-    public void deleteIncome(String incomeId) throws Exception {
+    public void deleteIncome(String incomeId, String userId) throws Exception {
     	log.info("[deleteIncome] start deleteIncome in Service");
-    	incomeDaoImpl.deleteIncome(incomeId);
+    	incomeDaoImpl.deleteIncome(incomeId, userId);
     }
 
     /**
@@ -86,12 +86,12 @@ public class IncomeServiceImpl implements IncomeService {
      * @throws Exception
      */
     @Override
-    public Income updateIncome(Income incomeObj) throws Exception {
+    public void updateIncome(Income incomeObj, String userId) throws Exception {
     	log.info("[updateIncome] start updateIncome in Service");
     	incomeObj.setUpdatedDate(OffsetDateTime.now());
     	incomeObj.setCreatedBy("1");
     	log.info("[updateIncome] update some fields before update");
-        return incomeDaoImpl.updateIncome(incomeObj);
+    	incomeDaoImpl.updateIncome(incomeObj, userId);
     }
 
     /**
@@ -102,8 +102,8 @@ public class IncomeServiceImpl implements IncomeService {
      * @throws Exception
      */
     @Override
-    public List<Income> searchIncome(String incomeKey) throws Exception {
+    public List<Income> searchIncome(String incomeKey, String userId) throws Exception {
     	log.info("[searchIncome] start searchIncome in Service");
-    	return incomeDaoImpl.searchIncome(incomeKey);
+    	return incomeDaoImpl.searchIncome(incomeKey, userId);
     }
 }

@@ -34,7 +34,7 @@ public interface IncomeApi {
         produces = { "application/json" }, 
         consumes = { "application/json" },
         method = RequestMethod.PUT)
-    ResponseEntity<Void> addIncome(
+    ResponseEntity<ApiResponseMessage> addIncome(
     		@ApiParam(value = "Income object that needs to be added to the store" ,required=true )  @Valid @RequestBody Income body)
 			throws Exception;
 
@@ -48,7 +48,7 @@ public interface IncomeApi {
     @RequestMapping(value = "/income/delete/{incomeId}",
         produces = { "application/json" }, 
         method = RequestMethod.DELETE)
-    ResponseEntity<Void> deleteIncome(
+    ResponseEntity<ApiResponseMessage> deleteIncome(
     		@ApiParam(value = "Income id to delete",required=true) @PathVariable("incomeId") String incomeId)
 			throws Exception;
     
@@ -61,7 +61,7 @@ public interface IncomeApi {
     @RequestMapping(value = "/income/{incomeId}",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    ResponseEntity<Income> getIncome(
+    ResponseEntity<?> getIncome(
     		@ApiParam(value = "id to search for income",required=true) @PathVariable("incomeId") String incomeId)
     		throws Exception;
 
@@ -76,7 +76,7 @@ public interface IncomeApi {
     @RequestMapping(value = "/income/search/{incomeKey}",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    ResponseEntity<List<Income>> getIncomeByKey(
+    ResponseEntity<?> getIncomeByKey(
     		@ApiParam(value = "Key to search for income",required=true) @PathVariable("incomeKey") String incomeKey)
 			throws Exception;
 
@@ -89,7 +89,7 @@ public interface IncomeApi {
     @RequestMapping(value = "/income/all",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    ResponseEntity<List<Income>> getIncomeList() throws Exception;
+    ResponseEntity<?> getIncomeList() throws Exception;
 
 
     @ApiOperation(value = "Update income", nickname = "updateIncome", notes = "Updates the income", authorizations = {
@@ -103,7 +103,7 @@ public interface IncomeApi {
         produces = { "application/json" }, 
         consumes = { "application/json" },
         method = RequestMethod.POST)
-    ResponseEntity<Void> updateIncome(
+    ResponseEntity<ApiResponseMessage> updateIncome(
     		@ApiParam(value = "Income object that needs to be updated to the store" ,required=true )  @Valid @RequestBody Income body)
 			throws Exception;
 
