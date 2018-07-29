@@ -341,7 +341,7 @@ paths:
           description: Income not found
         '405':
           description: Invalid input
-  /income/search/{incomeKey}:
+  /income/search:
     get:
       tags:
       - income
@@ -352,7 +352,7 @@ paths:
       - application/json
       parameters:
       - name: incomeKey
-        in: path
+        in: query
         description: Key to search for income
         required: true
         type: string
@@ -470,7 +470,7 @@ paths:
           description: Investments not found
         '405':
           description: Invalid input
-  /investments/search/{investmentsKey}:
+  /investments/search:
     get:
       tags:
       - investments
@@ -481,7 +481,7 @@ paths:
       - application/json
       parameters:
       - name: investmentsKey
-        in: path
+        in: query
         description: ID of investments to return
         required: true
         type: string
@@ -601,7 +601,7 @@ paths:
       responses:
         '405':
           description: Invalid input
-  /bankAccount/search/{bankAccountKey}:
+  /bankAccount/search:
     get:
       tags:
       - bankAccount
@@ -612,7 +612,7 @@ paths:
       - application/json
       parameters:
       - name: bankAccountKey
-        in: path
+        in: query
         description: Key to search for Bank Accounts
         required: true
         type: string

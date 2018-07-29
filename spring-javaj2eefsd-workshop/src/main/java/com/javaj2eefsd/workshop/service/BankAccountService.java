@@ -41,7 +41,7 @@ public interface BankAccountService {
      * @return
      * @throws Exception
      */
-    void deleteBankAccount(String bankAccountId) throws Exception;
+    void deleteBankAccount(String bankAccountId, String userId) throws Exception;
 
     /**
      * searchBankAccount method used to search the BankAccount data based on user inputs
@@ -50,5 +50,5 @@ public interface BankAccountService {
      * @return
      * @throws Exception
      */
-    List<BankAccount> searchBankAccount(String bankAccountKey) throws Exception;
+    List<BankAccount> searchBankAccount(String bankAccountKey, String userId) throws Exception;
 }

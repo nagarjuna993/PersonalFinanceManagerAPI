@@ -5,13 +5,14 @@
  */
 package com.javaj2eefsd.workshop.api;
 
-import java.util.List;
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import com.javaj2eefsd.workshop.model.Investments;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -34,7 +35,7 @@ public interface InvestmentsApi {
         produces = { "application/json" }, 
         consumes = { "application/json" },
         method = RequestMethod.PUT)
-    ResponseEntity<Void> addInvestments(
+    ResponseEntity<ApiResponseMessage> addInvestments(
     		@ApiParam(value = "Investments object that needs to be added to the store" ,required=true )  @Valid @RequestBody Investments body)
     		throws Exception;
 
@@ -48,7 +49,7 @@ public interface InvestmentsApi {
     @RequestMapping(value = "/investments/delete/{investmentsId}",
         produces = { "application/json" }, 
         method = RequestMethod.DELETE)
-    ResponseEntity<Void> deleteInvestments(
+    ResponseEntity<ApiResponseMessage> deleteInvestments(
     		@ApiParam(value = "Investments id to delete",required=true) @PathVariable("investmentsId") String investmentsId)
     		throws Exception;
     
@@ -61,7 +62,7 @@ public interface InvestmentsApi {
     @RequestMapping(value = "/investments/{investmentsId}",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    ResponseEntity<Investments> getInvestments(
+    ResponseEntity<?> getInvestments(
     		@ApiParam(value = "id to search for investments",required=true) @PathVariable("investmentsId") String investmentsId)
     		throws Exception;
 
@@ -73,11 +74,11 @@ public interface InvestmentsApi {
         @ApiResponse(code = 200, message = "successful operation", response = Investments.class, responseContainer = "List"),
         @ApiResponse(code = 400, message = "Invalid ID supplied"),
         @ApiResponse(code = 404, message = "Investments not found") })
-    @RequestMapping(value = "/investments/search/{investmentsKey}",
+    @RequestMapping(value = "/investments/search",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    ResponseEntity<List<Investments>> getInvestmentsByKey(
-    		@ApiParam(value = "ID of investments to return",required=true) @PathVariable("investmentsKey") String investmentsKey)
+    ResponseEntity<?> getInvestmentsByKey(
+    		@NotNull @ApiParam(value = "ID of investments to return", required = true) @Valid @RequestParam(value = "investmentsKey", required = true) String investmentsKey)
     		throws Exception;
 
 
@@ -89,7 +90,7 @@ public interface InvestmentsApi {
     @RequestMapping(value = "/investments/all",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    ResponseEntity<List<Investments>> getInvestmentsList() throws Exception;
+    ResponseEntity<?> getInvestmentsList() throws Exception;
 
 
     @ApiOperation(value = "Update investments", nickname = "updateInvestments", notes = "Updates the investments", authorizations = {
@@ -103,7 +104,7 @@ public interface InvestmentsApi {
         produces = { "application/json" }, 
         consumes = { "application/json" },
         method = RequestMethod.POST)
-    ResponseEntity<Void> updateInvestments(
+    ResponseEntity<ApiResponseMessage> updateInvestments(
     		@ApiParam(value = "Investments object that needs to be updated to the store" ,required=true )  @Valid @RequestBody Investments body)
     		throws Exception;
 

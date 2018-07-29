@@ -5,13 +5,14 @@
  */
 package com.javaj2eefsd.workshop.api;
 
-import java.util.List;
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import com.javaj2eefsd.workshop.model.BankAccount;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -34,7 +35,7 @@ public interface BankAccountApi {
         produces = { "application/json" }, 
         consumes = { "application/json" },
         method = RequestMethod.PUT)
-    ResponseEntity<Void> addBankAccount(
+    ResponseEntity<ApiResponseMessage> addBankAccount(
     		@ApiParam(value = "Bank Account object that needs to be added to the store" ,required=true )  @Valid @RequestBody BankAccount body)
     		throws Exception;
 
@@ -48,7 +49,7 @@ public interface BankAccountApi {
     @RequestMapping(value = "/bankAccount/delete/{bankAccountId}",
         produces = { "application/json" }, 
         method = RequestMethod.DELETE)
-    ResponseEntity<Void> deleteBankAccount(
+    ResponseEntity<ApiResponseMessage> deleteBankAccount(
     		@ApiParam(value = "Bank Account id to delete",required=true) @PathVariable("bankAccountId") String bankAccountId)
     		throws Exception;
     
@@ -61,24 +62,24 @@ public interface BankAccountApi {
     @RequestMapping(value = "/bankAccount/{bankAccountId}",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    ResponseEntity<BankAccount> getBankAccount(
+    ResponseEntity<?> getBankAccount(
     		@ApiParam(value = "id to search for bankAccount",required=true) @PathVariable("bankAccountId") String bankAccountId)
     		throws Exception;
-
-
+    
+    
     @ApiOperation(value = "Searches Bank Accounts by bankAccountKey", nickname = "getBankAccountByKey", notes = "Returns all bank accounts matching the bankAccountKey", response = BankAccount.class, responseContainer = "List", authorizations = {
-            @Authorization(value = "bearerAuth")
-        }, tags={ "bankAccount", })
-        @ApiResponses(value = { 
-            @ApiResponse(code = 200, message = "successful operation", response = BankAccount.class, responseContainer = "List"),
-            @ApiResponse(code = 400, message = "Invalid ID supplied"),
-            @ApiResponse(code = 404, message = "BankAccount not found") })
-        @RequestMapping(value = "/bankAccount/search/{bankAccountKey}",
-            produces = { "application/json" }, 
-            method = RequestMethod.GET)
-        ResponseEntity<List<BankAccount>> getBankAccountByKey(
-        		@ApiParam(value = "Key to search for Bank Accounts",required=true) @PathVariable("bankAccountKey") String bankAccountKey)
-    			throws Exception;
+        @Authorization(value = "bearerAuth")
+    }, tags={ "bankAccount", })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "successful operation", response = BankAccount.class, responseContainer = "List"),
+        @ApiResponse(code = 400, message = "Invalid ID supplied"),
+        @ApiResponse(code = 404, message = "Bank Account not found") })
+    @RequestMapping(value = "/bankAccount/search",
+        produces = { "application/json" }, 
+        method = RequestMethod.GET)
+    ResponseEntity<?> getBankAccountByKey(
+    		@NotNull @ApiParam(value = "Key to search for Bank Accounts", required = true) @Valid @RequestParam(value = "bankAccountKey", required = true) String bankAccountKey)
+    		throws Exception;
 
 
     @ApiOperation(value = "bank accounts list", nickname = "getBankAccountsList", notes = "Returns the list of bank accounts", response = BankAccount.class, responseContainer = "List", authorizations = {
@@ -89,6 +90,6 @@ public interface BankAccountApi {
     @RequestMapping(value = "/bankAccount/all",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    ResponseEntity<List<BankAccount>> getBankAccountsList() throws Exception;
+    ResponseEntity<?> getBankAccountsList() throws Exception;
 
 }

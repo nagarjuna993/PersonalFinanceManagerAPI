@@ -72,9 +72,9 @@ public class InvestmentsServiceImpl implements InvestmentsService {
      * @throws Exception
      */
     @Override
-    public void deleteInvestments(String investmentsId) throws Exception {
+    public void deleteInvestments(String investmentsId, String userId) throws Exception {
     	log.info("[deleteInvestments] start deleteInvestments in Service");
-    	investmentsDaoImpl.deleteInvestments(investmentsId);
+    	investmentsDaoImpl.deleteInvestments(investmentsId, userId);
     }
 
     /**
@@ -85,12 +85,12 @@ public class InvestmentsServiceImpl implements InvestmentsService {
      * @throws Exception
      */
     @Override
-    public Investments updateInvestments(Investments investmentsObj) throws Exception {
+    public Investments updateInvestments(Investments investmentsObj, String userId) throws Exception {
     	log.info("[updateInvestments] start updateInvestments in Service");
     	investmentsObj.setUpdatedDate(OffsetDateTime.now());
     	investmentsObj.setCreatedBy("1");
     	log.info("[IncomeServiceImpl] [updateInvestments] update some fields before update");
-        return investmentsDaoImpl.updateInvestments(investmentsObj);
+        return investmentsDaoImpl.updateInvestments(investmentsObj, userId);
     }
 
     /**
@@ -101,8 +101,8 @@ public class InvestmentsServiceImpl implements InvestmentsService {
      * @throws Exception
      */
     @Override
-    public List<Investments> searchInvestments(String investmentsKey) throws Exception {
+    public List<Investments> searchInvestments(String investmentsKey, String userId) throws Exception {
     	log.info("[searchInvestments] start searchInvestments in Service");
-    	return investmentsDaoImpl.searchInvestments(investmentsKey);
+    	return investmentsDaoImpl.searchInvestments(investmentsKey, userId);
     }
 }

@@ -1,15 +1,21 @@
 package com.javaj2eefsd.workshop.dao;
 
 import java.util.List;
+import java.util.Optional;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
+
+import com.javaj2eefsd.workshop.api.ApiException;
 import com.javaj2eefsd.workshop.model.BankAccount;
+import com.javaj2eefsd.workshop.util.PFMConstants;
 import com.mongodb.WriteResult;
 
 /**
@@ -48,6 +54,7 @@ public class BankAccountDaoImpl implements BankAccountDao {
             throw new Exception(e.getMessage());
         }
         
+        Optional.ofNullable(bankAccountObj).orElseThrow(() -> new ApiException(PFMConstants.ERROR_CODE, PFMConstants.INVALID_BANKACCOUNTID));
         return bankAccountObj;
     }
 	
@@ -107,26 +114,28 @@ public class BankAccountDaoImpl implements BankAccountDao {
      * @throws Exception
      */
 	@Override
-    public void deleteBankAccount(String bankAccountId) throws Exception {
+    public void deleteBankAccount(String bankAccountId, String userId) throws Exception {
 		log.info("[deleteBankAccount] Start deleteBankAccount method in DAO");
 		final WriteResult result;
 		try {
             final Query query = new Query();
             query.addCriteria(Criteria.where("bankAccountId").is(bankAccountId));
-            //mongoTemplate.findAndRemove(query, BankAccount.class);
+            query.addCriteria(Criteria.where("isDelete").is(false));
+            query.addCriteria(Criteria.where("createdBy").is(userId));
             final Update update = new Update();
             update.set("isDelete", true);
             result = mongoTemplate.updateFirst(query, update, BankAccount.class);
-            if (!result.isUpdateOfExisting()) {
-                log.info("[deleteBankAccount] Somthing is wrong throwing exception");
-                throw new Exception("Invalid backAccount Id");
-            }
-            log.info("[deleteBankAccount] Successfully deleted data");
         }
         catch (final Exception e) {
         	log.error(e.getMessage());
             throw new Exception(e.getMessage());
         }
+		
+		if (!result.isUpdateOfExisting()) {
+            log.info("[deleteBankAccount] Somthing is wrong throwing exception");
+            throw new ApiException(PFMConstants.ERROR_CODE, PFMConstants.INVALID_BANKACCOUNTID);
+        }
+        log.info("[deleteBankAccount] Successfully deleted data");
 	}
 
     /**
@@ -137,19 +146,20 @@ public class BankAccountDaoImpl implements BankAccountDao {
      * @throws Exception
      */
 	@Override
-    public List<BankAccount> searchBankAccount(String bankAccountKey) throws Exception {
+    public List<BankAccount> searchBankAccount(String bankAccountKey, String userId) throws Exception {
 		log.info("[searchBankAccount] Start searchBankAccount method in DAO");
-		List<BankAccount> SearchList = null;
+		List<BankAccount> searchList = null;
         
         try {
             final Query query = new Query();
-            query.addCriteria(Criteria.where("isDelete").is(false).andOperator(Criteria.where("createdBy").is("1"))
+            query.addCriteria(Criteria.where("isDelete").is(false).andOperator(Criteria.where("createdBy").is(userId))
                     .orOperator(Criteria.where("accountNumber").is(bankAccountKey),
                             Criteria.where("accountHolderName").is(bankAccountKey),
                             Criteria.where("accountType").is(bankAccountKey),
                             Criteria.where("bankName").is(bankAccountKey),
                             Criteria.where("ifscCode").is(bankAccountKey)));
-            SearchList = mongoTemplate.find(query, BankAccount.class);
+            query.with(new Sort(Sort.Direction.DESC, "bankAccountId"));
+            searchList = mongoTemplate.find(query, BankAccount.class);
             log.info("[searchBankAccount] Successfully executed query");
         }
         catch (final Exception e) {
@@ -157,6 +167,10 @@ public class BankAccountDaoImpl implements BankAccountDao {
             throw new Exception(e.getMessage());
         }
         
-        return SearchList;
+        if (searchList.isEmpty() || searchList.size() == 0) {
+        	throw new ApiException(PFMConstants.ERROR_CODE, PFMConstants.INVALID_SEARCHKEY);
+        }
+        
+        return searchList;
 	}
 }

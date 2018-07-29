@@ -3,10 +3,9 @@ package com.javaj2eefsd.workshop.api;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-
+import javax.validation.constraints.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
-
+import org.springframework.web.bind.annotation.RequestParam;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.javaj2eefsd.workshop.model.Income;
 import com.javaj2eefsd.workshop.service.IncomeService;
@@ -112,71 +111,61 @@ public class IncomeApiController implements IncomeApi {
     	final String accept = request.getHeader("Accept");
     	Income incomeObj = null;
     	
-        if (accept != null && accept.contains("application/json")) {
-            try {
-            	//TODO: add user model instead of hard coding
-                final String userId = "1";
-            	incomeObj = incomeServiceImpl.getIncome(incomeId, userId);
-            	Optional.ofNullable(incomeObj)
-                	.orElseThrow(() -> new InternalError("HttpStatusINTERNAL_SERVER_ERROR"));
-            	return new ResponseEntity<Income>(incomeObj, HttpStatus.OK);
-            } catch (final IOException e) {
-            	
-                log.error("Couldn't serialize response for content type application/json", e);
-                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-            } catch (final ApiException e) {
-            	
-            	log.error(e.getMessage());
-            	return new ResponseEntity<ApiResponseMessage>(
-            			new ApiResponseMessage(e.getCode(), e.getMessage()),
-            			HttpStatus.BAD_REQUEST);
-            } catch (final Exception e) {
-            	
-            	log.error(e.getMessage());
-            	return new ResponseEntity<ApiResponseMessage>(
-            			new ApiResponseMessage(PFMConstants.ERROR_CODE, PFMConstants.UNKNOWN_EXCEPTION),
-            			HttpStatus.INTERNAL_SERVER_ERROR);
-            }
+        try {
+        	//TODO: add user model instead of hard coding
+            final String userId = "1";
+        	incomeObj = incomeServiceImpl.getIncome(incomeId, userId);
+        	return new ResponseEntity<Income>(incomeObj, HttpStatus.OK);
+        } catch (final IOException e) {
+        	
+            log.error("Couldn't serialize response for content type application/json", e);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        } catch (final ApiException e) {
+        	
+        	log.error(e.getMessage());
+        	return new ResponseEntity<ApiResponseMessage>(
+        			new ApiResponseMessage(e.getCode(), e.getMessage()),
+        			HttpStatus.BAD_REQUEST);
+        } catch (final Exception e) {
+        	
+        	log.error(e.getMessage());
+        	return new ResponseEntity<ApiResponseMessage>(
+        			new ApiResponseMessage(PFMConstants.ERROR_CODE, PFMConstants.UNKNOWN_EXCEPTION),
+        			HttpStatus.INTERNAL_SERVER_ERROR);
         }
-
-        return new ResponseEntity<Income>(HttpStatus.UNSUPPORTED_MEDIA_TYPE);
     }
 
     public ResponseEntity<?> getIncomeByKey(
-    		@ApiParam(value = "Key to search for income",required=true) @PathVariable("incomeKey") String incomeKey)
+    		@NotNull @ApiParam(value = "Key to search for income", required = true) @Valid @RequestParam(value = "incomeKey", required = true) String incomeKey)
     		throws Exception {
     	
         final String accept = request.getHeader("Accept");
         List<Income> incomeList = null;
         
-        if (accept != null && accept.contains("application/json")) {
-        	try {
-                //TODO: add user model instead of hard coding
-                final String userId = "1";
-                if(incomeKey == null)
-                	incomeList = incomeServiceImpl.getIncomeAll(userId);
-                else
-                	incomeList = incomeServiceImpl.searchIncome(incomeKey, userId);
-            }
-        	catch (final IOException e) {
-            	
-                log.error("Couldn't serialize response for content type application/json", e);
-                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-            } catch (final ApiException e) {
-            	
-            	log.error(e.getMessage());
-            	return new ResponseEntity<ApiResponseMessage>(
-            			new ApiResponseMessage(e.getCode(), e.getMessage()),
-            			HttpStatus.BAD_REQUEST);
-            } catch (final Exception e) {
-            	
-            	log.error(e.getMessage());
-            	return new ResponseEntity<ApiResponseMessage>(
-            			new ApiResponseMessage(PFMConstants.ERROR_CODE, PFMConstants.UNKNOWN_EXCEPTION),
-            			HttpStatus.INTERNAL_SERVER_ERROR);
-            }
-        } else {
-        	return new ResponseEntity<>(HttpStatus.UNSUPPORTED_MEDIA_TYPE);
+    	try {
+            //TODO: add user model instead of hard coding
+            final String userId = "1";
+            if(incomeKey == null || incomeKey.isEmpty())
+            	incomeList = incomeServiceImpl.getIncomeAll(userId);
+            else
+            	incomeList = incomeServiceImpl.searchIncome(incomeKey, userId);
+        }
+    	catch (final IOException e) {
+        	
+            log.error("Couldn't serialize response for content type application/json", e);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        } catch (final ApiException e) {
+        	
+        	log.error(e.getMessage());
+        	return new ResponseEntity<ApiResponseMessage>(
+        			new ApiResponseMessage(e.getCode(), e.getMessage()),
+        			HttpStatus.BAD_REQUEST);
+        } catch (final Exception e) {
+        	
+        	log.error(e.getMessage());
+        	return new ResponseEntity<ApiResponseMessage>(
+        			new ApiResponseMessage(PFMConstants.ERROR_CODE, PFMConstants.UNKNOWN_EXCEPTION),
+        			HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
         return new ResponseEntity<List<Income>>(incomeList, HttpStatus.OK);
@@ -187,31 +176,27 @@ public class IncomeApiController implements IncomeApi {
         final String accept = request.getHeader("Accept");
         List<Income> incomeList = null;
         
-        if (accept != null && accept.contains("application/json")) {
-        	try {
-        		//TODO: add user model instead of hard coding
-                final String userId = "1";
-                incomeList = incomeServiceImpl.getIncomeAll(userId);
-            }
-        	catch (final IOException e) {
-            	
-                log.error("Couldn't serialize response for content type application/json", e);
-                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-            } catch (final ApiException e) {
-            	
-            	log.error(e.getMessage());
-            	return new ResponseEntity<ApiResponseMessage>(
-            			new ApiResponseMessage(e.getCode(), e.getMessage()),
-            			HttpStatus.BAD_REQUEST);
-            } catch (final Exception e) {
-            	
-            	log.error(e.getMessage());
-            	return new ResponseEntity<ApiResponseMessage>(
-            			new ApiResponseMessage(PFMConstants.ERROR_CODE, PFMConstants.UNKNOWN_EXCEPTION),
-            			HttpStatus.INTERNAL_SERVER_ERROR);
-            }
-        } else {
-        	return new ResponseEntity<>(HttpStatus.UNSUPPORTED_MEDIA_TYPE);
+    	try {
+    		//TODO: add user model instead of hard coding
+            final String userId = "1";
+            incomeList = incomeServiceImpl.getIncomeAll(userId);
+        }
+    	catch (final IOException e) {
+        	
+            log.error("Couldn't serialize response for content type application/json", e);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        } catch (final ApiException e) {
+        	
+        	log.error(e.getMessage());
+        	return new ResponseEntity<ApiResponseMessage>(
+        			new ApiResponseMessage(e.getCode(), e.getMessage()),
+        			HttpStatus.BAD_REQUEST);
+        } catch (final Exception e) {
+        	
+        	log.error(e.getMessage());
+        	return new ResponseEntity<ApiResponseMessage>(
+        			new ApiResponseMessage(PFMConstants.ERROR_CODE, PFMConstants.UNKNOWN_EXCEPTION),
+        			HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
         return new ResponseEntity<List<Income>>(incomeList, HttpStatus.OK);

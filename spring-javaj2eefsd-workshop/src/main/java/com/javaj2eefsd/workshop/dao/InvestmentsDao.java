@@ -42,7 +42,7 @@ public interface InvestmentsDao {
      * @return
      * @throws Exception
      */
-    void deleteInvestments(String investmentsId) throws Exception;
+    void deleteInvestments(String investmentsId, String userId) throws Exception;
 
     /**
      * updateInvestments method used to update the Investments data in db
@@ -51,7 +51,7 @@ public interface InvestmentsDao {
      * @return
      * @throws Exception
      */
-    Investments updateInvestments(Investments investmentsObj) throws Exception;
+    Investments updateInvestments(Investments investmentsObj, String userId) throws Exception;
 
     /**
      * searchInvestments method used to search the Investments data based on user inputs
@@ -60,5 +60,5 @@ public interface InvestmentsDao {
      * @return
      * @throws Exception
      */
-    List<Investments> searchInvestments(String investmentsKey) throws Exception;
+    List<Investments> searchInvestments(String investmentsKey, String userId) throws Exception;
 }

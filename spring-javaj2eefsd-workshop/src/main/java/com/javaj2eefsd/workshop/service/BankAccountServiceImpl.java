@@ -72,9 +72,9 @@ public class BankAccountServiceImpl implements BankAccountService {
      * @throws Exception
      */
     @Override
-    public void deleteBankAccount(String bankAccountId) throws Exception {
+    public void deleteBankAccount(String bankAccountId, String userId) throws Exception {
     	log.info("[deleteBankAccount] start deleteBankAccount in Service");
-    	bankAccountDaoImpl.deleteBankAccount(bankAccountId);
+    	bankAccountDaoImpl.deleteBankAccount(bankAccountId, userId);
     }
 
     /**
@@ -85,8 +85,8 @@ public class BankAccountServiceImpl implements BankAccountService {
      * @throws Exception
      */
     @Override
-    public List<BankAccount> searchBankAccount(String bankAccountKey) throws Exception {
+    public List<BankAccount> searchBankAccount(String bankAccountKey, String userId) throws Exception {
     	log.info("[searchBankAccount] start searchBankAccount in Service");
-    	return bankAccountDaoImpl.searchBankAccount(bankAccountKey);
+    	return bankAccountDaoImpl.searchBankAccount(bankAccountKey, userId);
     }
 }

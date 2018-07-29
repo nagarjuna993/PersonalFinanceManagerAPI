@@ -1,15 +1,21 @@
 package com.javaj2eefsd.workshop.dao;
 
 import java.util.List;
+import java.util.Optional;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
+
+import com.javaj2eefsd.workshop.api.ApiException;
 import com.javaj2eefsd.workshop.model.Investments;
+import com.javaj2eefsd.workshop.util.PFMConstants;
 import com.mongodb.WriteResult;
 
 /**
@@ -48,6 +54,7 @@ public class InvestmentsDaoImpl implements InvestmentsDao {
             throw new Exception(e.getMessage());
         }
 		
+		Optional.ofNullable(investmentsObj).orElseThrow(() -> new ApiException(PFMConstants.ERROR_CODE, PFMConstants.INVALID_INVESTMENTSID));
 		return investmentsObj;
 	}
 	
@@ -107,26 +114,28 @@ public class InvestmentsDaoImpl implements InvestmentsDao {
      * @throws Exception
      */
 	@Override
-    public void deleteInvestments(String investmentsId) throws Exception {
+    public void deleteInvestments(String investmentsId, String userId) throws Exception {
 		log.info("[deleteInvestments] Start deleteInvestments method in DAO");
 		final WriteResult result;
 		try {
             final Query query = new Query();
             query.addCriteria(Criteria.where("investmentsId").is(investmentsId));
-            //mongoTemplate.findAndRemove(query, Investments.class);
+            query.addCriteria(Criteria.where("isDelete").is(false));
+            query.addCriteria(Criteria.where("createdBy").is(userId));
             final Update update = new Update();
             update.set("isDelete", true);
             result = mongoTemplate.updateFirst(query, update, Investments.class);
-            if (!result.isUpdateOfExisting()) {
-                log.info("[deleteInvestments] Somthing is wrong throwing exception");
-                throw new Exception("Invalid investments Id");
-            }
-            log.info("[deleteInvestments] Successfully deleted data");
         }
         catch (final Exception e) {
         	log.error(e.getMessage());
             throw new Exception(e.getMessage());
         }
+		
+		if (!result.isUpdateOfExisting()) {
+            log.info("[deleteInvestments] Somthing is wrong throwing exception");
+            throw new ApiException(PFMConstants.ERROR_CODE, PFMConstants.INVALID_INVESTMENTSID);
+        }
+        log.info("[deleteInvestments] Successfully deleted data");
 	}
 
     /**
@@ -137,12 +146,14 @@ public class InvestmentsDaoImpl implements InvestmentsDao {
      * @throws Exception
      */
 	@Override
-    public Investments updateInvestments(Investments investmentsObj) throws Exception {
+    public Investments updateInvestments(Investments investmentsObj, String userId) throws Exception {
 		log.info("[updateInvestments] Start updateInvestments method in DAO");
 		final WriteResult result;
 		try {
             final Query query = new Query();
             query.addCriteria(Criteria.where("investmentsId").is(investmentsObj.getInvestmentsId()));
+            query.addCriteria(Criteria.where("isDelete").is(false));
+            query.addCriteria(Criteria.where("createdBy").is(userId));
             final Update update = new Update();
             update.set("investmentsAmount", investmentsObj.getInvestmentsAmount());
             update.set("investmentsType", investmentsObj.getInvestmentsType());
@@ -150,16 +161,17 @@ public class InvestmentsDaoImpl implements InvestmentsDao {
             update.set("updatedDate", investmentsObj.getUpdatedDate());
             update.set("updatedBy", investmentsObj.getUpdatedBy());
             result = mongoTemplate.updateFirst(query, update, Investments.class);
-            if (!result.isUpdateOfExisting()) {
-                log.info("[updateInvestments] Somthing is wrong throwing exception");
-                throw new Exception("Invalid investments Id");
-            }
-            log.info("[updateInvestments] Successfully updated data");
         }
         catch (final Exception e) {
         	log.error(e.getMessage());
             throw new Exception(e.getMessage());
         }
+		
+		if (!result.isUpdateOfExisting()) {
+            log.info("[updateInvestments] Somthing is wrong throwing exception");
+            throw new ApiException(PFMConstants.ERROR_CODE, PFMConstants.INVALID_INVESTMENTSID);
+        }
+        log.info("[updateInvestments] Successfully updated data");
 		
         return investmentsObj;
 	}
@@ -172,9 +184,9 @@ public class InvestmentsDaoImpl implements InvestmentsDao {
      * @throws Exception
      */
 	@Override
-    public List<Investments> searchInvestments(String investmentsKey) throws Exception {
+    public List<Investments> searchInvestments(String investmentsKey, String userId) throws Exception {
 		log.info("[searchInvestments] Start searchInvestments method in DAO");
-		List<Investments> SearchList = null;
+		List<Investments> searchList = null;
         int amount = 0;
         // check the key is number or not
         if (investmentsKey.matches("-?\\d+(\\.\\d+)?")) {
@@ -183,11 +195,12 @@ public class InvestmentsDaoImpl implements InvestmentsDao {
         log.info("[searchInvestments] Validate the search key field");
         try {
             final Query query = new Query();
-            query.addCriteria(Criteria.where("isDelete").is(false).andOperator(Criteria.where("createdBy").is("1"))
+            query.addCriteria(Criteria.where("isDelete").is(false).andOperator(Criteria.where("createdBy").is(userId))
                     .orOperator(Criteria.where("investmentsAmount").is(amount),
                             Criteria.where("investmentsType").is(investmentsKey),
                             Criteria.where("investmentsDate").is(investmentsKey)));
-            SearchList = mongoTemplate.find(query, Investments.class);
+            query.with(new Sort(Sort.Direction.DESC, "investmentsId"));
+            searchList = mongoTemplate.find(query, Investments.class);
             log.info("[searchInvestments] Successfully executed query");
         }
         catch (final Exception e) {
@@ -195,6 +208,10 @@ public class InvestmentsDaoImpl implements InvestmentsDao {
             throw new Exception(e.getMessage());
         }
         
-        return SearchList;
+        if (searchList.isEmpty() || searchList.size() == 0) {
+        	throw new ApiException(PFMConstants.ERROR_CODE, PFMConstants.INVALID_SEARCHKEY);
+        }
+        
+        return searchList;
 	}
 }
