@@ -5,22 +5,18 @@
  */
 package com.javaj2eefsd.workshop.api;
 
-import com.javaj2eefsd.workshop.model.UserDetail;
-import io.swagger.annotations.*;
+import javax.validation.Valid;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.multipart.MultipartFile;
+import com.javaj2eefsd.workshop.model.UserDetail;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 
-import javax.validation.Valid;
-import javax.validation.constraints.*;
-import java.util.List;
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2018-06-06T07:36:56.089+05:30")
 
 @Api(value = "login", description = "the login API")
@@ -33,6 +29,6 @@ public interface LoginApi {
     @RequestMapping(value = "/login",
         produces = { "application/json" }, 
         method = RequestMethod.POST)
-    ResponseEntity<UserDetail> loginUser(@ApiParam(value = "User needs to be authenticated. Password must be encrypted." ,required=true )  @Valid @RequestBody UserDetail body) throws Exception;
+    ResponseEntity<?> loginUser(@ApiParam(value = "User needs to be authenticated. Password must be encrypted." ,required=true )  @Valid @RequestBody UserDetail body) throws Exception;
 
 }

@@ -25,4 +25,8 @@ public class PFMConstants {
   	public static final String INVALID_BANKACCOUNTID = "Invalid bank account id";
   	public static final String SUCCESS_BANKACCOUNT_ADD = "Successfully added bank account data";
 	public static final String SUCCESS_BANKACCOUNT_DELETE = "Successfully delete bank account data";
+	
+	//Login messages
+	public static final String INVALID_EMAILID_PASSWORD = "Invalid email address or password";
+	public static final String USER_NOT_ACTIVE = "User not verified, Please verify your email address";
 }
