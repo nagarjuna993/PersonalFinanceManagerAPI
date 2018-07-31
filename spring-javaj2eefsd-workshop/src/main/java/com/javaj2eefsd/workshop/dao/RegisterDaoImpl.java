@@ -28,7 +28,8 @@ public class RegisterDaoImpl implements RegisterDao {
 		// TODO Auto-generated method stub
 		try {
 			//Setting user status to False
-			registeruser.setUserStatus(false);
+			//TODO: Set user status to true after impl
+			registeruser.setUserStatus(true);
             mongoTemplate.save(registeruser);
         }
         catch (final Exception e) {
