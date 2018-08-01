@@ -6,7 +6,7 @@ import com.javaj2eefsd.workshop.model.UserSettingsByEmailId;
 
 public interface SettingsService {
 	UserSettingsByEmailId getSettings(String emailId) throws Exception;
-	UserCurrency  updateCurrency(UserCurrency usercurrencymodel) throws Exception;
-	UserPassword  updatePassword(UserPassword userpasswordmodel) throws Exception;
+	void  updateCurrency(UserCurrency usercurrencymodel) throws Exception;
+	void  updatePassword(UserPassword userpasswordmodel) throws Exception;
 	
 }
