@@ -1,7 +1,7 @@
-swagger: "2.0"
+swagger: '2.0'
 info:
   description: Ease-of-use Personal Finance Manager application to track financial details
-  version: "1.0.0"
+  version: 1.0.0
   title: Personal Finance Manager
   termsOfService: terms
   contact:
@@ -10,7 +10,7 @@ info:
   license:
     name: JavaJ2EEFSEWorkshop1
     url: 'http://opensource.org/licenses/JavaJ2EEFSEWorkshop1'
-host: localhost:8080
+host: 'localhost:8080'
 basePath: /v1
 tags:
   - name: login
@@ -50,20 +50,21 @@ paths:
           description: User needs to be authenticated. Password must be encrypted.
           required: true
           schema:
-              $ref: '#/definitions/userDetail'
+            $ref: '#/definitions/userDetail'
       responses:
         '200':
           description: User Authentication successful.
         '404':
           description: User Authentication failed.
-      security:
-        []
+      security: []
   /register/new:
     post:
       tags:
         - register
       summary: Register user.
-      description: Register user to the database. All fields are required fields. Password must be encrypted.
+      description: >-
+        Register user to the database. All fields are required fields. Password
+        must be encrypted.
       operationId: registerUser
       produces:
         - application/json
@@ -73,7 +74,7 @@ paths:
           description: User registration.
           required: true
           schema:
-            $ref: '#/definitions/registeruser'      
+            $ref: '#/definitions/registeruser'
       responses:
         '200':
           description: User information successfully added to database.
@@ -81,8 +82,7 @@ paths:
             $ref: '#/definitions/registeruser'
         '404':
           description: User Registration Failed.
-      security:
-        []
+      security: []
   /sendEmail:
     post:
       tags:
@@ -98,7 +98,7 @@ paths:
           description: Send OTP mail.
           required: true
           schema:
-            $ref: '#/definitions/sendEmail'     
+            $ref: '#/definitions/sendEmail'
       responses:
         '200':
           description: Send OTP mail.
@@ -121,7 +121,7 @@ paths:
           description: Activating user.
           required: true
           schema:
-            $ref: '#/definitions/activateUser'      
+            $ref: '#/definitions/activateUser'
       responses:
         '200':
           description: Activating user.
@@ -132,12 +132,12 @@ paths:
   /expense/all/:
     get:
       tags:
-      - expense
+        - expense
       summary: expenses list
       description: Returns the list of all expenses
       operationId: getExpenseList
       produces:
-      - application/json
+        - application/json
       parameters: []
       responses:
         '200':
@@ -145,46 +145,46 @@ paths:
           schema:
             type: array
             items:
-              $ref: "#/definitions/Expense"
+              $ref: '#/definitions/Expense'
   /expense/new:
     put:
       tags:
-      - expense
+        - expense
       summary: Create new expense
       description: Creates new expense
       operationId: addExpense
       consumes:
-      - application/json
+        - application/json
       produces:
-      - application/json
+        - application/json
       parameters:
-      - in: body
-        name: body
-        description: Expense object that needs to be added to the store
-        required: true
-        schema:
-          $ref: "#/definitions/Expense"
+        - in: body
+          name: body
+          description: Expense object that needs to be added to the store
+          required: true
+          schema:
+            $ref: '#/definitions/Expense'
       responses:
         '405':
           description: Invalid input
   /expense/edit:
     post:
       tags:
-      - expense
+        - expense
       summary: Update expense
       description: Updates the expense
       operationId: updateExpense
       consumes:
-      - application/json
+        - application/json
       produces:
-      - application/json
+        - application/json
       parameters:
-      - in: body
-        name: body
-        description: Expense object that needs to be updated to the store
-        required: true
-        schema:
-          $ref: "#/definitions/Expense"
+        - in: body
+          name: body
+          description: Expense object that needs to be updated to the store
+          required: true
+          schema:
+            $ref: '#/definitions/Expense'
       responses:
         '400':
           description: Invalid ID supplied
@@ -195,50 +195,50 @@ paths:
   /expense/search:
     get:
       tags:
-      - expense
+        - expense
       summary: find search expense details.
       description: retrieve all expense. this will include personal expense information.
       operationId: getExpenseByKey
       produces:
-      - application/json
+        - application/json
       parameters:
-      - name: expenseKey
-        in: query
-        description: ID of expense to return
-        required: true
-        type: string
+        - name: expenseKey
+          in: query
+          description: ID of expense to return
+          required: true
+          type: string
       responses:
         '200':
           description: successful operation
           schema:
             type: array
             items:
-              $ref: "#/definitions/Expense"
+              $ref: '#/definitions/Expense'
         '400':
           description: Invalid ID supplied
         '404':
           description: Expense not found
-  /expense/delete/{expenseId}:
+  '/expense/delete/{expenseId}':
     delete:
       tags:
-      - expense
+        - expense
       summary: Deletes a expense
       description: Deltes the expense
       operationId: deleteExpense
       produces:
-      - application/json
+        - application/json
       parameters:
-      - name: expenseId
-        in: path
-        description: Expense id to delete
-        required: true
-        type: string
+        - name: expenseId
+          in: path
+          description: Expense id to delete
+          required: true
+          type: string
       responses:
         '400':
           description: Invalid ID supplied
         '404':
           description: Expense not found
-  /expense/{expenseId}:
+  '/expense/{expenseId}':
     get:
       tags:
         - expense
@@ -257,8 +257,8 @@ paths:
         '200':
           description: successful operation
           schema:
-            $ref: '#/definitions/Expense'      
-  /income/{incomeId}:
+            $ref: '#/definitions/Expense'
+  '/income/{incomeId}':
     get:
       tags:
         - income
@@ -281,12 +281,12 @@ paths:
   /income/all:
     get:
       tags:
-      - income
+        - income
       summary: incomes list
       description: Returns the list of all incomes
       operationId: getIncomeList
       produces:
-      - application/json
+        - application/json
       parameters: []
       responses:
         '200':
@@ -294,46 +294,46 @@ paths:
           schema:
             type: array
             items:
-              $ref: "#/definitions/Income"
+              $ref: '#/definitions/Income'
   /income/new:
     put:
       tags:
-      - income
+        - income
       summary: Create new income
       description: Creates new income
       operationId: addIncome
       consumes:
-      - application/json
+        - application/json
       produces:
-      - application/json
+        - application/json
       parameters:
-      - in: body
-        name: body
-        description: Income object that needs to be added to the store
-        required: true
-        schema:
-          $ref: "#/definitions/Income"
+        - in: body
+          name: body
+          description: Income object that needs to be added to the store
+          required: true
+          schema:
+            $ref: '#/definitions/Income'
       responses:
         '405':
           description: Invalid input
   /income/edit:
     post:
       tags:
-      - income
+        - income
       summary: Update income
       description: Updates the income
       operationId: updateIncome
       consumes:
-      - application/json
+        - application/json
       produces:
-      - application/json
+        - application/json
       parameters:
-      - in: body
-        name: body
-        description: Income object that needs to be updated to the store
-        required: true
-        schema:
-          $ref: "#/definitions/Income"
+        - in: body
+          name: body
+          description: Income object that needs to be updated to the store
+          required: true
+          schema:
+            $ref: '#/definitions/Income'
       responses:
         '400':
           description: Invalid ID supplied
@@ -344,50 +344,50 @@ paths:
   /income/search:
     get:
       tags:
-      - income
+        - income
       summary: Searches income by incomeKey
       description: Returns all income matching the incomeKey
       operationId: getIncomeByKey
       produces:
-      - application/json
+        - application/json
       parameters:
-      - name: incomeKey
-        in: query
-        description: Key to search for income
-        required: true
-        type: string
+        - name: incomeKey
+          in: query
+          description: Key to search for income
+          required: true
+          type: string
       responses:
         '200':
           description: successful operation
           schema:
             type: array
             items:
-              $ref: "#/definitions/Income"    
+              $ref: '#/definitions/Income'
         '400':
           description: Invalid ID supplied
         '404':
           description: Income not found
-  /income/delete/{incomeId}:
+  '/income/delete/{incomeId}':
     delete:
       tags:
-      - income
+        - income
       summary: Deletes a income
       description: Deltes the income
       operationId: deleteIncome
       produces:
-      - application/json
+        - application/json
       parameters:
-      - name: incomeId
-        in: path
-        description: Income id to delete
-        required: true
-        type: string
+        - name: incomeId
+          in: path
+          description: Income id to delete
+          required: true
+          type: string
       responses:
         '400':
           description: Invalid ID supplied
         '404':
           description: Income not found
-  /investments/{investmentsId}:
+  '/investments/{investmentsId}':
     get:
       tags:
         - investments
@@ -410,12 +410,12 @@ paths:
   /investments/all:
     get:
       tags:
-      - investments
+        - investments
       summary: investments list
       description: Returns the list of investments
       operationId: getInvestmentsList
       produces:
-      - application/json
+        - application/json
       parameters: []
       responses:
         '200':
@@ -423,46 +423,46 @@ paths:
           schema:
             type: array
             items:
-              $ref: "#/definitions/Investments"
+              $ref: '#/definitions/Investments'
   /investments/new:
     put:
       tags:
-      - investments
+        - investments
       summary: Create new investments
       description: Creates new investments
       operationId: addInvestments
       consumes:
-      - application/json
+        - application/json
       produces:
-      - application/json
+        - application/json
       parameters:
-      - in: body
-        name: body
-        description: Investments object that needs to be added to the store
-        required: true
-        schema:
-          $ref: "#/definitions/Investments"
+        - in: body
+          name: body
+          description: Investments object that needs to be added to the store
+          required: true
+          schema:
+            $ref: '#/definitions/Investments'
       responses:
         '405':
           description: Invalid input
   /investments/edit:
     post:
       tags:
-      - investments
+        - investments
       summary: Update investments
       description: Updates the investments
       operationId: updateInvestments
       consumes:
-      - application/json
+        - application/json
       produces:
-      - application/json
+        - application/json
       parameters:
-      - in: body
-        name: body
-        description: Investments object that needs to be updated to the store
-        required: true
-        schema:
-          $ref: "#/definitions/Investments"
+        - in: body
+          name: body
+          description: Investments object that needs to be updated to the store
+          required: true
+          schema:
+            $ref: '#/definitions/Investments'
       responses:
         '400':
           description: Invalid ID supplied
@@ -473,44 +473,44 @@ paths:
   /investments/search:
     get:
       tags:
-      - investments
+        - investments
       summary: Find all Investments matching by investmentsKey
       description: Returns investments matching the investmentsKey
       operationId: getInvestmentsByKey
       produces:
-      - application/json
+        - application/json
       parameters:
-      - name: investmentsKey
-        in: query
-        description: ID of investments to return
-        required: true
-        type: string
+        - name: investmentsKey
+          in: query
+          description: ID of investments to return
+          required: true
+          type: string
       responses:
         '200':
           description: successful operation
           schema:
             type: array
             items:
-              $ref: "#/definitions/Investments"
+              $ref: '#/definitions/Investments'
         '400':
           description: Invalid ID supplied
         '404':
           description: Investments not found
-  /investments/delete/{investmentsId}:
+  '/investments/delete/{investmentsId}':
     delete:
       tags:
-      - investments
+        - investments
       summary: Deletes a investments
       description: Deletes the investments
       operationId: deleteInvestments
       produces:
-      - application/json
+        - application/json
       parameters:
-      - name: investmentsId
-        in: path
-        description: Investments id to delete
-        required: true
-        type: string
+        - name: investmentsId
+          in: path
+          description: Investments id to delete
+          required: true
+          type: string
       responses:
         '400':
           description: Invalid ID supplied
@@ -519,31 +519,31 @@ paths:
   /budget/plot:
     post:
       tags:
-      - budget
+        - budget
       summary: Plot the budget trends
       description: Returns a budget over a range
       operationId: getByDate
       consumes:
         - application/json
       produces:
-      - application/json
+        - application/json
       parameters:
-      - in: body
-        name: body
-        description: Returns a income, expense, investments over the dateRange.
-        required: true
-        schema:
-            $ref: '#/definitions/dateRange'        
+        - in: body
+          name: body
+          description: 'Returns a income, expense, investments over the dateRange.'
+          required: true
+          schema:
+            $ref: '#/definitions/dateRange'
       responses:
         '200':
           description: successful operation
           schema:
-            $ref: "#/definitions/budget"
+            $ref: '#/definitions/budget'
         '400':
           description: Invalid dateRange supplied
         '404':
           description: budget fetch operation failed
-  /bankAccount/{bankAccountId}:
+  '/bankAccount/{bankAccountId}':
     get:
       tags:
         - bankAccount
@@ -566,12 +566,12 @@ paths:
   /bankAccount/all:
     get:
       tags:
-      - bankAccount
+        - bankAccount
       summary: bank accounts list
       description: Returns the list of bank accounts
       operationId: getBankAccountsList
       produces:
-      - application/json
+        - application/json
       parameters: []
       responses:
         '200':
@@ -579,43 +579,43 @@ paths:
           schema:
             type: array
             items:
-              $ref: "#/definitions/BankAccount"
+              $ref: '#/definitions/BankAccount'
   /bankAccount/new:
     put:
       tags:
-      - bankAccount
+        - bankAccount
       summary: Create new bank account
       description: Creates new bank account
       operationId: addBankAccount
       consumes:
-      - application/json
+        - application/json
       produces:
-      - application/json
+        - application/json
       parameters:
-      - in: body
-        name: body
-        description: Bank Account object that needs to be added to the store
-        required: true
-        schema:
-          $ref: "#/definitions/BankAccount"
+        - in: body
+          name: body
+          description: Bank Account object that needs to be added to the store
+          required: true
+          schema:
+            $ref: '#/definitions/BankAccount'
       responses:
         '405':
           description: Invalid input
   /bankAccount/search:
     get:
       tags:
-      - bankAccount
+        - bankAccount
       summary: Searches Bank Accounts by bankAccountKey
       description: Returns all bank accounts matching the bankAccountKey
       operationId: getBankAccountByKey
       produces:
-      - application/json
+        - application/json
       parameters:
-      - name: bankAccountKey
-        in: query
-        description: Key to search for Bank Accounts
-        required: true
-        type: string
+        - name: bankAccountKey
+          in: query
+          description: Key to search for Bank Accounts
+          required: true
+          type: string
       responses:
         '200':
           description: successful operation
@@ -627,27 +627,27 @@ paths:
           description: Invalid ID supplied
         '404':
           description: Bank Account not found
-  /bankAccount/delete/{bankAccountId}:
+  '/bankAccount/delete/{bankAccountId}':
     delete:
       tags:
-      - bankAccount
+        - bankAccount
       summary: Deletes a bank account
       description: Deletes the bank account
       operationId: deleteBankAccount
       produces:
-      - application/json
+        - application/json
       parameters:
-      - name: bankAccountId
-        in: path
-        description: Bank Account id to delete
-        required: true
-        type: string
+        - name: bankAccountId
+          in: path
+          description: Bank Account id to delete
+          required: true
+          type: string
       responses:
         '400':
           description: Invalid ID supplied
         '404':
           description: Bank Account not found
-  /profile/{emailId}:
+  '/profile/{emailId}':
     get:
       tags:
         - profile
@@ -673,8 +673,8 @@ paths:
         - profile
       summary: edit profile details.
       description: >-
-        Edit details like emailId, firstName, lastName, phone#,
-        companyName, profilePic are the required fields.
+        Edit details like emailId, firstName, lastName, phone#, companyName,
+        profilePic are the required fields.
       operationId: editProfileByEmailId
       produces:
         - application/json
@@ -734,7 +734,7 @@ paths:
             $ref: '#/definitions/userSettingsByEmailId'
         '404':
           description: User information failed to be updated to database.
-  /settings/{emailId}:
+  '/settings/{emailId}':
     get:
       tags:
         - settings
@@ -772,7 +772,7 @@ definitions:
     type: object
     required:
       - firstName
-      - lastName 
+      - lastName
       - emailId
       - password
       - mobileNumber
@@ -780,13 +780,13 @@ definitions:
       firstName:
         type: string
       lastName:
-        type: string      
+        type: string
       emailId:
-        type: string      
+        type: string
       password:
-        type: string 
+        type: string
       mobileNumber:
-        type: number      
+        type: number
   sendEmail:
     type: string
     required:
@@ -798,7 +798,7 @@ definitions:
     type: number
     required:
       - otp
-      - userId 
+      - userId
     properties:
       otp:
         type: number
@@ -823,21 +823,21 @@ definitions:
         type: string
         format: date-time
       created_date:
-          type: string
-          format: date-time
-      updated_date:    
-          type: string
-          format: date-time
+        type: string
+        format: date-time
+      updated_date:
+        type: string
+        format: date-time
       is_delete:
-          type: boolean
+        type: boolean
       create_by:
-          type: string
+        type: string
       update_by:
-          type: string
+        type: string
       login_id:
-         type: string
+        type: string
       expense_name:
-          type: string
+        type: string
   Income:
     type: object
     properties:
@@ -950,24 +950,24 @@ definitions:
   profile:
     type: object
     required:
-      - first_name
-      - last_name
-      - emai_id
-      - contact_number
-      - company_name
-      - profile_image
+      - firstName
+      - lastName
+      - emailId
+      - contactNumber
+      - companyName
+      - profileImage
     properties:
-      first_name:
+      firstName:
         type: string
-      last_name:
+      lastName:
         type: string
-      emai_id:
+      emailId:
         type: string
-      contact_number:
+      contactNumber:
         type: string
-      company_name:
+      companyName:
         type: string
-      profile_image:
+      profileImage:
         type: string
   userPassword:
     type: object

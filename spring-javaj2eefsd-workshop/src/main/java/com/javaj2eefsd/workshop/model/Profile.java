@@ -23,30 +23,30 @@ public class Profile   {
 	
 	
   @Field(value="firstName")
-  @JsonProperty("first_name")
+  @JsonProperty("firstName")
   private String firstName = null;
 
   @Field(value="lastName")
-  @JsonProperty("last_name")
+  @JsonProperty("lastName")
   private String lastName = null;
 
   @Field(value="emailId")
-  @JsonProperty("emai_id")
-  private String emaiId = null;
+  @JsonProperty("emailId")
+  private String emailId = null;
 
   @Field(value="contactNumber")
-  @JsonProperty("contact_number")
+  @JsonProperty("contactNumber")
   private String contactNumber = null;
 
   @Field(value="companyName")
-  @JsonProperty("company_name")
+  @JsonProperty("companyName")
   private String companyName = null;
 
   @Field(value="profileImage")
-  @JsonProperty("profile_image")
+  @JsonProperty("profileImage")
   private String profileImage = null;
 
-  @JsonProperty("is_delete")
+  @JsonProperty("isDelete")
   private Boolean isDelete = null;
   
 	  /**
@@ -106,7 +106,7 @@ public class Profile   {
   }
 
   public Profile emaiId(String emaiId) {
-    this.emaiId = emaiId;
+    this.emailId = emaiId;
     return this;
   }
 
@@ -119,11 +119,11 @@ public class Profile   {
 
 
   public String getEmaiId() {
-    return emaiId;
+    return emailId;
   }
 
   public void setEmaiId(String emaiId) {
-    this.emaiId = emaiId;
+    this.emailId = emaiId;
   }
 
   public Profile contactNumber(String contactNumber) {
@@ -201,7 +201,7 @@ public class Profile   {
     Profile profile = (Profile) o;
     return Objects.equals(this.firstName, profile.firstName) &&
         Objects.equals(this.lastName, profile.lastName) &&
-        Objects.equals(this.emaiId, profile.emaiId) &&
+        Objects.equals(this.emailId, profile.emailId) &&
         Objects.equals(this.contactNumber, profile.contactNumber) &&
         Objects.equals(this.companyName, profile.companyName) &&
         Objects.equals(isDelete, profile.isDelete) &&
@@ -211,7 +211,7 @@ public class Profile   {
 
   @Override
   public int hashCode() {
-    return Objects.hash(firstName, lastName, emaiId, contactNumber, companyName, profileImage, isDelete);
+    return Objects.hash(firstName, lastName, emailId, contactNumber, companyName, profileImage, isDelete);
   }
 
   @Override
@@ -221,7 +221,7 @@ public class Profile   {
     
     sb.append("    firstName: ").append(toIndentedString(firstName)).append("\n");
     sb.append("    lastName: ").append(toIndentedString(lastName)).append("\n");
-    sb.append("    emaiId: ").append(toIndentedString(emaiId)).append("\n");
+    sb.append("    emaiId: ").append(toIndentedString(emailId)).append("\n");
     sb.append("    contactNumber: ").append(toIndentedString(contactNumber)).append("\n");
     sb.append("    companyName: ").append(toIndentedString(companyName)).append("\n");
     sb.append("    profileImage: ").append(toIndentedString(profileImage)).append("\n");

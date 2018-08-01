@@ -42,7 +42,7 @@ public interface ProfileApi {
     }, tags={ "profile", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "user profile information successfully retrieved.", response = Profile.class) })
-    @RequestMapping(value = "/profile/{emailId}",
+    @RequestMapping(value = "/{emailId}/profile",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
     ResponseEntity<Profile> getProfileByEmailId(@ApiParam(value = "email id of user for whom information is to be retrieved.",required=true) @PathVariable("emailId") String emailId);
