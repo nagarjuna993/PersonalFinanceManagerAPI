@@ -32,7 +32,7 @@ public interface SettingsApi {
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "User profile settings successfully retrieved.", response = UserSettingsByEmailId.class),
         @ApiResponse(code = 404, message = "User profile settings failed to be retrieved.") })
-    @RequestMapping(value = "/settings/{emailId}",
+    @RequestMapping(value = "/{emailId}/settings",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
     ResponseEntity<UserSettingsByEmailId> getSettings(@ApiParam(value = "Get User Profile Settings by email id",required=true) @PathVariable("emailId") String emailId) throws Exception;

@@ -6,6 +6,7 @@ import java.util.Objects;
 
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.validator.constraints.Email;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
@@ -22,6 +23,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class UserSettingsByEmailId   {
   @Indexed(unique=true)
   @JsonProperty("emailId")
+  @Email
   private String emailId = null;
   
   @Field(value="password")
