@@ -5,22 +5,22 @@
  */
 package com.javaj2eefsd.workshop.api;
 
-import com.javaj2eefsd.workshop.model.Profile;
-import io.swagger.annotations.*;
+import javax.validation.Valid;
+
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.multipart.MultipartFile;
 
-import javax.validation.Valid;
-import javax.validation.constraints.*;
-import java.util.List;
+import com.javaj2eefsd.workshop.model.Profile;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+import io.swagger.annotations.Authorization;
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2018-06-06T07:36:56.089+05:30")
 
 @Api(value = "profile", description = "the profile API")
@@ -34,7 +34,7 @@ public interface ProfileApi {
     @RequestMapping(value = "/profile/edit",
         produces = { "application/json" }, 
         method = RequestMethod.POST)
-    ResponseEntity<Void> editProfileByEmailId(@ApiParam(value = "editprofile object to add to database." ,required=true )  @Valid @RequestBody Profile body);
+    ResponseEntity<Void> editProfileByEmailId(@ApiParam(value = "editprofile object to add to database." ,required=true )  @Valid @RequestBody Profile body) throws Exception;
 
 
     @ApiOperation(value = "Get profile details of user", nickname = "getProfileByEmailId", notes = "fetch profile information by specifying an emailId.", response = Profile.class, authorizations = {

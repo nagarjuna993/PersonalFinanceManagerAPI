@@ -1,43 +1,72 @@
 package com.javaj2eefsd.workshop.model;
 
 import java.util.Objects;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+
+import javax.validation.constraints.NotNull;
+
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import io.swagger.annotations.ApiModelProperty;
 
 /**
  * Profile
  */
 @Validated
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2018-06-06T07:36:56.089+05:30")
-
+@Document(collection="profile")
 public class Profile   {
+
+	
+	
+  @Field(value="firstName")
   @JsonProperty("first_name")
   private String firstName = null;
 
+  @Field(value="lastName")
   @JsonProperty("last_name")
   private String lastName = null;
 
+  @Field(value="emailId")
   @JsonProperty("emai_id")
   private String emaiId = null;
 
+  @Field(value="contactNumber")
   @JsonProperty("contact_number")
   private String contactNumber = null;
 
+  @Field(value="companyName")
   @JsonProperty("company_name")
   private String companyName = null;
 
+  @Field(value="profileImage")
   @JsonProperty("profile_image")
   private String profileImage = null;
 
-  public Profile firstName(String firstName) {
-    this.firstName = firstName;
-    return this;
-  }
+  @JsonProperty("is_delete")
+  private Boolean isDelete = null;
+  
+	  /**
+	 * @return the isDelete
+	 */
+	public Boolean getIsDelete() {
+		return isDelete;
+	}
+	
+	/**
+	 * @param isDelete the isDelete to set
+	 */
+	public void setIsDelete(Boolean isDelete) {
+		this.isDelete = isDelete;
+	}
+
+	public Profile firstName(String firstName) {
+	    this.firstName = firstName;
+	    return this;
+	  }
 
   /**
    * Get firstName
@@ -175,12 +204,14 @@ public class Profile   {
         Objects.equals(this.emaiId, profile.emaiId) &&
         Objects.equals(this.contactNumber, profile.contactNumber) &&
         Objects.equals(this.companyName, profile.companyName) &&
+        Objects.equals(isDelete, profile.isDelete) &&
         Objects.equals(this.profileImage, profile.profileImage);
+    
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(firstName, lastName, emaiId, contactNumber, companyName, profileImage);
+    return Objects.hash(firstName, lastName, emaiId, contactNumber, companyName, profileImage, isDelete);
   }
 
   @Override
@@ -194,6 +225,8 @@ public class Profile   {
     sb.append("    contactNumber: ").append(toIndentedString(contactNumber)).append("\n");
     sb.append("    companyName: ").append(toIndentedString(companyName)).append("\n");
     sb.append("    profileImage: ").append(toIndentedString(profileImage)).append("\n");
+    sb.append("    isDelete: ").append(toIndentedString(isDelete)).append("\n");
+    
     sb.append("}");
     return sb.toString();
   }
