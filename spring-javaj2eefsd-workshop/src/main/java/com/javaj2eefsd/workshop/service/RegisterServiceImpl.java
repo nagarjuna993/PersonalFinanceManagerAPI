@@ -53,11 +53,11 @@ public class RegisterServiceImpl implements RegisterService {
 	}
 
 	@Override
-	public void activateUser(String userId,
+	public void activateUser(String emailId,
 			Integer otp) throws Exception {
 		
 		// TODO Auto-generated method stub
-		registerObj.activateUser(userId,otp);
+		registerObj.activateUser(emailId,otp);
 		
 	}
 
