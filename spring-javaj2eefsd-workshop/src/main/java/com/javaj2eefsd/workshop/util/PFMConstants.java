@@ -29,4 +29,13 @@ public class PFMConstants {
 	//Login messages
 	public static final String INVALID_EMAILID_PASSWORD = "Invalid email address or password";
 	public static final String USER_NOT_ACTIVE = "User not verified, Please verify your email address";
+	
+	//activate user
+	public static final String INVALID_EMAILID = "Invalid email address";
+	public static final String INVALID_OTP = "Invalid otp";
+	public static final String SUCCESS_USER_ACTIVATED = "Successfully activated user";
+	
+	//register user
+	public static final String INVALID_USER_EXISTS = "User exists with provided email address";
+	public static final String SUCCESS_USER_CREATED = "Successfully created user";
 }

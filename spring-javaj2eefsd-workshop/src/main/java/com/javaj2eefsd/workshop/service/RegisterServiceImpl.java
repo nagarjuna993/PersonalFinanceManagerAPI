@@ -13,16 +13,9 @@ import javax.mail.internet.MimeMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 
-import com.javaj2eefsd.workshop.api.RegisterApiController;
 import com.javaj2eefsd.workshop.dao.RegisterDao;
-import com.javaj2eefsd.workshop.dao.RegisterDaoImpl;
-import com.javaj2eefsd.workshop.model.Investments;
 import com.javaj2eefsd.workshop.model.User;
 
 @Service
@@ -37,19 +30,9 @@ public class RegisterServiceImpl implements RegisterService {
 	User obj;
 
 	@Override
-	public User registerUser(User registeruser)
-			throws Exception {
+	public User registerUser(User registeruser) throws Exception {
 		// TODO Auto-generated method stub
-		
-		try{
-			obj = registerObj.registerUser(registeruser);
-			log.info(registeruser.getEmailId()+" *** "+registeruser.getOtp());
-			//this.sendEmail(registeruser.getEmailId(),registeruser.getOtp());
-		}catch(Exception e){
-			throw new Exception(e.getMessage());
-		}
-		
-		return obj;
+		return registerObj.registerUser(registeruser);
 	}
 
 	@Override

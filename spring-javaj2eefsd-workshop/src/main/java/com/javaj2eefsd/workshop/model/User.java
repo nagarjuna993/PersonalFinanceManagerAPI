@@ -12,6 +12,7 @@ import org.hibernate.validator.constraints.Email;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 import org.springframework.validation.annotation.Validated;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -45,6 +46,10 @@ public class User   {
 	@Indexed(unique=true)
 	@JsonProperty("mobileNumber")
 	private BigDecimal mobileNumber = null;
+	
+	@Field(value="currency")
+	@JsonProperty("currency")
+	private String currency = null;
 
 	@JsonProperty("otp")
 	private int otp;
@@ -167,6 +172,28 @@ public class User   {
 
 	public void setMobileNumber(BigDecimal mobileNumber) {
 		this.mobileNumber = mobileNumber;
+	}
+	
+	public User currency(String currency) {
+		this.currency = currency;
+		return this;
+	}
+
+	/**
+	 * Get currency
+	 * @return currency
+	 **/
+	@ApiModelProperty(required = true, value = "")
+	@NotNull
+
+	@Valid
+
+	public String getCurrency() {
+		return currency;
+	}
+
+	public void setCurrency(String currency) {
+		this.currency = currency;
 	}
 
 	public User otp(int otp) {

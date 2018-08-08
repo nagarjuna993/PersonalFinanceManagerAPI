@@ -1,6 +1,6 @@
 package com.javaj2eefsd.workshop.dao;
 
-import java.util.List;
+import java.util.Optional;
 import java.util.Properties;
 import java.util.Random;
 
@@ -15,86 +15,73 @@ import javax.mail.internet.MimeMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
 
+import com.javaj2eefsd.workshop.api.ApiException;
 import com.javaj2eefsd.workshop.model.User;
-import com.javaj2eefsd.workshop.util.EncryptionUtil;
+import com.javaj2eefsd.workshop.util.PFMConstants;
+import com.javaj2eefsd.workshop.util.PasswordHasher;
 
 @Repository
 public class RegisterDaoImpl implements RegisterDao {
-	
+
 	// logger instance
-    private static final Logger log = LoggerFactory.getLogger(RegisterDaoImpl.class);
-    
+	private static final Logger log = LoggerFactory.getLogger(RegisterDaoImpl.class);
+
 	@Autowired
-    MongoTemplate mongoTemplate;
+	MongoTemplate mongoTemplate;
 
 	@Override
 	public User registerUser(User registeruser) throws Exception  {
 		// TODO Auto-generated method stub
-		EncryptionUtil encObj = new EncryptionUtil();
 		int otp = generateOTP();
 		try {
-			
-			registeruser.setPassword(encObj.encrypt(registeruser.getPassword().trim())[0]);
+			registeruser.setPassword(PasswordHasher.hashPassword(registeruser.getPassword().trim()));
 			//Setting user status to False
 			registeruser.setUserStatus(false);
 			registeruser.setOtp(otp);
-            mongoTemplate.save(registeruser);
-          //this.sendEmail(registeruser.getEmailId(),registeruser.getOtp());
-        }
-        catch (final Exception e) {
-            throw new Exception(e.getMessage());
-        }
-		
-        return registeruser;
+			mongoTemplate.save(registeruser);
+			//this.sendEmail(registeruser.getEmailId(),registeruser.getOtp());
+		}
+		catch (DuplicateKeyException e) {
+			throw new ApiException(PFMConstants.ERROR_CODE, PFMConstants.INVALID_USER_EXISTS);
+		}
+
+		return registeruser;
 	}
 
 	@Override
-	public void activateUser(String emailId, Integer otp)
-			throws Exception {
-		// TODO Auto-generated method stub
-		
-		
-try {
-			
-			List<User> registeruserList = null;
-			
-			log.info(emailId+ "OTP" +otp );
-			
-            final Query query = new Query();
-            //query.addCriteria(Criteria.where("userId").is(registeruser.getUserId())) ;
-            
-            query.addCriteria(Criteria.where("emailId").is(emailId)) ;
-            
-            registeruserList = mongoTemplate.find(query, User.class);
-            
-            //Updating the user status starts here
-            final Update update = new Update();
-            
-            if(otp==registeruserList.get(0).getOtp())
-            	update.set("userStatus", true);
-            
-            mongoTemplate.updateFirst(query, update, User.class);
-            //Updating the user status ends here
-            log.info(" After update :: "+" emailId ==> "+emailId + " otp ==> "+otp + registeruserList.get(0).getOtp()+" "+registeruserList.get(0).getLastName());
-            
+	public void activateUser(String emailId, Integer otp) throws Exception {
+		User registeruser = null;
 
-        }
-        catch (final Exception e) {
-            throw new Exception(e.getMessage());
-        }
+		log.info(emailId+ "OTP" +otp );
+		final Query query = new Query();
+		query.addCriteria(Criteria.where("emailId").is(emailId));
+		registeruser = mongoTemplate.findOne(query, User.class);
 		
-
+		Optional.ofNullable(registeruser).orElseThrow(() -> new ApiException(PFMConstants.ERROR_CODE, PFMConstants.INVALID_EMAILID));
+		
+		if(otp == registeruser.getOtp()) {
+			//Updating the user status starts here
+			final Update update = new Update();
+			update.set("userStatus", true);
+			mongoTemplate.updateFirst(query, update, User.class);
+		} else {
+			throw new ApiException(PFMConstants.ERROR_CODE, PFMConstants.INVALID_OTP);
+		}
+		
+		//Updating the user status ends here
+		log.info(" After update :: "+" userId ==> "+emailId + " otp ==> "+otp + registeruser.getOtp()+" "+registeruser.getLastName());
 	}
-	
+
 	public void sendEmail(String emailId, Integer otp) throws Exception {
 		// TODO Auto-generated method stub
-		
+
 		final String username = "dakshinn@gmail.com";
 		final String password = "";
 
@@ -106,10 +93,10 @@ try {
 
 		Session session = Session.getInstance(props,
 				new javax.mail.Authenticator() {
-					protected PasswordAuthentication getPasswordAuthentication() {
-						return new PasswordAuthentication(username, password);
-					}
-				});
+			protected PasswordAuthentication getPasswordAuthentication() {
+				return new PasswordAuthentication(username, password);
+			}
+		});
 
 		try {
 
@@ -128,15 +115,12 @@ try {
 		} catch (MessagingException e) {
 			throw new RuntimeException(e);
 		}
-		
+
 	}
-	
+
 	public int generateOTP() {
 		Random r = new Random();
-	    return r.nextInt(999999);
+		return r.nextInt(999999);
 	}
-		
-
-
 
 }

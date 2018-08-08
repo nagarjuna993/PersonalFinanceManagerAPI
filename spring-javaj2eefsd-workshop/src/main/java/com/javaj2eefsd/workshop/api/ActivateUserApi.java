@@ -5,42 +5,38 @@
  */
 package com.javaj2eefsd.workshop.api;
 
-import io.swagger.annotations.*;
+import javax.validation.Valid;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.multipart.MultipartFile;
 
-import com.javaj2eefsd.workshop.model.Income;
-import com.javaj2eefsd.workshop.model.User;
+import com.javaj2eefsd.workshop.model.ActivateUser;
 
-import javax.validation.Valid;
-import javax.validation.constraints.*;
-
-import java.util.List;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+import io.swagger.annotations.Authorization;
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2018-06-06T07:36:56.089+05:30")
 
 @Api(value = "activateUser", description = "the activateUser API")
 public interface ActivateUserApi {
-		
-    @ApiOperation(value = "Activating the User.", nickname = "activateUserLoginAccount", notes = "Activating the user by validating with OTP.", 
-    		response = User.class, tags={ "register", })
+    
+    @ApiOperation(value = "Activating the User.", nickname = "activateUserLoginAccount", notes = "Activating the user by validating with OTP.", response = ActivateUser.class, authorizations = {
+        @Authorization(value = "bearerAuth")
+    }, tags={ "register", })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "Activating user.", response = User.class),
+        @ApiResponse(code = 200, message = "Activating user.", response = ActivateUser.class),
         @ApiResponse(code = 404, message = "Activating the user by validating with OTP Failed.") })
     @RequestMapping(value = "/activateUser",
         produces = { "application/json" }, 
         method = RequestMethod.POST)
-    ResponseEntity<User> activateUserLoginAccount(@ApiParam(value = "Activating user." ,required=true )  
-    @RequestParam("userId") String emailId, Integer otp) throws Exception;
-    
+    ResponseEntity<ApiResponseMessage> activateUserLoginAccount(
+		@ApiParam(value = "Activating user." ,required=true )  @Valid @RequestBody ActivateUser body)
+		throws Exception;
    
    
 }

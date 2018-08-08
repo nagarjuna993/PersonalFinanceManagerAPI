@@ -40,21 +40,6 @@ public class ProfileServiceImpl implements ProfileService {
      */
 	@Override
 	public Profile updateProfileDetails(Profile profileObj) throws Exception {
-//		profileObj.setCompanyName("Amex");
-//		profileObj.setContactNumber("252525252525");
-//		profileObj.setEmaiId("kr2@kr");
-//		profileObj.setFirstName("Ayush");
-//		profileObj.setLastName("Agarwal");
-//		profileObj.setProfileImage("myProfile");
-//		profileObj.setIsDelete(true);
-		
-		profileObj.setCompanyName(profileObj.getCompanyName());
-		profileObj.setContactNumber(profileObj.getContactNumber());
-		profileObj.setEmaiId(profileObj.getEmaiId());
-		profileObj.setFirstName(profileObj.getFirstName());
-		profileObj.setLastName(profileObj.getLastName());
-		profileObj.setProfileImage(profileObj.getProfileImage());
-		profileObj.setIsDelete(profileObj.getIsDelete());
 		
 		return profileDao.updateProfileDetails(profileObj);
 	}

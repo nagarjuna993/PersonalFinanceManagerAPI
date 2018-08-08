@@ -1200,14 +1200,14 @@
       "type": "number",
       "required": [
         "otp",
-        "userId"
+        "emailId"
       ],
       "properties": {
         "otp": {
           "type": "number"
         },
-        "userId": {
-          "type": "number"
+        "emailId": {
+          "type": "string"
         }
       }
     },

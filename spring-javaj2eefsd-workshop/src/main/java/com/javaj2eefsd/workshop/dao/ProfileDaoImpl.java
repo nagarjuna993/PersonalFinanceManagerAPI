@@ -71,7 +71,7 @@ public class ProfileDaoImpl implements ProfileDao{
 			update.set("firstName", profileObj.getFirstName());
 			update.set("lastName", profileObj.getLastName());
 			update.set("emailId", profileObj.getEmaiId());
-			update.set("contactNumber", profileObj.getContactNumber());
+			update.set("mobileNumber", profileObj.getContactNumber());
 			update.set("companyName", profileObj.getCompanyName());
 			update.set("profileImage", profileObj.getProfileImage());
 			
