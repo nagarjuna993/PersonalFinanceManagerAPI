@@ -49,11 +49,11 @@ public class ActivateUserApiController implements ActivateUserApi {
     
 
 
-    public ResponseEntity<User> activateUserLoginAccount(@ApiParam(value = "Activating user." ,required=true )  @RequestParam("userId") String userId, @RequestParam("otp") Integer otp) throws Exception {
+    public ResponseEntity<User> activateUserLoginAccount(@ApiParam(value = "Activating user." ,required=true )  @RequestParam("userId") String emailId, @RequestParam("otp") Integer otp) throws Exception {
         String accept = request.getHeader("Accept");
         if (accept != null && accept.contains("application/json")) {
             try {
-            	registerserviceObj.activateUser(userId , otp);
+            	registerserviceObj.activateUser(emailId , otp);
             } catch (IOException e) {
                 log.error("Couldn't serialize response for content type application/json", e);
             }
