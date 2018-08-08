@@ -39,7 +39,7 @@ public interface ActivateUserApi {
         produces = { "application/json" }, 
         method = RequestMethod.POST)
     ResponseEntity<User> activateUserLoginAccount(@ApiParam(value = "Activating user." ,required=true )  
-    @RequestParam("userId") String userId, Integer otp) throws Exception;
+    @RequestParam("userId") String emailId, Integer otp) throws Exception;
     
    
    
