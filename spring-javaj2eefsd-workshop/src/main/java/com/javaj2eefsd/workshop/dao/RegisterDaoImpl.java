@@ -55,7 +55,7 @@ public class RegisterDaoImpl implements RegisterDao {
 	}
 
 	@Override
-	public void activateUser(String userId, Integer otp)
+	public void activateUser(String emailId, Integer otp)
 			throws Exception {
 		// TODO Auto-generated method stub
 		
@@ -64,12 +64,12 @@ try {
 			
 			List<User> registeruserList = null;
 			
-			log.info(userId+ "OTP" +otp );
+			log.info(emailId+ "OTP" +otp );
 			
             final Query query = new Query();
             //query.addCriteria(Criteria.where("userId").is(registeruser.getUserId())) ;
             
-            query.addCriteria(Criteria.where("userId").is(userId)) ;
+            query.addCriteria(Criteria.where("emailId").is(emailId)) ;
             
             registeruserList = mongoTemplate.find(query, User.class);
             
@@ -81,7 +81,7 @@ try {
             
             mongoTemplate.updateFirst(query, update, User.class);
             //Updating the user status ends here
-            log.info(" After update :: "+" userId ==> "+userId + " otp ==> "+otp + registeruserList.get(0).getOtp()+" "+registeruserList.get(0).getLastName());
+            log.info(" After update :: "+" emailId ==> "+emailId + " otp ==> "+otp + registeruserList.get(0).getOtp()+" "+registeruserList.get(0).getLastName());
             
 
         }
