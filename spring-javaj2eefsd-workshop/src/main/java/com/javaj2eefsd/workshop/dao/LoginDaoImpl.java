@@ -14,12 +14,18 @@ public class LoginDaoImpl implements LoginDao {
 
     @Autowired
     MongoTemplate mongoTemplate;
+    
+    private static final Logger log = LoggerFactory.getLogger(LoginDaoImpl.class);
 
     @Override
     public UserDetail getLogin(final UserDetail userdetail) throws Exception {
     	UserDetail loginuser = null;
+        EncryptionUtil encObj = new EncryptionUtil();
     	try {
             final Query query = new Query();
+            final String ENCRYPTION_KEY = "YNYNWKLIJLKJFJALJLAJFJFJY";
+            final Encrypter dencrypter = new Encrypter("DESede", ENCRYPTION_KEY);
+            userdetail.setPassword(encObj.encrypt(userdetail.getPassword().trim())[0]);
             query.addCriteria(
                     Criteria.where("emailId").is(userdetail.getEmailId()).and("password").is(userdetail.getPassword()));
             loginuser = mongoTemplate.findOne(query, UserDetail.class);
