@@ -21,6 +21,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import javax.validation.constraints.*;
+
+import java.util.ArrayList;
 import java.util.List;
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2018-06-06T07:36:56.089+05:30")
 
@@ -38,6 +40,7 @@ public interface BudgetApi {
         produces = { "application/json" }, 
         consumes = { "application/json" },
         method = RequestMethod.POST)
-    ResponseEntity<List<Budget>> getByDate(@ApiParam(value = "Returns a income, expense, investments over the dateRange." ,required=true )  @Valid @RequestBody DateRange body) throws Exception;
+    //ResponseEntity<List<Budget>> getByDate(@ApiParam(value = "Returns a income, expense, investments over the dateRange." ,required=true )  @Valid @RequestBody DateRange body) throws Exception;
+    ResponseEntity<ArrayList> getByDate(@ApiParam(value = "Returns a income, expense, investments over the dateRange." ,required=true )  @Valid @RequestBody DateRange body) throws Exception;
 
 }

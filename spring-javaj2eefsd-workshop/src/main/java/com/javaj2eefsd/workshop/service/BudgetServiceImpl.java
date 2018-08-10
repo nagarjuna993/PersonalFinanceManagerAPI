@@ -1,5 +1,6 @@
 package com.javaj2eefsd.workshop.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +16,8 @@ public class BudgetServiceImpl implements IBudgetService {
 	@Autowired
     IBudgetDao budgetDaoImpl;
 	@Override
-	public List<Budget> getBudgetByDate(DateRange body) throws Exception {
+	//public List<Budget> getBudgetByDate(DateRange body) throws Exception {
+	public ArrayList getBudgetByDate(DateRange body) throws Exception {
 		// TODO Auto-generated method stub
 		//return null;
 		return budgetDaoImpl.getAllBudget(body);

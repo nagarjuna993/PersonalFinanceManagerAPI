@@ -23,6 +23,7 @@ import javax.validation.constraints.*;
 import javax.validation.Valid;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2018-06-06T07:36:56.089+05:30")
 
@@ -46,9 +47,11 @@ public class BudgetApiController implements BudgetApi {
     }
     
     @Override
-    public ResponseEntity<List<Budget>> getByDate(@ApiParam(value = "Returns a income, expense, investments over the dateRange." ,required=true )  @Valid @RequestBody final DateRange body) throws Exception {
+    //public ResponseEntity<List<Budget>> getByDate(@ApiParam(value = "Returns a income, expense, investments over the dateRange." ,required=true )  @Valid @RequestBody final DateRange body) throws Exception {
+    public ResponseEntity<ArrayList> getByDate(@ApiParam(value = "Returns a income, expense, investments over the dateRange." ,required=true )  @Valid @RequestBody final DateRange body) throws Exception {
     	final String accept = request.getHeader("Accept");
-    	List<Budget> budgetList = null;
+    	//List<Budget> budgetList = null;
+    	ArrayList budgetList = null;
         if (accept != null && accept.contains("application/json")) {
             try {
             	budgetList = budgetServiceImpl.getBudgetByDate(body);
@@ -61,7 +64,7 @@ public class BudgetApiController implements BudgetApi {
 
         //return new ResponseEntity<Budget>(HttpStatus.NOT_IMPLEMENTED);
         //return new ResponseEntity<Budget>(HttpStatus.OK);
-        return new ResponseEntity<List<Budget>>(budgetList, HttpStatus.OK);
+        return new ResponseEntity<ArrayList>(budgetList, HttpStatus.OK);
     }
 
 }
