@@ -64,10 +64,10 @@ public class BudgetDaoImpl implements IBudgetDao {
         		ArrayList dummy = new ArrayList<>();
         		long epochMilli = expenseList.get(i).getCreatedDate().toInstant().toEpochMilli();
         		//Date date = new Date(epochMilli);
-        		DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-                formatter.setTimeZone(TimeZone.getTimeZone("UTC"));
-                Date date= new Date(epochMilli);  
-                String dateString = formatter.format(date);
+        		//DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        		//formatter.setTimeZone(TimeZone.getTimeZone("UTC"));
+        		//Date date= new Date(epochMilli);  
+        		//String dateString = formatter.format(date);
                 //Date TestDate = DateTimeOffset.Parse(dateString).UtcDateTime;
         		dummy.add(epochMilli);
         		dummy.add(expenseList.get(i).getExpenseAmount());
@@ -75,6 +75,7 @@ public class BudgetDaoImpl implements IBudgetDao {
         		expenseLists.add(dummy);
         	}
 
+        	
             //budgetList.addAll((List)incomeList);
             //budgetList.addAll((List)investmentsList);
 		} catch(final Exception e) {
