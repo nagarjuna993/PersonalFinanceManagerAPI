@@ -40,6 +40,8 @@ public class BudgetDaoImpl implements IBudgetDao {
 	@Override
 	//public List<Budget> getAllBudget(DateRange body) throws Exception {
 	public ArrayList getAllBudget(DateRange body) throws Exception {
+		ArrayList investmentLists = new ArrayList<>();
+		ArrayList incomeLists = new ArrayList<>();	
 		ArrayList expenseLists = new ArrayList<>();
 		budgetList = null;
 		Date dateFromDate = new Date(body.getFromExpenseDate().toInstant().toEpochMilli());
@@ -57,32 +59,51 @@ public class BudgetDaoImpl implements IBudgetDao {
             expenseList = mongoTemplate.find(query, Expense.class);
             incomeList = mongoTemplate.find(query, Income.class);
             investmentsList = mongoTemplate.find(query, Investments.class);
-            budgetList = (List)expenseList;
-            
-	          //this.setState({ plotdata: [[Date.UTC(2018,7,2),1500], [Date.UTC(2018,7,15),2200], [Date.UTC(2018,7,31),600], [Date.UTC(2018,7,31),800]] })
+            budgetList = (List)expenseList;            
+        	
+            System.out.println("Investment List");
+        	for (int i = 0; i < investmentsList.size(); i++) {
+        		ArrayList dummy = new ArrayList<>();
+        		long epochMilli = investmentsList.get(i).getCreatedDate().toInstant().toEpochMilli();
+        		dummy.add(epochMilli);
+        		dummy.add(investmentsList.get(i).getInvestmentsAmount());
+        		System.out.println(investmentsList.get(i).getCreatedDate() + "|" + investmentsList.get(i).getInvestmentsAmount());
+        		investmentLists.add(dummy);
+        	}
+        	
+        	System.out.println("Income List");
+        	for (int i = 0; i < incomeList.size(); i++) {
+        		ArrayList dummy = new ArrayList<>();
+        		long epochMilli = incomeList.get(i).getCreatedDate().toInstant().toEpochMilli();
+        		dummy.add(epochMilli);
+        		dummy.add(incomeList.get(i).getIncomeAmount());
+        		System.out.println(incomeList.get(i).getCreatedDate() + "|" + incomeList.get(i).getIncomeAmount());
+        		incomeLists.add(dummy);
+        	}
+
+        	System.out.println("Expense List");
         	for (int i = 0; i < expenseList.size(); i++) {
         		ArrayList dummy = new ArrayList<>();
         		long epochMilli = expenseList.get(i).getCreatedDate().toInstant().toEpochMilli();
-        		//Date date = new Date(epochMilli);
-        		//DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        		//formatter.setTimeZone(TimeZone.getTimeZone("UTC"));
-        		//Date date= new Date(epochMilli);  
-        		//String dateString = formatter.format(date);
-                //Date TestDate = DateTimeOffset.Parse(dateString).UtcDateTime;
         		dummy.add(epochMilli);
         		dummy.add(expenseList.get(i).getExpenseAmount());
         		System.out.println(expenseList.get(i).getCreatedDate() + "|" + expenseList.get(i).getExpenseAmount());
         		expenseLists.add(dummy);
         	}
-
         	
-            //budgetList.addAll((List)incomeList);
-            //budgetList.addAll((List)investmentsList);
 		} catch(final Exception e) {
 			throw new Exception(e.getMessage());
 		}
 		
-		return expenseLists;
+		System.out.println(body.getBudgetType());
+		if(body.getBudgetType().equalsIgnoreCase("Investment")) {
+			return investmentLists;
+		} else if(body.getBudgetType().equalsIgnoreCase("Income")) {
+			return incomeLists;
+		} else if(body.getBudgetType().equalsIgnoreCase("Expense")) {
+			return expenseLists;
+		} 	
+		return null;
 	}
 
 }

@@ -22,8 +22,19 @@ public class DateRange   {
 
   @JsonProperty("toExpenseDate")
   private OffsetDateTime toExpenseDate = null;
+  
+  @JsonProperty("budgetType")
+  private String budgetType = null;
 
-  public DateRange fromExpenseDate(OffsetDateTime fromExpenseDate) {
+  public String getBudgetType() {
+	return budgetType;
+}
+
+public void setBudgetType(String budgetType) {
+	this.budgetType = budgetType;
+}
+
+public DateRange fromExpenseDate(OffsetDateTime fromExpenseDate) {
     this.fromExpenseDate = fromExpenseDate;
     return this;
   }
