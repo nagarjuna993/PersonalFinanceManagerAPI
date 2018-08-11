@@ -46,7 +46,7 @@ public class RegisterDaoImpl implements RegisterDao {
 			registeruser.setUserStatus(false);
 			registeruser.setOtp(otp);
 			mongoTemplate.save(registeruser);
-			//this.sendEmail(registeruser.getEmailId(),registeruser.getOtp());
+			this.sendEmail(registeruser.getEmailId(),registeruser.getOtp());
 		}
 		catch (DuplicateKeyException e) {
 			throw new ApiException(PFMConstants.ERROR_CODE, PFMConstants.INVALID_USER_EXISTS);
@@ -82,8 +82,8 @@ public class RegisterDaoImpl implements RegisterDao {
 	public void sendEmail(String emailId, Integer otp) throws Exception {
 		// TODO Auto-generated method stub
 
-		final String username = "dakshinn@gmail.com";
-		final String password = "";
+		final String username = "pfmsupp@gmail.com";
+		final String password = "pfm@admin";
 
 		Properties props = new Properties();
 		props.put("mail.smtp.auth", "true");
@@ -101,12 +101,12 @@ public class RegisterDaoImpl implements RegisterDao {
 		try {
 
 			Message message = new MimeMessage(session);
-			message.setFrom(new InternetAddress("from-email@gmail.com"));
+			message.setFrom(new InternetAddress("pfmsupp@gmail"));
 			message.setRecipients(Message.RecipientType.TO,
 					InternetAddress.parse(emailId));
-			message.setSubject("Testing Subject");
+			message.setSubject("Personal Finance Manager - Registration OTP");
 			message.setText("Dear User"
-					+ "\n\n Welcome to PFM!");
+					+ "\n\n Welcome to PFM! \n\n Your OTP: "+otp+" \n\n Thanks \n\n PFM Support");
 
 			Transport.send(message);
 

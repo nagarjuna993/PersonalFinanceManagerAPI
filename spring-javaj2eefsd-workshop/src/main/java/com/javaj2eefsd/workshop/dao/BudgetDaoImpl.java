@@ -53,7 +53,7 @@ public class BudgetDaoImpl implements IBudgetDao {
             //query.addCriteria(Criteria.where("isDelete").is(false));
             //query.addCriteria(Criteria.where("loginId").is(body));	
             query.addCriteria(
-            	    new Criteria().andOperator(
+            		Criteria.where("isDelete").is(false).andOperator(
             	        Criteria.where("createdDate.dateTime").gte(dateFromDate),
             	        Criteria.where("createdDate.dateTime").lte(dateToDate)
             	    )
