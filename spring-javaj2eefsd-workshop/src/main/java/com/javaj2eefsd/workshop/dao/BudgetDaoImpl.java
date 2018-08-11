@@ -12,6 +12,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -39,7 +41,7 @@ public class BudgetDaoImpl implements IBudgetDao {
 
 	@Override
 	//public List<Budget> getAllBudget(DateRange body) throws Exception {
-	public ArrayList getAllBudget(DateRange body) throws Exception {
+	public JSONArray getAllBudget(DateRange body) throws Exception {
 		ArrayList investmentLists = new ArrayList<>();
 		ArrayList incomeLists = new ArrayList<>();	
 		ArrayList expenseLists = new ArrayList<>();
@@ -94,16 +96,42 @@ public class BudgetDaoImpl implements IBudgetDao {
 		} catch(final Exception e) {
 			throw new Exception(e.getMessage());
 		}
+
+		JSONObject jo = new JSONObject();
+		JSONObject jo1 = new JSONObject();
+		JSONArray ja = new JSONArray();
 		
 		System.out.println(body.getBudgetType());
 		if(body.getBudgetType().equalsIgnoreCase("Investment")) {
-			return investmentLists;
+			jo.put("name", "Investment");
+			jo.put("data", investmentLists);
+			ja.add(jo);
 		} else if(body.getBudgetType().equalsIgnoreCase("Income")) {
-			return incomeLists;
+			jo.put("name", "Income");
+			jo.put("data", incomeLists);
+			ja.add(jo);
 		} else if(body.getBudgetType().equalsIgnoreCase("Expense")) {
-			return expenseLists;
-		} 	
-		return null;
+			jo.put("name", "Expense");
+			jo.put("data", expenseLists);
+			ja.add(jo);
+		} else if(body.getBudgetType().equalsIgnoreCase("Income Vs Expense")) {
+			jo.put("name", "Income");
+			jo.put("data", incomeLists);
+			ja.add(0, jo);
+			jo1.put("name", "Expense");
+			jo1.put("data", expenseLists);
+			ja.add(1, jo1);
+		} else if(body.getBudgetType().equalsIgnoreCase("Income Vs Investment")) {
+			jo.put("name", "Income");
+			jo.put("data", incomeLists);
+			ja.add(0, jo);
+			jo1.put("name", "Investment");
+			jo1.put("data", investmentLists);
+			ja.add(1, jo1);
+			
+		} 		
+		return ja;
 	}
 
 }
+

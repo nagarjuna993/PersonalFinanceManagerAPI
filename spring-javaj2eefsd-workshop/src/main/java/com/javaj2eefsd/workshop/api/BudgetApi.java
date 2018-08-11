@@ -8,6 +8,9 @@ package com.javaj2eefsd.workshop.api;
 import com.javaj2eefsd.workshop.model.Budget;
 import com.javaj2eefsd.workshop.model.DateRange;
 import io.swagger.annotations.*;
+
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -40,7 +43,6 @@ public interface BudgetApi {
         produces = { "application/json" }, 
         consumes = { "application/json" },
         method = RequestMethod.POST)
-    //ResponseEntity<List<Budget>> getByDate(@ApiParam(value = "Returns a income, expense, investments over the dateRange." ,required=true )  @Valid @RequestBody DateRange body) throws Exception;
-    ResponseEntity<ArrayList> getByDate(@ApiParam(value = "Returns a income, expense, investments over the dateRange." ,required=true )  @Valid @RequestBody DateRange body) throws Exception;
+    ResponseEntity<JSONArray> getByDate(@ApiParam(value = "Returns a income, expense, investments over the dateRange." ,required=true )  @Valid @RequestBody DateRange body) throws Exception;
 
 }

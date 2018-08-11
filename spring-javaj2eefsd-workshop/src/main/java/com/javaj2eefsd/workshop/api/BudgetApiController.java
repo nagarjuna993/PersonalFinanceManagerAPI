@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
 import javax.validation.constraints.*;
 import javax.validation.Valid;
@@ -48,10 +50,10 @@ public class BudgetApiController implements BudgetApi {
     
     @Override
     //public ResponseEntity<List<Budget>> getByDate(@ApiParam(value = "Returns a income, expense, investments over the dateRange." ,required=true )  @Valid @RequestBody final DateRange body) throws Exception {
-    public ResponseEntity<ArrayList> getByDate(@ApiParam(value = "Returns a income, expense, investments over the dateRange." ,required=true )  @Valid @RequestBody final DateRange body) throws Exception {
+    public ResponseEntity<JSONArray> getByDate(@ApiParam(value = "Returns a income, expense, investments over the dateRange." ,required=true )  @Valid @RequestBody final DateRange body) throws Exception {
     	final String accept = request.getHeader("Accept");
     	//List<Budget> budgetList = null;
-    	ArrayList budgetList = null;
+    	JSONArray budgetList = null;
         if (accept != null && accept.contains("application/json")) {
             try {
             	budgetList = budgetServiceImpl.getBudgetByDate(body);
@@ -64,7 +66,7 @@ public class BudgetApiController implements BudgetApi {
 
         //return new ResponseEntity<Budget>(HttpStatus.NOT_IMPLEMENTED);
         //return new ResponseEntity<Budget>(HttpStatus.OK);
-        return new ResponseEntity<ArrayList>(budgetList, HttpStatus.OK);
+        return new ResponseEntity<JSONArray>(budgetList, HttpStatus.OK);
     }
 
 }
