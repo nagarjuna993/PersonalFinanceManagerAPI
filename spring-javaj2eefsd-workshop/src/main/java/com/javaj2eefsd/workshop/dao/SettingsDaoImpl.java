@@ -14,6 +14,7 @@ import com.javaj2eefsd.workshop.model.UserCurrency;
 import com.javaj2eefsd.workshop.model.UserPassword;
 import com.javaj2eefsd.workshop.model.UserSettingsByEmailId;
 import com.mongodb.WriteResult;
+import com.mongodb.client.result.UpdateResult;
 @Repository
 public class SettingsDaoImpl implements SettingsDao{
 
@@ -51,7 +52,7 @@ public class SettingsDaoImpl implements SettingsDao{
 		String emailId = usercurrencymodel.getEmailId();
 		String newCurrency = usercurrencymodel.getNewCurrency();
 		String oldCurrency = usercurrencymodel.getOldCurrency();
-		final WriteResult result;
+		final UpdateResult result;
 		
 
 		try {
@@ -64,7 +65,7 @@ public class SettingsDaoImpl implements SettingsDao{
 			//System.out.println("New currency"+newCurrency);
 			update.set("currency",newCurrency);
 			result=mongoTemplate.updateFirst(query, update, UserCurrency.class);
-			if (!result.isUpdateOfExisting()) {
+			if (!result.isModifiedCountAvailable()) {
 				log.info("somthing is wrong going to exception because of invalid values");
 				throw new Exception(SettingsErrorMassage.INVALIDKEY);
 			}
@@ -90,7 +91,7 @@ public void updatePassword(UserPassword userpasswordmodel)
 	String emailId1 = userpasswordmodel.getEmailId();
 	String newPassword = userpasswordmodel.getNewPassword();
 	String confirmPassword = userpasswordmodel.getConfirmPassword();
-	final WriteResult result1;
+	final UpdateResult result1;
 
 	try {
 
@@ -104,7 +105,7 @@ public void updatePassword(UserPassword userpasswordmodel)
 		System.out.println("ConfirmPassword"+confirmPassword);
 		update.set("password",newPassword);
 		result1=mongoTemplate.updateFirst(query, update, UserPassword.class);
-		if (!result1.isUpdateOfExisting()) {
+		if (!result1.isModifiedCountAvailable()) {
 			log.info("somthing is wrong going to exception because of invalid values");
 			throw new Exception(SettingsErrorMassage.INVALIDPASSWORD);
 		}

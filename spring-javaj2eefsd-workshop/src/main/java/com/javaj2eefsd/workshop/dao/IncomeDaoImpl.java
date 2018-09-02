@@ -15,6 +15,7 @@ import com.javaj2eefsd.workshop.api.ApiException;
 import com.javaj2eefsd.workshop.model.Income;
 import com.javaj2eefsd.workshop.util.PFMConstants;
 import com.mongodb.WriteResult;
+import com.mongodb.client.result.UpdateResult;
 
 /**
  * @author Nagarjuna - IncomeDao class is used to connect java code in database and create,
@@ -114,7 +115,7 @@ public class IncomeDaoImpl implements IncomeDao {
 	@Override
     public void deleteIncome(String incomeId, String userId) throws Exception {
 		log.info("[deleteIncome] Start deleteIncome method in DAO");
-		final WriteResult result;
+		final UpdateResult result;
 		try {
             final Query query = new Query();
             query.addCriteria(Criteria.where("incomeId").is(incomeId));
@@ -129,7 +130,7 @@ public class IncomeDaoImpl implements IncomeDao {
         	throw new Exception(e.getMessage());
         }
 		
-		if (!result.isUpdateOfExisting()) {
+		if (!result.isModifiedCountAvailable()) {
             log.info("[deleteIncome] Somthing is wrong throwing api exception");
             throw new ApiException(PFMConstants.ERROR_CODE, PFMConstants.INVALID_INCOMEID);
         }
@@ -146,7 +147,7 @@ public class IncomeDaoImpl implements IncomeDao {
 	@Override
     public void updateIncome(Income incomeObj, String userId) throws Exception {
 		log.info("[updateIncome] Start updateIncome method in DAO");
-		final WriteResult result;
+		final UpdateResult result;
 		try {
             final Query query = new Query();
             query.addCriteria(Criteria.where("incomeId").is(incomeObj.getIncomeId()));
@@ -165,7 +166,7 @@ public class IncomeDaoImpl implements IncomeDao {
         	throw new Exception(e.getMessage());
         }
 		
-		if (!result.isUpdateOfExisting()) {
+		if (!result.isModifiedCountAvailable()) {
             log.info("[updateIncome] Somthing is wrong throwing api exception");
             throw new ApiException(PFMConstants.ERROR_CODE, PFMConstants.INVALID_INCOMEID);
         }

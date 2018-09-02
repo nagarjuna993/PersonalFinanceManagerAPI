@@ -10,6 +10,7 @@ import javax.validation.constraints.NotNull;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -36,7 +37,8 @@ public interface IncomeApi {
         consumes = { "application/json" },
         method = RequestMethod.PUT)
     ResponseEntity<ApiResponseMessage> addIncome(
-    		@ApiParam(value = "Income object that needs to be added to the store" ,required=true )  @Valid @RequestBody Income body)
+    		@ApiParam(value = "Income object that needs to be added to the store" ,required=true )  @Valid @RequestBody Income body,
+    		@RequestHeader(value="Authorization") String token)
 			throws Exception;
 
 
@@ -50,7 +52,8 @@ public interface IncomeApi {
         produces = { "application/json" }, 
         method = RequestMethod.DELETE)
     ResponseEntity<ApiResponseMessage> deleteIncome(
-    		@ApiParam(value = "Income id to delete",required=true) @PathVariable("incomeId") String incomeId)
+    		@ApiParam(value = "Income id to delete",required=true) @PathVariable("incomeId") String incomeId,
+    		@RequestHeader(value="Authorization") String token)
 			throws Exception;
     
     
@@ -63,7 +66,8 @@ public interface IncomeApi {
         produces = { "application/json" }, 
         method = RequestMethod.GET)
     ResponseEntity<?> getIncome(
-    		@ApiParam(value = "id to search for income",required=true) @PathVariable("incomeId") String incomeId)
+    		@ApiParam(value = "id to search for income",required=true) @PathVariable("incomeId") String incomeId,
+    		@RequestHeader(value="Authorization") String token)
     		throws Exception;
     
     
@@ -78,7 +82,8 @@ public interface IncomeApi {
         produces = { "application/json" }, 
         method = RequestMethod.GET)
     ResponseEntity<?> getIncomeByKey(
-    		@NotNull @ApiParam(value = "Key to search for income", required = true) @Valid @RequestParam(value = "incomeKey", required = true) String incomeKey)
+    		@NotNull @ApiParam(value = "Key to search for income", required = true) @Valid @RequestParam(value = "incomeKey", required = true) String incomeKey,
+    		@RequestHeader(value="Authorization") String token)
     		throws Exception;
 
 
@@ -90,7 +95,7 @@ public interface IncomeApi {
     @RequestMapping(value = "/income/all",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    ResponseEntity<?> getIncomeList() throws Exception;
+    ResponseEntity<?> getIncomeList(@RequestHeader(value="Authorization") String token) throws Exception;
 
 
     @ApiOperation(value = "Update income", nickname = "updateIncome", notes = "Updates the income", authorizations = {
@@ -105,7 +110,8 @@ public interface IncomeApi {
         consumes = { "application/json" },
         method = RequestMethod.POST)
     ResponseEntity<ApiResponseMessage> updateIncome(
-    		@ApiParam(value = "Income object that needs to be updated to the store" ,required=true )  @Valid @RequestBody Income body)
+    		@ApiParam(value = "Income object that needs to be updated to the store" ,required=true )  @Valid @RequestBody Income body,
+    		@RequestHeader(value="Authorization") String token)
 			throws Exception;
 
 }

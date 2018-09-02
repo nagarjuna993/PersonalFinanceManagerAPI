@@ -32,7 +32,7 @@ public interface IncomeService {
      * @return
      * @throws Exception
      */
-    Income createIncome(Income incomeObj) throws Exception;
+    Income createIncome(Income incomeObj, String userId) throws Exception;
 
     /**
      * deleteIncome method used to delete the income data based on user input

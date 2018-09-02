@@ -17,6 +17,7 @@ import com.javaj2eefsd.workshop.api.ApiException;
 import com.javaj2eefsd.workshop.model.Investments;
 import com.javaj2eefsd.workshop.util.PFMConstants;
 import com.mongodb.WriteResult;
+import com.mongodb.client.result.UpdateResult;
 
 /**
  * @author Nagarjuna - InvestmentsDao class is used to connect java code in database and create,
@@ -116,7 +117,7 @@ public class InvestmentsDaoImpl implements InvestmentsDao {
 	@Override
     public void deleteInvestments(String investmentsId, String userId) throws Exception {
 		log.info("[deleteInvestments] Start deleteInvestments method in DAO");
-		final WriteResult result;
+		final UpdateResult result;
 		try {
             final Query query = new Query();
             query.addCriteria(Criteria.where("investmentsId").is(investmentsId));
@@ -131,7 +132,7 @@ public class InvestmentsDaoImpl implements InvestmentsDao {
             throw new Exception(e.getMessage());
         }
 		
-		if (!result.isUpdateOfExisting()) {
+		if (!result.isModifiedCountAvailable()) {
             log.info("[deleteInvestments] Somthing is wrong throwing exception");
             throw new ApiException(PFMConstants.ERROR_CODE, PFMConstants.INVALID_INVESTMENTSID);
         }
@@ -148,7 +149,7 @@ public class InvestmentsDaoImpl implements InvestmentsDao {
 	@Override
     public Investments updateInvestments(Investments investmentsObj, String userId) throws Exception {
 		log.info("[updateInvestments] Start updateInvestments method in DAO");
-		final WriteResult result;
+		final UpdateResult result;
 		try {
             final Query query = new Query();
             query.addCriteria(Criteria.where("investmentsId").is(investmentsObj.getInvestmentsId()));
@@ -167,7 +168,7 @@ public class InvestmentsDaoImpl implements InvestmentsDao {
             throw new Exception(e.getMessage());
         }
 		
-		if (!result.isUpdateOfExisting()) {
+		if (!result.isModifiedCountAvailable()) {
             log.info("[updateInvestments] Somthing is wrong throwing exception");
             throw new ApiException(PFMConstants.ERROR_CODE, PFMConstants.INVALID_INVESTMENTSID);
         }

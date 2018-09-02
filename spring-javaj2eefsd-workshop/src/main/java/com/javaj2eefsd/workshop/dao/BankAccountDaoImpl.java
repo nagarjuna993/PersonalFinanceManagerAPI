@@ -17,6 +17,7 @@ import com.javaj2eefsd.workshop.api.ApiException;
 import com.javaj2eefsd.workshop.model.BankAccount;
 import com.javaj2eefsd.workshop.util.PFMConstants;
 import com.mongodb.WriteResult;
+import com.mongodb.client.result.UpdateResult;
 
 /**
  * @author Nagarjuna - BankAccountDao class is used to connect java code in database and create,
@@ -116,7 +117,7 @@ public class BankAccountDaoImpl implements BankAccountDao {
 	@Override
     public void deleteBankAccount(String bankAccountId, String userId) throws Exception {
 		log.info("[deleteBankAccount] Start deleteBankAccount method in DAO");
-		final WriteResult result;
+		final UpdateResult result;
 		try {
             final Query query = new Query();
             query.addCriteria(Criteria.where("bankAccountId").is(bankAccountId));
@@ -131,7 +132,7 @@ public class BankAccountDaoImpl implements BankAccountDao {
             throw new Exception(e.getMessage());
         }
 		
-		if (!result.isUpdateOfExisting()) {
+		if (!result.isModifiedCountAvailable()) {
             log.info("[deleteBankAccount] Somthing is wrong throwing exception");
             throw new ApiException(PFMConstants.ERROR_CODE, PFMConstants.INVALID_BANKACCOUNTID);
         }

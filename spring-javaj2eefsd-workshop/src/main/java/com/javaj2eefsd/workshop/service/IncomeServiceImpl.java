@@ -43,7 +43,7 @@ public class IncomeServiceImpl implements IncomeService {
 	@Override
     public List<Income> getIncomeAll(String userId) throws Exception {
 		log.info("[getIncomeAll] start getIncomeAll in Service");
-		return incomeDaoImpl.getIncomeAll("1");
+		return incomeDaoImpl.getIncomeAll(userId);
     }
 
     /**
@@ -54,11 +54,11 @@ public class IncomeServiceImpl implements IncomeService {
      * @throws Exception
      */
     @Override
-    public Income createIncome(Income incomeObj) throws Exception {
+    public Income createIncome(Income incomeObj, String userId) throws Exception {
     	log.info("[createIncome] start createIncome in Service");
     	incomeObj.setCreatedDate(OffsetDateTime.now());
     	incomeObj.setUpdatedDate(OffsetDateTime.now());
-    	incomeObj.setCreatedBy("1");
+    	incomeObj.setCreatedBy(userId);
     	incomeObj.setUpdatedBy(incomeObj.getCreatedBy());
     	incomeObj.setIsDelete(false);
     	log.info("[createIncome] update some fields before save");

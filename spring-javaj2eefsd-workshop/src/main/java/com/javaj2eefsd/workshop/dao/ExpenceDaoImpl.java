@@ -18,6 +18,7 @@ import org.threeten.bp.OffsetDateTime;
 import com.javaj2eefsd.workshop.errormessageconfig.ExpenseErrorMassage;
 import com.javaj2eefsd.workshop.model.Expense;
 import com.mongodb.WriteResult;
+import com.mongodb.client.result.UpdateResult;
 
 
 /**
@@ -93,7 +94,7 @@ public class ExpenceDaoImpl implements IExpenseDao {
     @Override
     public void expenseDeleteDelete(final String id) throws Exception {
         log.info("start expenseDeleteDelete method in dao");
-        final WriteResult result;
+        final UpdateResult result;
         try {
             final Query query = new Query();
             query.addCriteria(Criteria.where("_id").is(id));
@@ -102,7 +103,7 @@ public class ExpenceDaoImpl implements IExpenseDao {
             update.set("isDelete", true);
             update.set("updatedDate", OffsetDateTime.now());
             result = mongoTemplate.updateFirst(query, update, Expense.class);
-            if (!result.isUpdateOfExisting()) {
+            if (!result.isModifiedCountAvailable()) {
                 log.info("somthing is wrong going to exception");
                 throw new Exception(ExpenseErrorMassage.INVALIDEXPENSEID);
             }
@@ -125,7 +126,7 @@ public class ExpenceDaoImpl implements IExpenseDao {
     @Override
     public Expense expenseUpdatePost(final Expense expenseObj) throws Exception {
         log.info("start expenseUpdatePost method in dao");
-        final WriteResult result;
+        final UpdateResult result;
         try {
             final Query query = new Query();
             query.addCriteria(Criteria.where("_id").is(expenseObj.getExpenseId()));
@@ -138,7 +139,7 @@ public class ExpenceDaoImpl implements IExpenseDao {
             update.set("updatedDate", expenseObj.getUpdatedDate());
             update.set("updateBy", expenseObj.getUpdateBy());
             result = mongoTemplate.updateFirst(query, update, Expense.class);
-            if (!result.isUpdateOfExisting()) {
+            if (!result.isModifiedCountAvailable()) {
                 log.info("somthing is wrong going to exception");
                 throw new Exception(ExpenseErrorMassage.INVALIDEXPENSEID);
             }
