@@ -1,0 +1,18 @@
+version: 2
+jobs:
+  build:
+    working_directory: ~/spring-javaj2eefsd-workshop
+    docker:
+      - image: circleci/openjdk:8-jdk-browsers
+    
+    steps:
+      - checkout
+      - restore_cache:
+          key: spring-javaj2eefsd-workshop-{{ checksum "pom.xml" }}
+      - run: mvn dependency:go-offline
+      - save_cache:
+        paths:
+          - ~/.m2
+        key: spring-javaj2eefsd-workshop-{{ checksum "pom.xml" }}
+      - run: mvn clean install
+  
